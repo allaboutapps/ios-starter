@@ -1,7 +1,6 @@
 # iOS Starter 📱
-Project template for our iOS apps.
 
-`cookiecutter gh:allaboutapps/ios-starter.git`
+`cookiecutter gh:allaboutapps/ios-starter`
 
 ## Installation
 
