@@ -16,5 +16,5 @@ brew install xcodegen
 1. Run `cookiecutter gh:allaboutapps/ios-starter.git`.
 2. You'll be asked for project name, team details and bundle identifier details. `cookiecutter` will create all files needed from the template on `github`.
 3. `xcodegen` will run automatically and generate the `Xcode` project file.
-4. Afterwards ``carthage update --platform ios --cache-build` will install/update all needed dependencies.
+4. Afterwards `carthage update --platform ios --cache-build` will install/update all needed dependencies.
 5. Done - Build and run your new project!
