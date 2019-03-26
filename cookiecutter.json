@@ -1,8 +1,11 @@
 {
   "projectName": "Example",
-  "team": "M8F9QH57A6",
-  "itunesTeam": "aaa - all about apps Gmbh",
+  "teamId": "M8F9QH57A6",
+  "teamName": "aaa - all about apps Gmbh",
   "bundleIdentifier": "{{cookiecutter.projectName|lower|replace(' ', '-')}}",
   "bundleIdentifierPrefix": "at.allaboutapps",
-  "deploymentTarget": "12.0"
+  "deploymentTarget": "12.0",
+  "googleSheetId": "NONE",
+  "stringsPath": "{{cookiecutter.projectName}}/SupportingFiles/",
+  "stringsHelperPath": "{{cookiecutter.projectName}}/Code/"
 }

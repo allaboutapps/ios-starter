@@ -1,0 +1,2 @@
+#!/bin/bash
+google-docs-i18n-strings -s {{cookiecutter.googleSheetId}} -p ios,iosUtil -i {{cookiecutter.stringsPath}} -u {{cookiecutter.stringsHelperPath}}

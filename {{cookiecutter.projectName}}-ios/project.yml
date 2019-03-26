@@ -1,7 +1,7 @@
 name: {{cookiecutter.projectName}}
 settings:
   base:
-    DEVELOPMENT_TEAM: {{cookiecutter.team}}
+    DEVELOPMENT_TEAM: {{cookiecutter.teamId}}
   configs:
     Release:
       SWIFT_COMPILATION_MODE: wholemodule
