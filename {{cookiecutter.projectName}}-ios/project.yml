@@ -33,9 +33,6 @@ targets:
         _Configuration: $(CONFIGURATION)
     sources: 
       - {{cookiecutter.projectName}}
-      - {{cookiecutter.projectName}}Kit/Code/Strings.swift
-    resources:
-      - {{cookiecutter.projectName}}Kit/SupportingFiles/*.strings
     dependencies:
       - target: {{cookiecutter.projectName}}Kit
       - carthage: Alamofire
