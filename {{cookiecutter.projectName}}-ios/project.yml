@@ -31,7 +31,11 @@ targets:
         ITSAppUsesNonExemptEncryption: NO
         LSRequiresIPhoneOS: YES
         _Configuration: $(CONFIGURATION)
-    sources: [{{cookiecutter.projectName}}]
+    sources: 
+      - {{cookiecutter.projectName}}
+      - {{cookiecutter.projectName}}Kit/Code/Strings.swift
+    resources:
+      - {{cookiecutter.projectName}}Kit/SupportingFiles/*.strings
     dependencies:
       - target: {{cookiecutter.projectName}}Kit
       - carthage: Alamofire

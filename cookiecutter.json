@@ -5,7 +5,7 @@
   "bundleIdentifier": "{{cookiecutter.projectName|lower|replace(' ', '-')}}",
   "bundleIdentifierPrefix": "at.allaboutapps",
   "deploymentTarget": "12.0",
-  "googleSheetId": "NONE",
-  "stringsPath": "{{cookiecutter.projectName}}/SupportingFiles/",
-  "stringsHelperPath": "{{cookiecutter.projectName}}/Code/"
+  "runInitiallyCarthage": true,
+  "generateXcodeProject": true,
+  "googleSheetId": "NONE"
 }
