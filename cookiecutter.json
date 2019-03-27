@@ -1,5 +1,6 @@
 {
   "projectName": "Example",
+  "projectDirectory": "{{cookiecutter.projectName|lower|replace(' ', '-')}}-ios",
   "teamId": "M8F9QH57A6",
   "teamName": "aaa - all about apps Gmbh",
   "bundleIdentifier": "at.allaboutapps.{{cookiecutter.projectName|lower|replace(' ', '-')}}",
