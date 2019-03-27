@@ -2,10 +2,9 @@
   "projectName": "Example",
   "teamId": "M8F9QH57A6",
   "teamName": "aaa - all about apps Gmbh",
-  "bundleIdentifier": "{{cookiecutter.projectName|lower|replace(' ', '-')}}",
-  "bundleIdentifierPrefix": "at.allaboutapps",
+  "bundleIdentifier": "at.allaboutapps.{{cookiecutter.projectName|lower|replace(' ', '-')}}",
   "deploymentTarget": "12.0",
-  "runInitiallyCarthage": true,
-  "generateXcodeProject": true,
-  "googleSheetId": "NONE"
+  "googleSheetId": "NONE",
+  "runCarthage": "y",
+  "runXcodeGen": "y"
 }

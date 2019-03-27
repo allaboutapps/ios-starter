@@ -1,22 +1,17 @@
 #! /bin/bash
 
-echo "Fetching strings"
-./buildStrings
+{%- if cookiecutter.googleSheetId != 'NONE' %}
+  echo "Fetching strings"
+  ./buildStrings
+{%- endif %}
 
-
-if {{cookiecutter.generateXcodeProject}} ;then
-  xcodegen
-fi
-
-
-if {{cookiecutter.runInitiallyCarthage}} ;then
+{%- if cookiecutter.runCarthage == 'y' %}
   carthage update --platform ios --cache-builds
-fi
+{%- endif %}
 
-pwd
-
-if {{cookiecutter.generateXcodeProject}} ;then
+{%- if cookiecutter.runXcodeGen == 'y' %}
+  xcodegen
   xed .
-fi
+{%- endif %}
 
 printf 'all done - enjoy \xf0\x9f\x9a\x80\n'

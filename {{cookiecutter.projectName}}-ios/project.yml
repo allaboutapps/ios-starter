@@ -5,8 +5,6 @@ settings:
   configs:
     Release:
       SWIFT_COMPILATION_MODE: wholemodule
-options:
-  bundleIdPrefix: {{cookiecutter.bundleIdentifierPrefix}}
 attributes:
   ORGANIZATIONNAME: aaa - all about apps GmbH
 targets:
@@ -15,9 +13,7 @@ targets:
     platform: iOS
     deploymentTarget: "{{cookiecutter.deploymentTarget}}"
     settings:
-      PRODUCT_BUNDLE_IDENTIFIER: {{cookiecutter.bundleIdentifierPrefix}}.{{cookiecutter.bundleIdentifier}}
-    #   OTHER_LDFLAGS: [-ObjC]
-    #   ENABLE_BITCODE: YES
+      PRODUCT_BUNDLE_IDENTIFIER: {{cookiecutter.bundleIdentifier}}
     info:
       path: {{cookiecutter.projectName}}/SupportingFiles/Info.plist
       properties:
@@ -59,12 +55,13 @@ targets:
     platform: iOS
     deploymentTarget: "{{cookiecutter.deploymentTarget}}"
     settings:
-      PRODUCT_BUNDLE_IDENTIFIER: {{cookiecutter.bundleIdentifierPrefix}}.{{cookiecutter.bundleIdentifier}}Kit
+      PRODUCT_BUNDLE_IDENTIFIER: {{cookiecutter.bundleIdentifier}}Kit
     info:
       path: {{cookiecutter.projectName}}Kit/SupportingFiles/Info.plist
       properties:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
-    sources: [{{cookiecutter.projectName}}Kit]
+    sources: 
+      - {{cookiecutter.projectName}}Kit
     dependencies:
       - carthage: AlamofireImage
       - carthage: KeychainAccess
