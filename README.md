@@ -11,6 +11,12 @@ brew install cookiecutter
 brew install xcodegen
 ```
 
+Optionally, install the latest version of our internal Google Sheets localization tool.
+
+```
+npm install -g @aaa/google-docs-i18n-strings
+```
+
 ## Steps
 
 1. Run `cookiecutter gh:allaboutapps/ios-starter`.
