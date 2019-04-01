@@ -19,7 +19,7 @@ class Coordinator: NSObject {
     }
     
     func removeChild(_ coordinator: Coordinator) {
-        if let index = childCoordinators.index(of: coordinator) {
+        if let index = childCoordinators.firstIndex(of: coordinator) {
             print("remove child: \(String(describing: coordinator.self))")
             let removedCoordinator = childCoordinators.remove(at: index)
             removedCoordinator.parentCoordinator = nil

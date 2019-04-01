@@ -23,7 +23,7 @@ class NavigationCoordinator: Coordinator {
     }
     
     func removePushedViewController(_ viewController: UIViewController) {
-        if let index = pushedViewControllers.index(of: viewController) {
+        if let index = pushedViewControllers.firstIndex(of: viewController) {
             pushedViewControllers.remove(at: index)
             print("remove: \(pushedViewControllers.count) from \(self)")
             if let parentCoordinator = parentCoordinator as? NavigationCoordinator, pushedViewControllers.isEmpty {
