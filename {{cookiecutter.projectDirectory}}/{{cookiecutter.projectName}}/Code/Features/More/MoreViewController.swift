@@ -20,7 +20,7 @@ class MoreViewController: UIViewController {
     // MARK: Actions
     
     @IBAction func logout(_ sender: Any) {
-        Credentials.currentCredentials = nil
+        CredentialsController.shared.currentCredentials = nil
     }
     
     deinit {

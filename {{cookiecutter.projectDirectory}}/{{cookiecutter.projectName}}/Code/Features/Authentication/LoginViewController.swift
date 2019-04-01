@@ -22,7 +22,7 @@ class LoginViewController: UIViewController {
     // MARK: Actions
     
     @IBAction func login(_ sender: Any) {
-        Credentials.currentCredentials = Credentials(accessToken: "testToken", refreshToken: nil, expiresIn: nil)
+        CredentialsController.shared.currentCredentials = Credentials(accessToken: "testToken", refreshToken: nil, expiresIn: nil)
         self.onLogin?()
     }
     

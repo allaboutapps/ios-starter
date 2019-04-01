@@ -61,7 +61,7 @@ class DebugCoordinator: NavigationCoordinator {
         }
         
         viewController.onLogout = {
-            Credentials.currentCredentials = nil
+            CredentialsController.shared.currentCredentials = nil
         }
         
         return viewController

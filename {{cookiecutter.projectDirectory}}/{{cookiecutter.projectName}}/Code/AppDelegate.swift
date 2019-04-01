@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         Appearance.setup()
-        Credentials.resetOnNewInstallations()
+        CredentialsController.shared.resetOnNewInstallations()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         AppCoordinator.shared.start(window: window!)

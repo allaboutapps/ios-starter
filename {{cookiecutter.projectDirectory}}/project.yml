@@ -1,7 +1,10 @@
 name: {{cookiecutter.projectName}}
+options:
+  xcodeVersion: 10.2
 settings:
   base:
     DEVELOPMENT_TEAM: {{cookiecutter.teamId}}
+    SWIFT_VERSION: "5.0"
   configs:
     Release:
       SWIFT_COMPILATION_MODE: wholemodule

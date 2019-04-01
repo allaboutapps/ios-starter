@@ -21,14 +21,14 @@ class AppCoordinator: Coordinator {
         printRootDebugStructure()
         
         checkCredentials(animated: false)
-        Credentials.currentCredentialsChangedSignal.observeValues { [weak self] in
+        CredentialsController.shared.currentCredentialsChangedSignal.observeValues { [weak self] in
             self?.checkCredentials()
         }
         
     }
     
     func checkCredentials(animated: Bool = true) {
-        if Credentials.currentCredentials == nil { // not logged in
+        if CredentialsController.shared.currentCredentials == nil { // not logged in
             presentLogin(animated: animated)
         }
     }

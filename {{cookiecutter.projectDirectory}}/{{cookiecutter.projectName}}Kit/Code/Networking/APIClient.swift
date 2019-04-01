@@ -97,7 +97,7 @@ public final class APIClient {
             return attachRequestToCurrentRefresh(currentTokenRefresh)
         } else {
             // Check if we need to get access token first
-            if let credentials = Credentials.currentCredentials,
+            if let credentials = CredentialsController.shared.currentCredentials,
                 credentials.accessToken == "" {
                 return refreshAccessTokenWithRefreshToken(credentials.refreshToken).flatMap(.latest) { _ in
                     initialRequest
@@ -112,7 +112,7 @@ public final class APIClient {
                         if let currentTokenRefresh = currentTokenRefresh {
                             return attachRequestToCurrentRefresh(currentTokenRefresh)
                         } else {
-                            if let refreshToken = Credentials.currentCredentials?.refreshToken {
+                            if let refreshToken = CredentialsController.shared.currentCredentials?.refreshToken {
                                 return refreshAccessTokenWithRefreshToken(refreshToken).flatMap(.latest) { _ in
                                     initialRequest
                                 }
@@ -156,14 +156,14 @@ public final class APIClient {
         }
 
         let logout = {
-            Credentials.currentCredentials = nil
+            CredentialsController.shared.currentCredentials = nil
 //            User.setCurrentUser(nil)
         }
 
         return refreshRequest
             .map(Credentials.self, using: Decoders.standardJSON)
             .on(value: { credentials in
-                Credentials.currentCredentials = credentials
+                CredentialsController.shared.currentCredentials = credentials
             })
             .on(failed: { error in
                 // Check if we need to ignore network errors, else log out
