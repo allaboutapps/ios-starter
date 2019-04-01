@@ -3,23 +3,27 @@ import KeychainAccess
 import ReactiveSwift
 import Result
 
-public class Credentials: NSObject, NSCoding, Codable {
-
-    // MARK: Static
-
-    fileprivate static let keychain = Keychain(service: Config.keyPrefix)
-    fileprivate static let credentialStorageKey = Config.Keychain.credentialStorageKey
-    fileprivate static var cachedCredentials: Credentials?
-
-    fileprivate static var currentCredentialsChangedSignalObserver = Signal<(), NoError>.pipe()
-    public static var currentCredentialsChangedSignal: Signal<(), NoError> {
+public class CredentialsController {
+    
+    private init() {}
+    public static let shared = CredentialsController()
+    
+    private let keychain = Keychain(service: Config.keyPrefix)
+    private let credentialStorageKey = Config.Keychain.credentialStorageKey
+    private var cachedCredentials: Credentials?
+    
+    private var currentCredentialsChangedSignalObserver = Signal<(), NoError>.pipe()
+    public var currentCredentialsChangedSignal: Signal<(), NoError> {
         return currentCredentialsChangedSignalObserver.output
     }
-
-    public static var currentCredentials: Credentials? {
+    
+    private let jsonDecoder = JSONDecoder()
+    private let jsonEncoder = JSONEncoder()
+    
+    public var currentCredentials: Credentials? {
         get {
             if let credentialsData = keychain[data: credentialStorageKey],
-                let credentials = NSKeyedUnarchiver.unarchiveObject(with: credentialsData) as? Credentials, cachedCredentials == nil {
+                let credentials = try? jsonDecoder.decode(Credentials.self, from: credentialsData), cachedCredentials == nil {
                 cachedCredentials = credentials
                 return credentials
             } else {
@@ -28,7 +32,7 @@ public class Credentials: NSObject, NSCoding, Codable {
         }
         set {
             if let credentials = newValue {
-                keychain[data: credentialStorageKey] = NSKeyedArchiver.archivedData(withRootObject: credentials)
+                keychain[data: credentialStorageKey] = try? jsonEncoder.encode(credentials)
                 cachedCredentials = credentials
             } else {
                 cachedCredentials = nil
@@ -38,7 +42,7 @@ public class Credentials: NSObject, NSCoding, Codable {
         }
     }
     
-    public static func resetOnNewInstallations() {
+    public func resetOnNewInstallations() {
         if let installationDate = UserDefaults.standard.value(forKey: "installationDate") as? Date {
             print("existing installation, app installed: \(installationDate)")
         } else {
@@ -47,32 +51,17 @@ public class Credentials: NSObject, NSCoding, Codable {
             UserDefaults.standard.set(Date(), forKey: "installationDate")
         }
     }
+    
+}
 
-    // MARK: Variables
-
+public struct Credentials: Codable {
     let accessToken: String
     let refreshToken: String
     let expiresIn: TimeInterval
-
-    // MARK: Initializers
-
+    
     public init(accessToken: String, refreshToken: String?, expiresIn: TimeInterval?) {
-        self.refreshToken = refreshToken ?? ""
         self.accessToken = accessToken
+        self.refreshToken = refreshToken ?? ""
         self.expiresIn = expiresIn ?? NSDate.distantFuture.timeIntervalSinceReferenceDate
-        super.init()
-    }
-
-    public required convenience init?(coder aDecoder: NSCoder) {
-        guard let data = aDecoder.decodeObject(forKey: Config.Keychain.credentialsKey) as? Data else { return nil }
-        guard let decoded = try? Decoders.standardJSON.decode(Credentials.self, from: data) else { return nil }
-        self.init(accessToken: decoded.accessToken, refreshToken: decoded.refreshToken, expiresIn: decoded.expiresIn)
-    }
-
-    // MARK: Encoding
-
-    public func encode(with aCoder: NSCoder) {
-        let data = try? JSONEncoder().encode(self)
-        aCoder.encode(data, forKey: Config.Keychain.credentialsKey)
     }
 }
