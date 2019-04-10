@@ -11,10 +11,11 @@ brew install cookiecutter
 brew install xcodegen
 ```
 
-Optionally, install the latest version of our internal Google Sheets localization tool.
+Optionally, install the latest version of our internal Google Sheets localization tool and [builder](https://rubygems.org/gems/builder).
 
 ```
 npm install -g @aaa/google-docs-i18n-strings
+gem install builder
 ```
 
 ## Steps
