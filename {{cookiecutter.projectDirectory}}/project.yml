@@ -38,12 +38,10 @@ targets:
       - carthage: AlamofireImage
       - carthage: DataSource
       - carthage: Differ
+      - carthage: Fetch
       - carthage: KeychainAccess
-      - carthage: Moya
       - carthage: ReactiveCocoa
-      - carthage: ReactiveMoya
       - carthage: ReactiveSwift
-      - carthage: Result
       - carthage: SimpleButton
     postCompileScripts:
       - script: |
@@ -66,10 +64,8 @@ targets:
     sources: 
       - {{cookiecutter.projectName}}Kit
     dependencies:
-      - carthage: AlamofireImage
-      - carthage: KeychainAccess
-      - carthage: Moya
       - carthage: Alamofire
-      - carthage: ReactiveMoya
-      - carthage: Result
+      - carthage: AlamofireImage
+      - carthage: Fetch
+      - carthage: KeychainAccess
       - carthage: ReactiveSwift
