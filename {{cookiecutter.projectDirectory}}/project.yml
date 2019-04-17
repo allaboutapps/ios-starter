@@ -42,6 +42,7 @@ targets:
       - carthage: KeychainAccess
       - carthage: ReactiveCocoa
       - carthage: ReactiveSwift
+      - carthage: Result
       - carthage: SimpleButton
     postCompileScripts:
       - script: |
@@ -69,3 +70,4 @@ targets:
       - carthage: Fetch
       - carthage: KeychainAccess
       - carthage: ReactiveSwift
+      - carthage: Result

@@ -1,11 +1,9 @@
-import ReactiveSwift
-import Result
 import UIKit
-import {{cookiecutter.projectName}}Kit
+import ReactiveSwift
+import Fetch
+import FetchStarterKit
 
-struct Foo: Decodable {
-    let foo: String
-}
+typealias Config = FetchStarterKit.Config
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,22 +13,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         Appearance.setup()
+        API.setup()
+        
         CredentialsController.shared.resetOnNewInstallations()
         
         window = UIWindow(frame: UIScreen.main.bounds)
         AppCoordinator.shared.start(window: window!)
         
+        testRequest()
+        
         return true
     }
     
     func testRequest() {
-        APIClient.request(.postLogin(username: "max", password: "test"), type: Foo.self)
-            .startWithResult { result in
-                if let error = result.error {
-                    print("error: \(error.localizedDescription)")
-                } else if let foo = result.value {
-                    print("value: \(foo)")
-                }
+        API.Examples.get().fetch().startWithResult { (result) in
+            if let model = result.value?.model {
+                print(model)
+            }
         }
     }
 

@@ -1,82 +1,52 @@
 import Foundation
-import Moya
+import Alamofire
+import Fetch
 
-public enum API {
-    // Login
-    case postLogin(username: String, password: String)
-    case postRefreshToken(refreshToken: String)
-}
-
-extension API: TargetType {
-    public var headers: [String: String]? {
-        return nil
+public class API {
+    
+    public static func setup() {
+        APIClient.shared.setup(with: Fetch.Config(
+            baseURL: Config.API.baseURL,
+            timeout: Config.API.timeout,
+            eventMonitors: [APILogger(verbose: Config.API.verboseLogging)],
+            interceptor: AuthHandler(),
+            cache: MemoryCache(defaultExpiration: Config.Cache.defaultExpiration),
+            shouldStub: Config.API.stubRequests))
     }
-
-    public var baseURL: URL {
-        return Config.API.BaseURL
-    }
-
-    public var path: String {
-        switch self {
-        case .postLogin: return "api/v1/auth/token"
-        case .postRefreshToken: return "api/v1/auth/token"
+    
+    public struct Auth {
+        
+        public static func login(username: String, password: String) -> Resource<Credentials> {
+            return Resource(
+                method: .post,
+                path: "/api/v1/auth/login",
+                body: [
+                    "grantType": "password",
+                    "scope": "user",
+                    "username": username,
+                    "password": password
+                ])
+        }
+        
+        public static func tokenRefresh(_ refreshToken: String) -> Resource<Credentials> {
+            return Resource(
+                method: .post,
+                path: "/api/v1/auth/refresh",
+                body: [
+                    "grantType": "refreshToken",
+                    "scope": "user",
+                    "refreshToken": refreshToken
+                ])
         }
     }
-
-    public var method: Moya.Method {
-        switch self {
-        case .postLogin,
-             .postRefreshToken:
-            return .post
-            // default:
-            //    return .get
+    
+    public struct Examples {
+        
+        public static func get() -> Resource<Example> {
+            return Resource(
+                path: "api/v1/example",
+                stub: StubResponse(statusCode: 200, fileName: "example.json", delay: 1.0, bundle: Bundle(for: API.self))
+            )
         }
-    }
-
-    public var task: Moya.Task {
-        switch self {
-        case let .postLogin(username, password):
-            let parameters = [
-                "grantType": "password",
-                "scope": "user",
-                "username": username,
-                "password": password
-            ]
-
-            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-
-        case let .postRefreshToken(refreshToken):
-            let parameters = [
-                "grantType": "refreshToken",
-                "scope": "user",
-                "refreshToken": refreshToken
-            ]
-            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-
-            // default:
-            //    return .requestPlain
-        }
-    }
-
-    public var shouldStub: Bool {
-        switch self {
-        default:
-            return Config.API.StubRequests
-        }
-    }
-
-    public var sampleData: Data {
-        switch self {
-        case .postLogin:
-            return stub("test")
-        default:
-            return Data()
-        }
-    }
-
-    // Load stub data
-    fileprivate func stub(_ name: String) -> Data {
-        let path = Bundle(for: APIClient.self).path(forResource: name, ofType: "json")!
-        return (try! Data(contentsOf: URL(fileURLWithPath: path)))
     }
 }

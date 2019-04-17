@@ -1,7 +1,7 @@
 import Foundation
 import KeychainAccess
 import ReactiveSwift
-import Result
+import Fetch
 
 public class CredentialsController {
     
@@ -12,8 +12,8 @@ public class CredentialsController {
     private let credentialStorageKey = Config.Keychain.credentialStorageKey
     private var cachedCredentials: Credentials?
     
-    private var currentCredentialsChangedSignalObserver = Signal<(), NoError>.pipe()
-    public var currentCredentialsChangedSignal: Signal<(), NoError> {
+    private var currentCredentialsChangedSignalObserver = Signal<(), Never>.pipe()
+    public var currentCredentialsChangedSignal: Signal<(), Never> {
         return currentCredentialsChangedSignalObserver.output
     }
     
@@ -55,9 +55,9 @@ public class CredentialsController {
 }
 
 public struct Credentials: Codable {
-    let accessToken: String
-    let refreshToken: String
-    let expiresIn: TimeInterval
+    public let accessToken: String
+    public let refreshToken: String
+    public let expiresIn: TimeInterval
     
     public init(accessToken: String, refreshToken: String?, expiresIn: TimeInterval?) {
         self.accessToken = accessToken

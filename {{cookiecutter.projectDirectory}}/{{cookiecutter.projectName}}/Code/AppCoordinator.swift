@@ -21,7 +21,8 @@ class AppCoordinator: Coordinator {
         printRootDebugStructure()
         
         checkCredentials(animated: false)
-        CredentialsController.shared.currentCredentialsChangedSignal.observeValues { [weak self] in
+        
+        CredentialsController.shared.currentCredentialsChangedSignal.ignoreError().observeValues { [weak self] in
             self?.checkCredentials()
         }
         

@@ -1,11 +1,3 @@
-//
-//  Weak.swift
-//  ExampleKit
-//
-//  Created by Matthias Buchetics on 30.07.18.
-//  Copyright © 2018 aaa - all about apps GmbH. All rights reserved.
-//
-
 import Foundation
 
 // MARK: - WeakBox
