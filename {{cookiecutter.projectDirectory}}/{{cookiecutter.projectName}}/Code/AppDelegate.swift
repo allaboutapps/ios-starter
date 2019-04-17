@@ -1,9 +1,7 @@
 import UIKit
 import ReactiveSwift
 import Fetch
-import FetchStarterKit
-
-typealias Config = FetchStarterKit.Config
+import {{cookiecutter.projectName}}Kit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
