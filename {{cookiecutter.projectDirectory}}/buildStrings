@@ -1,7 +1,8 @@
 #!/bin/bash
 STRINGS_PATH={{cookiecutter.projectName}}Kit/SupportingFiles/
 STRINGS_HELPER_PATH={{cookiecutter.projectName}}Kit/Code/
-google-docs-i18n-strings -s {{cookiecutter.googleSheetId}} -p ios,iosUtil -i $STRINGS_PATH -u $STRINGS_HELPER_PATH
+SUPPORTING_FILES_PATH={{cookiecutter.projectName}}/SupportingFiles/
+google-docs-i18n-strings -s {{cookiecutter.googleSheetId}} -p ios,iosUtil,iosPlist -i $STRINGS_PATH -u $STRINGS_HELPER_PATH -l $SUPPORTING_FILES_PATH
 
 # Generate .stringsdict files for each .strings file
 ruby strings_dict.rb -d "$STRINGS_PATH"
