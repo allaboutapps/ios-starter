@@ -18,26 +18,27 @@ workflows:
         - team_id: "$AAA_DEV_TEAM_ID"
         - scheme: "$BITRISE_SCHEME_STAGING"
         - generate_profiles: 'yes'
-        title: iOS Auto Provision - Staging
+        title: Staging - iOS Auto Provision
     - xcode-archive:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"
         - export_method: development
         - scheme: "$BITRISE_SCHEME_STAGING"
-        title: Xcode Archive & Export - Staging
+        title: Staging - Xcode Archive & Export
     - ios-auto-provision:
         inputs:
         - team_id: "$AAA_DEV_TEAM_ID"
+        - scheme: "$BITRISE_SCHEME_LIVE"
         - generate_profiles: 'yes'
-        title: iOS Auto Provision - Release
+        title: Live - iOS Auto Provision
     - xcode-archive:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"
         - export_method: development
-        - scheme: "$BITRISE_SCHEME"
-        title: Xcode Archive & Export - Release
+        - scheme: "$BITRISE_SCHEME_LIVE"
+        title: Live - Xcode Archive & Export
     - deploy-to-bitrise-io:
-        title: Deploy to Bitrise.io - Release
+        title: Deploy to Bitrise.io
     - remote-script-runner@2.0.1:
         inputs:
         - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
@@ -57,13 +58,37 @@ workflows:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"
         - export_method: app-store
-        - scheme: "$BITRISE_SCHEME"
+        - scheme: "$BITRISE_SCHEME_LIVE"
     - deploy-to-itunesconnect-deliver:
         inputs:
         - password: "$AAA_APPLE_PW"
-        - bundle_id: "$AAA_APP_BUNDLE_ID"
+        - bundle_id: "$AAA_APP_BUNDLE_ID_LIVE"
         - team_name: "$AAA_ITUNES_TEAM"
         - itunescon_user: "$AAA_APPLE_ID"
+    - remote-script-runner@2.0.1:
+        inputs:
+        - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
+        title: Push Version Tag
+    before_run:
+    - _kickstart
+    after_run:
+    - _teardown
+  dev:
+    steps:
+    - ios-auto-provision:
+        inputs:
+        - team_id: "$AAA_DEV_TEAM_ID"
+        - scheme: "$BITRISE_SCHEME_DEV"
+        - generate_profiles: 'yes'
+        title: Dev - iOS Auto Provision
+    - xcode-archive:
+        inputs:
+        - project_path: "$BITRISE_PROJECT_PATH"
+        - export_method: development
+        - scheme: "$BITRISE_SCHEME_DEV"
+        title: Dev - Xcode Archive & Export
+    - deploy-to-bitrise-io:
+        title: Deploy to Bitrise.io
     - remote-script-runner@2.0.1:
         inputs:
         - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
@@ -98,9 +123,12 @@ workflows:
 app:
   envs:
   - BITRISE_PROJECT_PATH: {{cookiecutter.projectName}}.xcodeproj
-  - BITRISE_SCHEME: {{cookiecutter.projectName}}
-  - BITRISE_SCHEME_STAGING: {{cookiecutter.projectName}} - Staging
+  - BITRISE_SCHEME_LIVE: {{cookiecutter.projectName}} live
+  - BITRISE_SCHEME_DEV: {{cookiecutter.projectName}} dev
+  - BITRISE_SCHEME_STAGING: {{cookiecutter.projectName}} staging
   - AAA_INFO_PLIST_PATH: "$BITRISE_SOURCE_DIR/{{cookiecutter.projectName}}/SupportingFiles/Info.plist"
-  - AAA_APP_BUNDLE_ID: {{cookiecutter.bundleIdentifier}}
+  - AAA_APP_BUNDLE_ID_LIVE: {{cookiecutter.bundleIdentifier}}
+  - AAA_APP_BUNDLE_ID_DEV: {{cookiecutter.bundleIdentifier}}-dev
+  - AAA_APP_BUNDLE_ID_STAGING: {{cookiecutter.bundleIdentifier}}-staging
   - AAA_ITUNES_TEAM: {{cookiecutter.teamName}}
   - AAA_DEV_TEAM_ID: {{cookiecutter.teamId}}
