@@ -10,18 +10,13 @@ public struct Config {
     public struct API {
         
         static var baseURL: URL {
-            
-            let devURL = URL(string: "https://dev.allaboutapps.at")!
-            let stagingURL = URL(string: "https://dev.allaboutapps.at")!
-            let liveURL = URL(string: "https://dev.allaboutapps.at")!
-            
-            switch Environment.current() {
-            case .debug:
-                return devURL
+            switch Environment.current.buildVersion {
+            case .dev:
+                return URL(string: "https://dev.allaboutapps.at")!
             case .staging:
-                return stagingURL
-            case .release:
-                return liveURL
+                return URL(string: "https://dev.allaboutapps.at")!
+            case .live:
+                return URL(string: "https://dev.allaboutapps.at")!
             }
         }
 
@@ -29,8 +24,8 @@ public struct Config {
         static var timeout: TimeInterval = 120.0
 
         static var verboseLogging: Bool {
-            switch Environment.current() {
-            case .debug, .staging:
+            switch Environment.current.buildConfig {
+            case .debug:
                 return true
             case .release:
                 return false
