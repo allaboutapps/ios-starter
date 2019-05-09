@@ -13,7 +13,7 @@ settings:
     DEVELOPMENT_TEAM: {{cookiecutter.teamId}}
     SWIFT_VERSION: "5.0"
 attributes:
-  ORGANIZATIONNAME: aaa - all about apps GmbH
+  ORGANIZATIONNAME: {{cookiecutter.teamName}}
 targets:
   {{cookiecutter.projectName}}:
     type: application
