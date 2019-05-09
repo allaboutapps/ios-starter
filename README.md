@@ -11,7 +11,7 @@ brew install cookiecutter
 brew install xcodegen
 ```
 
-#### Optional step for all about apps internal use
+#### Optional step for _all about apps internal use_
 Install the latest version of our internal Google Sheets localization tool and [builder](https://rubygems.org/gems/builder).
 
 ```
