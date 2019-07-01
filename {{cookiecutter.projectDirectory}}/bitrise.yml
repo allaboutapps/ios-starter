@@ -53,6 +53,7 @@ workflows:
         inputs:
         - team_id: "$AAA_DEV_TEAM_ID"
         - generate_profiles: 'yes'
+        - scheme: "$BITRISE_SCHEME_LIVE"
         - distribution_type: app-store
     - xcode-archive:
         inputs:
