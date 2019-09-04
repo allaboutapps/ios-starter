@@ -78,7 +78,7 @@ public class AuthHandler: RequestInterceptor {
         
         session
             .request(urlRequest)
-            .responseDecodable(queue: queue, completionHandler: { [weak self] (response: DataResponse<Credentials>) in
+            .responseDecodable(queue: queue, completionHandler: { [weak self] (response: DataResponse<Credentials, AFError>) in
                 guard let self = self else { return }
                 switch response.result {
                 case .success(let credentials):
