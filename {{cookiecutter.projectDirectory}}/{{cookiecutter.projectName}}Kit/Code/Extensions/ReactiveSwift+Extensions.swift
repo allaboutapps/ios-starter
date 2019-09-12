@@ -1,6 +1,5 @@
 import UIKit
 import ReactiveSwift
-import Result
 
 public extension Signal.Observer {
     
@@ -18,8 +17,8 @@ public extension Signal.Observer {
 
 public extension Signal {
     
-    func ignoreError(replacement: Signal<Value, NoError>.Event = .completed) -> Signal<Value, NoError> {
-        return Signal<Value, NoError> { (observer, lifetime) in
+    func ignoreError(replacement: Signal<Value, Never>.Event = .completed) -> Signal<Value, Never> {
+        return Signal<Value, Never> { (observer, lifetime) in
             lifetime += self.observe { (event) in
                 switch event {
                 case let .value(value):
@@ -46,7 +45,7 @@ public extension SignalProducer {
         return map { Optional($0) }
     }
     
-    func ignoreError(replacement: Signal<Value, NoError>.Event = .completed) -> SignalProducer<Value, NoError> {
+    func ignoreError(replacement: Signal<Value, Never>.Event = .completed) -> SignalProducer<Value, Never> {
         return lift { $0.ignoreError(replacement: replacement) }
     }
 }
