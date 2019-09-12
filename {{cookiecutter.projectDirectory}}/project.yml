@@ -14,6 +14,16 @@ settings:
     SWIFT_VERSION: "5.0"
 attributes:
   ORGANIZATIONNAME: {{cookiecutter.teamName}}
+packages:
+  Fetch:
+    url: https://github.com/allaboutapps/Fetch
+    majorVersion: 1.1.1
+  DataSource:
+    url: https://github.com/allaboutapps/DataSource
+    branch: xcode11
+  KeychainAccess:
+    url: https://github.com/kishikawakatsumi/KeychainAccess
+    majorVersion: 3.2.0
 targets:
   {{cookiecutter.projectName}}:
     type: application
@@ -61,12 +71,9 @@ targets:
       - {{cookiecutter.projectName}}
     dependencies:
       - target: {{cookiecutter.projectName}}Kit
-      - carthage: Alamofire
-      - carthage: AlamofireImage
-      - carthage: DataSource
-      - carthage: Differ
-      - carthage: Fetch
-      - carthage: KeychainAccess
+      - package: DataSource
+      - package: Fetch
+      - package: KeychainAccess
       - carthage: ReactiveCocoa
       - carthage: ReactiveSwift
       - carthage: SimpleButton
@@ -107,9 +114,6 @@ targets:
     sources: 
       - {{cookiecutter.projectName}}Kit
     dependencies:
-      - carthage: Alamofire
-      - carthage: AlamofireImage
-      - carthage: Fetch
-      - carthage: KeychainAccess
+      - package: Fetch
+      - package: KeychainAccess
       - carthage: ReactiveSwift
-      - carthage: Result
