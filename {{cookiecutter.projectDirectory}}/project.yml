@@ -11,7 +11,20 @@ configs:
 settings:
   base:
     DEVELOPMENT_TEAM: {{cookiecutter.teamId}}
-    SWIFT_VERSION: "5.0"
+    SWIFT_VERSION: "5.1"
+  configs:
+    Debug-live:
+      SWIFT_COMPILATION_MODE: "incremental"
+    Debug-dev:
+      SWIFT_COMPILATION_MODE: "incremental"
+    Debug-staging:
+      SWIFT_COMPILATION_MODE: "incremental"
+    Release-live:
+      SWIFT_COMPILATION_MODE: "wholemodule"
+    Release-dev:
+      SWIFT_COMPILATION_MODE: "wholemodule"
+    Release-staging:
+      SWIFT_COMPILATION_MODE: "wholemodule"
 attributes:
   ORGANIZATIONNAME: {{cookiecutter.teamName}}
 packages:
@@ -46,13 +59,10 @@ targets:
           BUILD_VERION_SUFFIX: "-staging"
         Release-live:
           BUILD_VERION_SUFFIX: ""
-          SWIFT_COMPILATION_MODE: wholemodule
         Release-dev:
           BUILD_VERION_SUFFIX: "-dev"
-          SWIFT_COMPILATION_MODE: wholemodule
         Release-staging:
           BUILD_VERION_SUFFIX: "-staging"
-          SWIFT_COMPILATION_MODE: wholemodule
     info:
       path: {{cookiecutter.projectName}}/SupportingFiles/Info.plist
       properties:
