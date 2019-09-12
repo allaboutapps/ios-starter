@@ -1,6 +1,6 @@
 name: {{cookiecutter.projectName}}
 options:
-  xcodeVersion: 10.2
+  xcodeVersion: 11.0
 configs:
   Debug-live: debug
   Debug-dev: debug

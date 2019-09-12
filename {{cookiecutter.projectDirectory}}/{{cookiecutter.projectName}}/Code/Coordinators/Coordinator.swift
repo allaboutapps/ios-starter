@@ -5,9 +5,12 @@ import UIKit
 class Coordinator: NSObject {
     
     weak var parentCoordinator: Coordinator?
-    var childCoordinators = [Coordinator]()
-    let rootViewController: UIViewController
     
+    var childCoordinators = [Coordinator]()
+    var presentationDelegate: CoordinatorPresentationDelegate?
+    
+    let rootViewController: UIViewController
+
     init(rootViewController: UIViewController = UIViewController()) {
         self.rootViewController = rootViewController
     }
@@ -35,10 +38,14 @@ class Coordinator: NSObject {
     // MARK: - Present
     
     func present(_ coordinator: Coordinator, animated: Bool, completion: (() -> Void)? = nil) {
-        let viewController = coordinator.rootViewController
+        let delegate = CoordinatorPresentationDelegate(for: coordinator)
+        delegate.didDismiss = { [weak self] in
+            self?.removeChild(coordinator)
+        }
+        coordinator.presentationDelegate = delegate
         
         addChild(coordinator)
-        rootViewController.present(viewController, animated: animated, completion: completion)
+        rootViewController.present(coordinator.rootViewController, animated: animated, completion: completion)
     }
     
     func dismissChildCoordinator(animated: Bool, completion: (() -> Void)? = nil) {
@@ -96,5 +103,61 @@ class Coordinator: NSObject {
     
     deinit {
         print("deinit coordinator: \(String(describing: self))")
+    }
+}
+
+// MARK: - CoordinatorPresentationDelegate
+
+class CoordinatorPresentationDelegate: NSObject, UIAdaptivePresentationControllerDelegate {
+    
+    let coordinator: Coordinator
+    var previousDelegate: UIAdaptivePresentationControllerDelegate?
+    
+    var willDismiss: (() -> Void)?
+    var didDismiss: (() -> Void)?
+    var didAttemptToDismiss: (() -> Void)?
+    
+    init(for coordinator: Coordinator) {
+        self.coordinator = coordinator
+        super.init()
+        
+        previousDelegate = coordinator.rootViewController.presentationController?.delegate
+        coordinator.rootViewController.presentationController?.delegate = self
+    }
+    
+    func resetDelegate() {
+        coordinator.rootViewController.presentationController?.delegate = previousDelegate
+    }
+    
+    // MARK: UIAdaptivePresentationControllerDelegate
+    
+    func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
+        print("presentationControllerWillDismiss")
+        willDismiss?()
+    }
+    
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        print("presentationControllerDidDismiss")
+        resetDelegate()
+        didDismiss?()
+    }
+
+    func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
+         print("presentationControllerDidAttemptToDismiss")
+        didAttemptToDismiss?()
+    }
+    
+    // MARK: Delegate Forwarding
+    
+    public override func forwardingTarget(for aSelector: Selector!) -> Any? {
+        return previousDelegate
+    }
+    
+    public override func responds(to aSelector: Selector!) -> Bool {
+        if super.responds(to: aSelector) {
+            return true
+        }
+        
+        return previousDelegate?.responds(to: aSelector) ?? false
     }
 }
