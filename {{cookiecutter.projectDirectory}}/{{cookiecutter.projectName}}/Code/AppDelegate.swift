@@ -25,8 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func testRequest() {
         API.Examples.get().fetch().startWithResult { (result) in
-            if let model = result.value?.model {
-                print(model)
+            switch result {
+            case .success(let response):
+                print(response.model)
+            case.failure:
+                print("failure")
             }
         }
     }
