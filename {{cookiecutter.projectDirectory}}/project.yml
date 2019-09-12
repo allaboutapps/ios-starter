@@ -112,4 +112,3 @@ targets:
       - carthage: Fetch
       - carthage: KeychainAccess
       - carthage: ReactiveSwift
-      - carthage: Result
