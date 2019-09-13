@@ -1,6 +1,6 @@
 github "ReactiveCocoa/ReactiveCocoa" "master"
-github "aloco/SimpleButton" ~> 4.0
 github "Alamofire/AlamofireImage" "4.0.0-beta.4"
 github "allaboutapps/DataSource" ~> 7.0
 github "allaboutapps/Fetch" ~> 1.0
+github "allaboutapps/SimpleButton" ~> 5.0
 github "kishikawakatsumi/KeychainAccess" ~> 3.2
