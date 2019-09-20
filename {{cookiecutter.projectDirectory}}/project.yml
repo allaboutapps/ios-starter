@@ -80,6 +80,7 @@ targets:
       - carthage: ReactiveCocoa
       - carthage: ReactiveSwift
       - carthage: SimpleButton
+      - carthage: StatefulViewController
     postCompileScripts:
       - script: |
                 if which swiftlint >/dev/null; then
