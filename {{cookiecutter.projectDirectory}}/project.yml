@@ -30,19 +30,22 @@ attributes:
 packages:
   Fetch:
     url: https://github.com/allaboutapps/Fetch
-    majorVersion: 1.1
+    majorVersion: "1.1"
   SimpleButton:
     url: https://github.com/allaboutapps/SimpleButton
-    majorVersion: 5.0
+    majorVersion: "5.0"
   StatefulViewController:
     url: https://github.com/allaboutapps/StatefulViewController
-    majorVersion: 5.1
+    majorVersion: "5.1"
   DataSource:
     url: https://github.com/allaboutapps/DataSource
-    branch: xcode11
+    majorVersion: "8.0"
   KeychainAccess:
     url: https://github.com/kishikawakatsumi/KeychainAccess
-    majorVersion: 3.2
+    majorVersion: "3.2"
+  ReactiveSwift:
+    url: https://github.com/ReactiveCocoa/ReactiveSwift
+    majorVersion: "6.1"
 targets:
   {{cookiecutter.projectName}}:
     type: application
@@ -92,8 +95,7 @@ targets:
       - package: KeychainAccess
       - package: SimpleButton
       - package: StatefulViewController
-      - carthage: ReactiveCocoa
-      - carthage: ReactiveSwift
+      - package: ReactiveSwift
     postCompileScripts:
       - script: |
           if which swiftlint >/dev/null; then
@@ -148,4 +150,4 @@ targets:
     dependencies:
       - package: Fetch
       - package: KeychainAccess
-      - carthage: ReactiveSwift
+      - package: ReactiveSwift
