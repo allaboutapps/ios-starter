@@ -30,13 +30,19 @@ attributes:
 packages:
   Fetch:
     url: https://github.com/allaboutapps/Fetch
-    majorVersion: 1.1.1
+    majorVersion: 1.1
+  SimpleButton:
+    url: https://github.com/allaboutapps/SimpleButton
+    majorVersion: 5.0
+  StatefulViewController:
+    url: https://github.com/allaboutapps/StatefulViewController
+    majorVersion: 5.1
   DataSource:
     url: https://github.com/allaboutapps/DataSource
     branch: xcode11
   KeychainAccess:
     url: https://github.com/kishikawakatsumi/KeychainAccess
-    majorVersion: 3.2.0
+    majorVersion: 3.2
 targets:
   {{cookiecutter.projectName}}:
     type: application
@@ -84,17 +90,33 @@ targets:
       - package: DataSource
       - package: Fetch
       - package: KeychainAccess
+      - package: SimpleButton
+      - package: StatefulViewController
       - carthage: ReactiveCocoa
       - carthage: ReactiveSwift
-      - carthage: SimpleButton
     postCompileScripts:
       - script: |
-                if which swiftlint >/dev/null; then
-                  swiftlint
-                else
-                  echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
-                fi
+          if which swiftlint >/dev/null; then
+            swiftlint
+          else
+            echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
+          fi
         name: SwiftLint
+      - script: |
+          if which /usr/libexec/PlistBuddy >/dev/null; then
+            version=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "${INFOPLIST_FILE}")
+            build=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${INFOPLIST_FILE}")
+            /usr/libexec/PlistBuddy "$SRCROOT/$PRODUCT_NAME/SupportingFiles/Settings.bundle/Root.plist" -c "set PreferenceSpecifiers:2:DefaultValue $version ($build)"
+          else
+          echo "warning: PlistBuddy not found"
+          fi
+  
+          if which /usr/local/bin/license-plist >/dev/null; then
+            /usr/local/bin/license-plist --output-path $PRODUCT_NAME/SupportingFiles/Settings.bundle --config-path $PRODUCT_NAME/SupportingFiles/license_plist.yml --suppress-opening-directory
+          else
+            echo "warning: license-plist not installed, download from https://github.com/mono0926/LicensePlist"
+          fi
+        name: Generate Licenses
       - script: |
           #case "${CONFIGURATION}" in
           #
