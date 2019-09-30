@@ -2,6 +2,8 @@ name: {{cookiecutter.projectName}}
 options:
   xcodeVersion: 11.0
 configs:
+  Debug: debug
+  Release: release
   Debug-live: debug
   Debug-dev: debug
   Debug-staging: debug
@@ -13,12 +15,16 @@ settings:
     DEVELOPMENT_TEAM: {{cookiecutter.teamId}}
     SWIFT_VERSION: "5.1"
   configs:
+    Debug:
+      SWIFT_COMPILATION_MODE: "incremental"
     Debug-live:
       SWIFT_COMPILATION_MODE: "incremental"
     Debug-dev:
       SWIFT_COMPILATION_MODE: "incremental"
     Debug-staging:
       SWIFT_COMPILATION_MODE: "incremental"
+    Release:
+      SWIFT_COMPILATION_MODE: "wholemodule"
     Release-live:
       SWIFT_COMPILATION_MODE: "wholemodule"
     Release-dev:
@@ -51,21 +57,25 @@ targets:
     type: application
     platform: iOS
     deploymentTarget: "{{cookiecutter.deploymentTarget}}"
-    scheme:
-      configVariants:
-        - live
-        - dev
-        - staging
+#    scheme:
+#      configVariants:
+#        - live
+#        - dev
+#        - staging
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: {{cookiecutter.bundleIdentifier}}$(BUILD_VERION_SUFFIX)
       configs:
+        Debug:
+          BUILD_VERION_SUFFIX: ""
         Debug-live:
           BUILD_VERION_SUFFIX: ""
         Debug-dev:
           BUILD_VERION_SUFFIX: "-dev"
         Debug-staging:
           BUILD_VERION_SUFFIX: "-staging"
+        Release:
+          BUILD_VERION_SUFFIX: ""
         Release-live:
           BUILD_VERION_SUFFIX: ""
         Release-dev:
@@ -151,3 +161,49 @@ targets:
       - package: Fetch
       - package: KeychainAccess
       - package: ReactiveSwift
+schemes:
+  {{cookiecutter.projectName}} dev:
+    build:
+      targets:
+        {{cookiecutter.projectName}}: all
+        {{cookiecutter.projectName}}Kit: all
+    run:
+      config: Debug
+      environmentVariables:
+        SERVER_ENVIRONMENT: "dev"
+    profile:
+      config: Release
+    analyze:
+      config: Release
+    archive:
+      config: Release
+  {{cookiecutter.projectName}} staging:
+    build:
+      targets:
+        {{cookiecutter.projectName}}: all
+        {{cookiecutter.projectName}}Kit: all
+    run:
+      config: Debug
+      environmentVariables:
+        SERVER_ENVIRONMENT: "staging"
+    profile:
+      config: Release
+    analyze:
+      config: Release
+    archive:
+      config: Release
+  {{cookiecutter.projectName}} live:
+    build:
+      targets:
+        {{cookiecutter.projectName}}: all
+        {{cookiecutter.projectName}}Kit: all
+    run:
+      config: Debug
+      environmentVariables:
+        SERVER_ENVIRONMENT: "live"
+    profile:
+      config: Release
+    analyze:
+      config: Release
+    archive:
+      config: Release

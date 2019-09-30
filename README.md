@@ -24,6 +24,5 @@ gem install builder
 1. Run `cookiecutter gh:allaboutapps/ios-starter`.
 2. You'll be asked for project name, team details and bundle identifier details. If you don't have the localization tool installed, skip the `googleSheetId` parameter. `cookiecutter` will create all files needed from the template on `github`.
 3. `xcodegen` will run automatically and generate the `Xcode` project file.
-4. Afterwards `carthage update --platform ios --cache-build` will install/update all needed dependencies.
-5. Xcode launches your new project.
-6. 🚀
+4. Xcode launches your new project.
+5. 🚀

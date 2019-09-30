@@ -1,14 +1,3 @@
-# iOS Project Template 📱
-
-## Setup
-
-* Run `carthage update --platform ios --no-use-binaries --cache-build` to install/update all needed dependencies
-* Fill the README
-* Delete this TODO section. (And enjoy your fresh and clean Project-setup 🙌)
-
---------
-
-
 # {{cookiecutter.projectName}}
 
 ---

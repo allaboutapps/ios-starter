@@ -26,16 +26,25 @@ public struct Environment: Equatable {
             fatalError("Info.plist does not contain the key _Configuration. Add this key with value $(CONFIGURATION)")
         }
         let split = configurationString.components(separatedBy: "-")
-        guard split.count == 2 else {
+        
+        if split.count == 1 {
+            guard
+                let buildConfig = BuildConfig(rawValue: split[0].lowercased()),
+                let serverEnvVar = envVar(named: "SERVER_ENVIRONMENT"),
+                let buildVersion = BuildVersion(rawValue: serverEnvVar.lowercased()) else {
+                fatalError("Invalid build configuration")
+            }
+            return Environment(buildConfig: buildConfig, buildVersion: buildVersion)
+        } else if split.count == 2 {
+            guard
+                let buildConfig = BuildConfig(rawValue: split[0].lowercased()),
+                let buildVersion = BuildVersion(rawValue: split[1].lowercased()) else {
+                fatalError("Invalid build configuration")
+            }
+            return Environment(buildConfig: buildConfig, buildVersion: buildVersion)
+        } else {
             fatalError("Invalid build configuration")
         }
-        guard
-            split.count == 2,
-            let buildConfig = BuildConfig(rawValue: split[0].lowercased()),
-            let buildVersion = BuildVersion(rawValue: split[1].lowercased()) else {
-                fatalError("Invalid build configuration")
-        }
-        return Environment(buildConfig: buildConfig, buildVersion: buildVersion)
     }()
 
     /// Returns the current App version, build number and environment
@@ -50,6 +59,9 @@ public struct Environment: Equatable {
         return "\(versionNumber) (\(buildNumber)) \(description)"
     }
     
+    public static func envVar(named name: String) -> String? {
+        return ProcessInfo.processInfo.environment[name]
+    }
 }
 
 extension Environment: CustomStringConvertible {
