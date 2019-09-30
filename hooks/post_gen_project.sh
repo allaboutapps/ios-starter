@@ -5,10 +5,6 @@
   ./buildStrings
 {%- endif %}
 
-{%- if cookiecutter.runCarthage == 'y' %}
-  carthage update --platform ios --cache-builds
-{%- endif %}
-
 {%- if cookiecutter.runXcodeGen == 'y' %}
   xcodegen
   xed .
