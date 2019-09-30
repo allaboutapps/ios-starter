@@ -1,6 +1,6 @@
 # iOS Starter 📱
 
-`cookiecutter gh:allaboutapps/ios-starter`
+`cookiecutter gh:allaboutapps/ios-starter --checkout spm`
 
 ## Installation
 
