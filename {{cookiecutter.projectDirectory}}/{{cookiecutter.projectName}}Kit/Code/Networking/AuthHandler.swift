@@ -21,7 +21,7 @@ public class AuthHandler: RequestInterceptor {
     
     // MARK: - RequestAdapter
     
-    public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (AFResult<URLRequest>) -> Void) {
+    public func adapt(_ urlRequest: URLRequest, for session: Session, completion: @escaping (Result<URLRequest, Error>) -> Void) {
         var urlRequest = urlRequest
         if let accessToken = CredentialsController.shared.currentCredentials?.accessToken {
             urlRequest.setValue("Bearer " + accessToken, forHTTPHeaderField: "Authorization")
