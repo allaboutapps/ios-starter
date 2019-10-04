@@ -48,7 +48,7 @@ targets:
     info:
       path: {{cookiecutter.projectName}}/SupportingFiles/Info.plist
       properties:
-        CFBundleDisplayName: {{cookiecutter.projectName}} ($(SERVER_ENVIRONMENT))
+        CFBundleDisplayName: {{cookiecutter.projectName}}$(SERVER_ENVIRONMENT_SUFFIX)
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
