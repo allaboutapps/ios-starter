@@ -1,6 +1,9 @@
 # iOS Starter 📱
 
-`cookiecutter gh:allaboutapps/ios-starter --checkout spm`
+Xcode 11 with Swift Package Manager dependencies.
+For Xcode 10 and Carthage, check out the `xcode10` branch.
+
+`cookiecutter gh:allaboutapps/ios-starter`
 
 ## Installation
 
