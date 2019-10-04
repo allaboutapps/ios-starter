@@ -58,6 +58,7 @@ targets:
         ITSAppUsesNonExemptEncryption: NO
         LSRequiresIPhoneOS: YES
         _Configuration: $(CONFIGURATION)
+        _ServerEnvironment: $(SERVER_ENVIRONMENT)
     sources: 
       - {{cookiecutter.projectName}}
     dependencies:
@@ -135,8 +136,6 @@ schemes:
         {{cookiecutter.projectName}}Kit: all
     run:
       config: Debug
-      environmentVariables:
-        SERVER_ENVIRONMENT: "dev"
     profile:
       config: Release
     analyze:
@@ -154,8 +153,6 @@ schemes:
         {{cookiecutter.projectName}}Kit: all
     run:
       config: Debug
-      environmentVariables:
-        SERVER_ENVIRONMENT: "staging"
     profile:
       config: Release
     analyze:
@@ -173,8 +170,6 @@ schemes:
         {{cookiecutter.projectName}}Kit: all
     run:
       config: Debug
-      environmentVariables:
-        SERVER_ENVIRONMENT: "live"
     profile:
       config: Release
     analyze:

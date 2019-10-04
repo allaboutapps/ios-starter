@@ -12,39 +12,31 @@ public struct Environment: Equatable {
     /// The build config of the Environment
     public let buildConfig: BuildConfig
     
-    /// Represents versions refering to the used backend
-    public enum BuildVersion: String {
+    /// Represents environemnt refering to the used backend
+    public enum ServerEnvironment: String {
         case live, dev, staging
     }
     
-    /// The version of the Environment
-    public let buildVersion: BuildVersion
+    /// The sever environment
+    public let serverEnvironment: ServerEnvironment
 
     /// Returns the current enviroment the app is currently running.
     public static var current: Environment = {
         guard let configurationString = Bundle.main.infoDictionary!["_Configuration"] as? String else {
             fatalError("Info.plist does not contain the key _Configuration. Add this key with value $(CONFIGURATION)")
         }
-        let split = configurationString.components(separatedBy: "-")
         
-        if split.count == 1 {
-            guard
-                let buildConfig = BuildConfig(rawValue: split[0].lowercased()),
-                let serverEnvVar = envVar(named: "SERVER_ENVIRONMENT"),
-                let buildVersion = BuildVersion(rawValue: serverEnvVar.lowercased()) else {
-                fatalError("Invalid build configuration")
-            }
-            return Environment(buildConfig: buildConfig, buildVersion: buildVersion)
-        } else if split.count == 2 {
-            guard
-                let buildConfig = BuildConfig(rawValue: split[0].lowercased()),
-                let buildVersion = BuildVersion(rawValue: split[1].lowercased()) else {
-                fatalError("Invalid build configuration")
-            }
-            return Environment(buildConfig: buildConfig, buildVersion: buildVersion)
-        } else {
+        guard let serverEnvironmentString = Bundle.main.infoDictionary!["_ServerEnvironment"] as? String else {
+            fatalError("Info.plist does not contain the key _ServerEnvironment. Add this key with value $(SERVER_ENVIRONMENT)")
+        }
+        
+        guard
+            let buildConfig = BuildConfig(rawValue: configurationString.lowercased()),
+            let serverEnvironment = ServerEnvironment(rawValue: serverEnvironmentString.lowercased()) else {
             fatalError("Invalid build configuration")
         }
+        
+        return Environment(buildConfig: buildConfig, serverEnvironment: serverEnvironment)
     }()
 
     /// Returns the current App version, build number and environment
@@ -67,7 +59,7 @@ public struct Environment: Equatable {
 extension Environment: CustomStringConvertible {
     
     public var description: String {
-        return "\(buildVersion.rawValue)-\(buildConfig.rawValue)"
+        return "\(serverEnvironment.rawValue)-\(buildConfig.rawValue)"
     }
     
 }

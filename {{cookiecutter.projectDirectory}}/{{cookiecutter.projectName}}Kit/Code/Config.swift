@@ -10,13 +10,13 @@ public struct Config {
     public struct API {
         
         static var baseURL: URL {
-            switch Environment.current.buildVersion {
+            switch Environment.current.serverEnvironment {
             case .dev:
                 return URL(string: "https://dev.allaboutapps.at")!
             case .staging:
-                return URL(string: "https://dev.allaboutapps.at")!
+                return URL(string: "https://staging.allaboutapps.at")!
             case .live:
-                return URL(string: "https://dev.allaboutapps.at")!
+                return URL(string: "https://live.allaboutapps.at")!
             }
         }
 
