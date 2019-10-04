@@ -4,12 +4,6 @@ options:
 configs:
   Debug: debug
   Release: release
-  Debug-live: debug
-  Debug-dev: debug
-  Debug-staging: debug
-  Release-live: release
-  Release-dev: release
-  Release-staging: release
 settings:
   base:
     DEVELOPMENT_TEAM: {{cookiecutter.teamId}}
@@ -17,19 +11,7 @@ settings:
   configs:
     Debug:
       SWIFT_COMPILATION_MODE: "incremental"
-    Debug-live:
-      SWIFT_COMPILATION_MODE: "incremental"
-    Debug-dev:
-      SWIFT_COMPILATION_MODE: "incremental"
-    Debug-staging:
-      SWIFT_COMPILATION_MODE: "incremental"
     Release:
-      SWIFT_COMPILATION_MODE: "wholemodule"
-    Release-live:
-      SWIFT_COMPILATION_MODE: "wholemodule"
-    Release-dev:
-      SWIFT_COMPILATION_MODE: "wholemodule"
-    Release-staging:
       SWIFT_COMPILATION_MODE: "wholemodule"
 attributes:
   ORGANIZATIONNAME: {{cookiecutter.teamName}}
@@ -57,40 +39,20 @@ targets:
     type: application
     platform: iOS
     deploymentTarget: "{{cookiecutter.deploymentTarget}}"
-#    scheme:
-#      configVariants:
-#        - live
-#        - dev
-#        - staging
+    configFiles:
+      Debug: {{cookiecutter.projectName}}/SupportingFiles/Configuration.xcconfig
+      Release: {{cookiecutter.projectName}}/SupportingFiles/Configuration.xcconfig
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: {{cookiecutter.bundleIdentifier}}$(BUILD_VERION_SUFFIX)
-      configs:
-        Debug:
-          BUILD_VERION_SUFFIX: ""
-        Debug-live:
-          BUILD_VERION_SUFFIX: ""
-        Debug-dev:
-          BUILD_VERION_SUFFIX: "-dev"
-        Debug-staging:
-          BUILD_VERION_SUFFIX: "-staging"
-        Release:
-          BUILD_VERION_SUFFIX: ""
-        Release-live:
-          BUILD_VERION_SUFFIX: ""
-        Release-dev:
-          BUILD_VERION_SUFFIX: "-dev"
-        Release-staging:
-          BUILD_VERION_SUFFIX: "-staging"
+        PRODUCT_NAME: {{cookiecutter.projectName}}
     info:
       path: {{cookiecutter.projectName}}/SupportingFiles/Info.plist
       properties:
-        CFBundleDisplayName: {{cookiecutter.projectName}}$(BUILD_VERION_SUFFIX)
+        CFBundleDisplayName: {{cookiecutter.projectName}} ($(SERVER_ENVIRONMENT))
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
-        UIRequiresFullScreen: YES
         UILaunchStoryboardName: LaunchScreen
         UIRequiredDeviceCapabilities: [armv7]
         ITSAppUsesNonExemptEncryption: NO
@@ -130,16 +92,16 @@ targets:
           fi
         name: Generate Licenses
       - script: |
-          #case "${CONFIGURATION}" in
+          #case "${SERVER_ENVIRONMENT}" in
           #
-          #"Debug-dev" | "Release-dev" )
+          #"dev" )
           #cp -r "${PROJECT_DIR}/GoogleService-Info-Dev.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
           #
-          #"Debug-staging" | "Release-staging" )
+          #"staging" )
           #cp -r "${PROJECT_DIR}/GoogleService-Info-Staging.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
           #
-          #"Debug-live" | "Release-live" )
-          #cp -r "${PROJECT_DIR}/GoogleService-Info-Release.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
+          #"live" )
+          #cp -r "${PROJECT_DIR}/GoogleService-Info-Live.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
           #
           #*)
           #;;
@@ -164,6 +126,10 @@ targets:
 schemes:
   {{cookiecutter.projectName}} dev:
     build:
+      preActions:
+        - script: |
+            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Dev.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configuration.xcconfig 
+          settingsTarget: {{cookiecutter.projectName}}
       targets:
         {{cookiecutter.projectName}}: all
         {{cookiecutter.projectName}}Kit: all
@@ -179,6 +145,10 @@ schemes:
       config: Release
   {{cookiecutter.projectName}} staging:
     build:
+      preActions:
+        - script: |
+            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Staging.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configuration.xcconfig 
+          settingsTarget: {{cookiecutter.projectName}}
       targets:
         {{cookiecutter.projectName}}: all
         {{cookiecutter.projectName}}Kit: all
@@ -194,6 +164,10 @@ schemes:
       config: Release
   {{cookiecutter.projectName}} live:
     build:
+      preActions:
+        - script: |
+            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Live.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configuration.xcconfig 
+          settingsTarget: {{cookiecutter.projectName}}
       targets:
         {{cookiecutter.projectName}}: all
         {{cookiecutter.projectName}}Kit: all

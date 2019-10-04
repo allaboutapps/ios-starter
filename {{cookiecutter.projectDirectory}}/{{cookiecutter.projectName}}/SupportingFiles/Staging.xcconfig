@@ -1,0 +1,2 @@
+PRODUCT_BUNDLE_IDENTIFIER = {{cookiecutter.bundleIdentifier}}-staging
+SERVER_ENVIRONMENT = staging
