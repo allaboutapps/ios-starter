@@ -16,7 +16,7 @@ settings:
 attributes:
   ORGANIZATIONNAME: {{cookiecutter.teamName}}
 packages:
-  Fetch:
+  AlamofireImage:
     url: https://github.com/Alamofire/AlamofireImage
     majorVersion: "4.0.0-beta.5"
   Fetch:
@@ -72,6 +72,7 @@ targets:
       - package: SimpleButton
       - package: StatefulViewController
       - package: ReactiveSwift
+      - package: AlamofireImage
     postCompileScripts:
       - script: |
           if which swiftlint >/dev/null; then
