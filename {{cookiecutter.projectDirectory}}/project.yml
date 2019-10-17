@@ -17,6 +17,9 @@ attributes:
   ORGANIZATIONNAME: {{cookiecutter.teamName}}
 packages:
   Fetch:
+    url: https://github.com/Alamofire/AlamofireImage
+    majorVersion: "4.0.0-beta.5"
+  Fetch:
     url: https://github.com/allaboutapps/Fetch
     majorVersion: "1.1"
   SimpleButton:

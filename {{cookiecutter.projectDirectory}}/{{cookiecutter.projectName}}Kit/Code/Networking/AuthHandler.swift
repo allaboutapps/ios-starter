@@ -4,7 +4,7 @@ import Fetch
 
 public class AuthHandler: RequestInterceptor {
     
-    private typealias RefreshCompletion = (_ succeeded: Bool, _ credentials: Credentials?) -> Void
+    private typealias RefreshCompletion = (_ credentials: Credentials?, _ statusCode: Int?) -> Void
     private typealias RequestRetryCompletion = (Alamofire.RetryResult) -> Void
     
     private static let apiLogger = APILogger(verbose: true)
@@ -44,18 +44,18 @@ public class AuthHandler: RequestInterceptor {
         requestsToRetry.append(completion)
         
         if !isRefreshing {
-            refreshCredentials(refreshToken) { [weak self] (succeeded, credentials) in
+            refreshCredentials(refreshToken) { [weak self] (credentials, statusCode) in
                 guard let self = self else { return }
                 
                 self.lock.lock() ; defer { self.lock.unlock() }
                 
                 if let credentials = credentials {
                     CredentialsController.shared.currentCredentials = credentials
-                }
-                
-                if succeeded {
                     self.requestsToRetry.forEach { $0(.retry) }
                 } else {
+                    if statusCode == 401 {
+                        CredentialsController.shared.currentCredentials = nil
+                    }
                     self.requestsToRetry.forEach { $0(.doNotRetry) }
                 }
                 
@@ -72,22 +72,25 @@ public class AuthHandler: RequestInterceptor {
         isRefreshing = true
         
         guard let urlRequest = try? API.Auth.tokenRefresh(refreshToken).asURLRequest() else {
-            completion(false, nil)
+            completion(nil, nil)
             return
         }
         
         session
             .request(urlRequest)
+            .validate()
             .responseDecodable(queue: queue, completionHandler: { [weak self] (response: DataResponse<Credentials, AFError>) in
                 guard let self = self else { return }
+                
+                let statusCode = response.response?.statusCode
+
                 switch response.result {
                 case .success(let credentials):
-                    completion(true, credentials)
+                    completion(credentials, statusCode)
                 case .failure:
-                    completion(false, nil)
+                    completion(nil, statusCode)
                 }
                 self.isRefreshing = false
             })
     }
-    
 }
