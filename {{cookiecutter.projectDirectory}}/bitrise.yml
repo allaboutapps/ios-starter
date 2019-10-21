@@ -13,6 +13,17 @@ trigger_map:
 workflows:
   master:
     steps:
+     - script:
+        title: Setup Staging
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            bash ./scripts/setup_staging
     - ios-auto-provision:
         inputs:
         - team_id: "$AAA_DEV_TEAM_ID"
@@ -25,6 +36,17 @@ workflows:
         - export_method: development
         - scheme: "$BITRISE_SCHEME_STAGING"
         title: Staging - Xcode Archive & Export
+    - script:
+        title: Setup Live
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            bash ./scripts/setup_live
     - ios-auto-provision:
         inputs:
         - team_id: "$AAA_DEV_TEAM_ID"
@@ -49,6 +71,17 @@ workflows:
     - _teardown
   testflight:
     steps:
+    - script:
+        title: Setup Live
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # debug log
+            set -x
+
+            bash ./scripts/setup_live
     - ios-auto-provision:
         inputs:
         - team_id: "$AAA_DEV_TEAM_ID"

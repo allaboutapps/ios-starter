@@ -43,8 +43,8 @@ targets:
     platform: iOS
     deploymentTarget: "{{cookiecutter.deploymentTarget}}"
     configFiles:
-      Debug: {{cookiecutter.projectName}}/SupportingFiles/Configuration.xcconfig
-      Release: {{cookiecutter.projectName}}/SupportingFiles/Configuration.xcconfig
+      Debug: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Configuration.xcconfig
+      Release: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Configuration.xcconfig
     settings:
       base:
         PRODUCT_NAME: {{cookiecutter.projectName}}
@@ -133,7 +133,7 @@ schemes:
     build:
       preActions:
         - script: |
-            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Dev.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configuration.xcconfig 
+            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Dev.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Configuration.xcconfig 
           settingsTarget: {{cookiecutter.projectName}}
       targets:
         {{cookiecutter.projectName}}: all
@@ -150,7 +150,7 @@ schemes:
     build:
       preActions:
         - script: |
-            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Staging.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configuration.xcconfig 
+            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Staging.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Configuration.xcconfig 
           settingsTarget: {{cookiecutter.projectName}}
       targets:
         {{cookiecutter.projectName}}: all
@@ -167,7 +167,7 @@ schemes:
     build:
       preActions:
         - script: |
-            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Live.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configuration.xcconfig 
+            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Live.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Configuration.xcconfig 
           settingsTarget: {{cookiecutter.projectName}}
       targets:
         {{cookiecutter.projectName}}: all
