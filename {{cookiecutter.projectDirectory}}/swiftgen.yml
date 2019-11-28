@@ -1,0 +1,14 @@
+strings:
+  inputs: {{cookiecutter.projectName}}Kit/SupportingFiles/{{cookiecutter.defaultLanguageCode}}.lproj
+  filter: .+\.strings$
+  outputs:
+    - templateName: structured-swift4
+      output: {{cookiecutter.projectName}}Kit/Code/Strings.swift
+      params:
+        enumName: Strings
+        publicAccess: true
+xcassets:
+ inputs: {{cookiecutter.projectName}}/Assets/Assets.xcassets
+ outputs:
+  templateName: swift4
+  output: {{cookiecutter.projectName}}/Code/Assets.swift

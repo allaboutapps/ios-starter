@@ -1,7 +1,6 @@
 #! /bin/bash
 
-{%- if cookiecutter.googleSheetId != 'NONE' %}
-  echo "Fetching strings"
+{%- if cookiecutter.texterifyProjectId != 'NONE' %}
   ./buildStrings
 {%- endif %}
 
