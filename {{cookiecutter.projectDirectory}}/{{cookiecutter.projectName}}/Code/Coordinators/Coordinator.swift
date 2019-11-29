@@ -39,8 +39,9 @@ class Coordinator: NSObject {
     
     func present(_ coordinator: Coordinator, animated: Bool, completion: (() -> Void)? = nil) {
         let delegate = CoordinatorPresentationDelegate(for: coordinator)
-        delegate.didDismiss = { [weak self] in
-            self?.removeChild(coordinator)
+        delegate.didDismiss = { [weak self, weak coordinator] in
+            guard let self = self, let coordinator = coordinator else { return }
+            self.removeChild(coordinator)
         }
         coordinator.presentationDelegate = delegate
         
@@ -110,7 +111,7 @@ class Coordinator: NSObject {
 
 class CoordinatorPresentationDelegate: NSObject, UIAdaptivePresentationControllerDelegate {
     
-    let coordinator: Coordinator
+    weak var coordinator: Coordinator?
     var previousDelegate: UIAdaptivePresentationControllerDelegate?
     
     var willDismiss: (() -> Void)?
@@ -126,7 +127,7 @@ class CoordinatorPresentationDelegate: NSObject, UIAdaptivePresentationControlle
     }
     
     func resetDelegate() {
-        coordinator.rootViewController.presentationController?.delegate = previousDelegate
+        coordinator?.rootViewController.presentationController?.delegate = previousDelegate
     }
     
     // MARK: UIAdaptivePresentationControllerDelegate
