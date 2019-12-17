@@ -61,7 +61,7 @@ workflows:
         title: Live - Xcode Archive & Export
     - deploy-to-bitrise-io:
         title: Deploy to Bitrise.io
-    - remote-script-runner@2.0.1:
+    - remote-script-runner:
         inputs:
         - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
         title: Push Version Tag
@@ -99,7 +99,7 @@ workflows:
         - bundle_id: "$AAA_APP_BUNDLE_ID_LIVE"
         - team_name: "$AAA_ITUNES_TEAM"
         - itunescon_user: "$AAA_APPLE_ID"
-    - remote-script-runner@2.0.1:
+    - remote-script-runner:
         inputs:
         - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
         title: Push Version Tag
@@ -123,7 +123,7 @@ workflows:
         title: Dev - Xcode Archive & Export
     - deploy-to-bitrise-io:
         title: Deploy to Bitrise.io
-    - remote-script-runner@2.0.1:
+    - remote-script-runner:
         inputs:
         - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
         title: Push Version Tag
