@@ -48,6 +48,8 @@ targets:
     settings:
       base:
         PRODUCT_NAME: {{cookiecutter.projectName}}
+        MARKETING_VERSION: 1.0
+        CURRENT_PROJECT_VERSION: 1
     info:
       path: {{cookiecutter.projectName}}/SupportingFiles/Info.plist
       properties:
@@ -83,8 +85,8 @@ targets:
         name: SwiftLint
       - script: |
           if which /usr/libexec/PlistBuddy >/dev/null; then
-            version=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" "${INFOPLIST_FILE}")
-            build=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" "${INFOPLIST_FILE}")
+            version="$MARKETING_VERSION"
+            build="$CURRENT_PROJECT_VERSION"
             /usr/libexec/PlistBuddy "$SRCROOT/$PRODUCT_NAME/SupportingFiles/Settings.bundle/Root.plist" -c "set PreferenceSpecifiers:2:DefaultValue $version ($build)"
           else
           echo "warning: PlistBuddy not found"

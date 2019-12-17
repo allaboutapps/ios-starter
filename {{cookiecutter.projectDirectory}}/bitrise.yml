@@ -141,6 +141,18 @@ workflows:
         {% raw %}run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'{% endraw %}
     - git-clone: {}
     - cache-pull: {}
+    - brew-install:
+        inputs:
+        - upgrade: 'no'
+        - cache_enabled: 'yes'
+        - packages: mono0926/license-plist/license-plist
+        title: 'Brew install: LicensePlist'
+    - brew-install:
+        inputs:
+        - upgrade: 'no'
+        - cache_enabled: 'yes'
+        - packages: swiftlint
+        title: 'Brew install: SwiftLint'
     - set-xcode-build-number:
         inputs:
         - build_version_offset: ''
