@@ -51,11 +51,10 @@ class Coordinator: NSObject {
     
     func dismissChildCoordinator(animated: Bool, completion: (() -> Void)? = nil) {
         guard let coordinator = childCoordinators.first(where: { $0.rootViewController.presentingViewController != nil }) else { return }
-        let viewController = coordinator.rootViewController
-        
+ 
         print("dismiss coordinator")
         
-        viewController.presentingViewController?.dismiss(animated: animated, completion: { [weak self] in
+        coordinator.rootViewController.presentingViewController?.dismiss(animated: animated, completion: { [weak self] in
             self?.removeChild(coordinator)
             completion?()
         })
@@ -125,11 +124,7 @@ class CoordinatorPresentationDelegate: NSObject, UIAdaptivePresentationControlle
         previousDelegate = coordinator.rootViewController.presentationController?.delegate
         coordinator.rootViewController.presentationController?.delegate = self
     }
-    
-    func resetDelegate() {
-        coordinator?.rootViewController.presentationController?.delegate = previousDelegate
-    }
-    
+
     // MARK: UIAdaptivePresentationControllerDelegate
     
     func presentationControllerWillDismiss(_ presentationController: UIPresentationController) {
@@ -139,19 +134,19 @@ class CoordinatorPresentationDelegate: NSObject, UIAdaptivePresentationControlle
     
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         print("presentationControllerDidDismiss")
-        resetDelegate()
         didDismiss?()
     }
 
     func presentationControllerDidAttemptToDismiss(_ presentationController: UIPresentationController) {
-         print("presentationControllerDidAttemptToDismiss")
+        print("presentationControllerDidAttemptToDismiss")
         didAttemptToDismiss?()
     }
     
     // MARK: Delegate Forwarding
     
     public override func forwardingTarget(for aSelector: Selector!) -> Any? {
-        return previousDelegate
+        //return previousDelegate
+        return nil
     }
     
     public override func responds(to aSelector: Selector!) -> Bool {
@@ -159,6 +154,12 @@ class CoordinatorPresentationDelegate: NSObject, UIAdaptivePresentationControlle
             return true
         }
         
-        return previousDelegate?.responds(to: aSelector) ?? false
+        return false
+        
+        //return previousDelegate?.responds(to: aSelector) ?? false
+    }
+    
+    deinit {
+        print("deinit CoordinatorPresentationDelegate")
     }
 }
