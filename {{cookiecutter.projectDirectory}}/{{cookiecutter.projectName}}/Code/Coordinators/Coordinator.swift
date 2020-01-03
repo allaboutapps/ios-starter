@@ -145,8 +145,7 @@ class CoordinatorPresentationDelegate: NSObject, UIAdaptivePresentationControlle
     // MARK: Delegate Forwarding
     
     public override func forwardingTarget(for aSelector: Selector!) -> Any? {
-        //return previousDelegate
-        return nil
+        return previousDelegate
     }
     
     public override func responds(to aSelector: Selector!) -> Bool {
@@ -154,9 +153,7 @@ class CoordinatorPresentationDelegate: NSObject, UIAdaptivePresentationControlle
             return true
         }
         
-        return false
-        
-        //return previousDelegate?.responds(to: aSelector) ?? false
+        return previousDelegate?.responds(to: aSelector) ?? false
     }
     
     deinit {
