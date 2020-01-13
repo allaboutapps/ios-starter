@@ -18,7 +18,7 @@ brew install swiftgen
 #### Texterify Setup
 
 [Texterify](https://github.com/chrztoph/texterify) is an open source localization management system, which can be hosted on your own server or run locally.
-To integrate Texterify in your project, you need to install the [Texterify CLI]:
+To integrate Texterify in your project, you need to install the [Texterify CLI](https://github.com/chrztoph/texterify-cli):
 
 ```
 npm install -g texterify
