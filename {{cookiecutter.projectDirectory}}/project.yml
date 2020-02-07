@@ -18,7 +18,7 @@ attributes:
 packages:
   AlamofireImage:
     url: https://github.com/Alamofire/AlamofireImage
-    revision: "249c411e512e3017b6b426d099db448289db7eb3"
+    majorVersion: "4.0.0-beta.5"
   Fetch:
     url: https://github.com/allaboutapps/Fetch
     majorVersion: "1.1"
