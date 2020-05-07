@@ -148,7 +148,9 @@ workflows:
         - script_url: https://public.allaboutapps.at/bitrise/kickstart.sh
     - activate-ssh-key:
         {% raw %}run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'{% endraw %}
-    - git-clone: {}
+    - git-clone:
+        inputs:
+        - clone_depth: '1'
     - cache-pull: {}
     - brew-install:
         inputs:
