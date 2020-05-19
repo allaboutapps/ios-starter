@@ -34,6 +34,7 @@ workflows:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"
         - export_method: development
+        - is_clean_build: 'yes'
         - scheme: "$BITRISE_SCHEME_STAGING"
         title: Staging - Xcode Archive & Export
     - script:
@@ -57,6 +58,7 @@ workflows:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"
         - export_method: development
+        - is_clean_build: 'yes'
         - scheme: "$BITRISE_SCHEME_LIVE"
         title: Live - Xcode Archive & Export
     - deploy-to-bitrise-io:
@@ -92,6 +94,7 @@ workflows:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"
         - export_method: app-store
+        - is_clean_build: 'yes'
         - scheme: "$BITRISE_SCHEME_LIVE"
     - deploy-to-itunesconnect-application-loader:
         inputs:
@@ -128,6 +131,7 @@ workflows:
         inputs:
         - project_path: "$BITRISE_PROJECT_PATH"
         - export_method: development
+        - is_clean_build: 'yes'
         - scheme: "$BITRISE_SCHEME_DEV"
         title: Dev - Xcode Archive & Export
     - deploy-to-bitrise-io:
@@ -164,6 +168,7 @@ workflows:
         - cache_enabled: 'yes'
         - packages: swiftlint
         title: 'Brew install: SwiftLint'
+    - cache-push: {}
     - set-xcode-build-number:
         inputs:
         - build_version_offset: ''
@@ -171,7 +176,6 @@ workflows:
         - plist_path: "$AAA_INFO_PLIST_PATH"
   _teardown:
     steps:
-    - cache-push: {}
     - remote-script-runner:
         inputs:
         - script_url: https://public.allaboutapps.at/bitrise/teardown.sh
