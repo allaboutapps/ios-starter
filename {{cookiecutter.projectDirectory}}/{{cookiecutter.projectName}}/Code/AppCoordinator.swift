@@ -1,6 +1,7 @@
 import UIKit
 import {{cookiecutter.projectName}}Kit
 import ReactiveSwift
+import Toolkit
 
 class AppCoordinator: Coordinator {
     
@@ -9,7 +10,7 @@ class AppCoordinator: Coordinator {
     var window: UIWindow!
     let mainCoordinator = MainCoordinator()
     
-    func start(window: UIWindow) {
+    override func start(window: UIWindow) {
         self.window = window
         
         mainCoordinator.start()

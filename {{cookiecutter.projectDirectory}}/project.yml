@@ -34,9 +34,9 @@ packages:
   KeychainAccess:
     url: https://github.com/kishikawakatsumi/KeychainAccess
     majorVersion: "3.2"
-  ReactiveSwift:
-    url: https://github.com/ReactiveCocoa/ReactiveSwift
-    majorVersion: "6.1"
+  ToolBox:
+    url: https://github.com/allboutapps/Toolbox
+    majorVersion: "1.0"
 targets:
   {{cookiecutter.projectName}}:
     type: application
@@ -73,7 +73,6 @@ targets:
       - package: KeychainAccess
       - package: SimpleButton
       - package: StatefulViewController
-      - package: ReactiveSwift
       - package: AlamofireImage
     postCompileScripts:
       - script: |
@@ -130,6 +129,12 @@ targets:
       - package: Fetch
       - package: KeychainAccess
       - package: ReactiveSwift
+      - package: DataSource
+      - package: Fetch
+      - package: SimpleButton
+      - package: StatefulViewController
+      - package: AlamofireImage
+      - package: Toolbox
 schemes:
   {{cookiecutter.projectName}} dev:
     build:

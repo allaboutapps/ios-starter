@@ -1,11 +1,12 @@
 import UIKit
 import {{cookiecutter.projectName}}Kit
+import Toolkit
 
 class MoreCoordinator: NavigationCoordinator {
     
     var onDone: (() -> Void)?
     
-    func start() {
+    override func start() {
         let viewController = MoreViewController.create()
         
         if onDone != nil {

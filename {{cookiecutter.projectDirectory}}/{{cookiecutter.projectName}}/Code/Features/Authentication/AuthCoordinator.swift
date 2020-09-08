@@ -1,10 +1,11 @@
 import UIKit
+import Toolkit
 
 class AuthCoordinator: NavigationCoordinator {
     
     var onLogin: (() -> Void)?
     
-    func start() {
+    override func start() {
         let viewController = LoginViewController.create()
         viewController.onLogin = onLogin
 

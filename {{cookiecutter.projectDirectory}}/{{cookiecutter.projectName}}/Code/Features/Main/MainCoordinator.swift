@@ -1,8 +1,9 @@
 import UIKit
+import Toolkit
 
 class MainCoordinator: NavigationCoordinator {
     
-    func start() {
+    override func start() {
         let viewModel = {{cookiecutter.projectName}}ViewModel(title: "Main")
         let viewController = create{{cookiecutter.projectName}}ViewController(viewModel: viewModel)
         

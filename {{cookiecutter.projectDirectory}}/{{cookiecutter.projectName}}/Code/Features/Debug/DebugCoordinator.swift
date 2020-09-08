@@ -1,11 +1,12 @@
 import UIKit
 import {{cookiecutter.projectName}}Kit
+import Toolkit
 
 class DebugCoordinator: NavigationCoordinator {
     
     var onDismiss: (() -> Void)?
     
-    func start() {
+    override func start() {
         push()
     }
     
