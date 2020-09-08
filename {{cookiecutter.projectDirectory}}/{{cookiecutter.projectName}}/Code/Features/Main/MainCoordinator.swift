@@ -18,7 +18,7 @@ class MainCoordinator: NavigationCoordinator {
     }
     
     private func create{{cookiecutter.projectName}}ViewController(viewModel: {{cookiecutter.projectName}}ViewModel) -> {{cookiecutter.projectName}}ViewController {
-        let viewController = {{cookiecutter.projectName}}ViewController.createWith(storyboard: .main, viewModel: viewModel)
+        let viewController = {{cookiecutter.projectName}}ViewController.createWith(viewModel: viewModel)
         
         viewController.onNext = { [unowned self] in
             self.showNext(title: viewModel.title)

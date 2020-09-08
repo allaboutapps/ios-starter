@@ -1,15 +1,15 @@
-import Foundation
+import UIKit
 import Toolkit
 
 class {{cookiecutter.projectName}}TabBarCoordinator: TabBarCoordinator {
 
-    enum Tab: CaseIterable {
-        case coordinator1
+    enum Tab: Int, CaseIterable {
+        case coordinator1 = 0
         case coordinator2
         case coordinator3
     }
 
-    private let cooridnators: [Coordinator] 
+    private let coordinators: [Coordinator] 
 
     override init(tabBarController: UITabBarController = UITabBarController()) {
         cooridnators = Tab.allCases.map { $0.coordinator }
@@ -18,7 +18,7 @@ class {{cookiecutter.projectName}}TabBarCoordinator: TabBarCoordinator {
     
     override func start() {
         coordinators.forEach { $0.start() }
-        coordinators.viewControllers = coordinators.map { $0.rootViewController }
+        tabBarController.viewControllers = coordinators.map { $0.rootViewController }
     }
 
     func setTab(_ tab: Tab) { 
@@ -26,13 +26,12 @@ class {{cookiecutter.projectName}}TabBarCoordinator: TabBarCoordinator {
     }
 }
 
-private extension MainCoordinator.Tab {
-
-    var coordinator: Coordinator { 
+private extension {{cookiecutter.projectName}}TabBarCoordinator.Tab {
+    var coordinator: Coordinator {
         switch self {
-        case coordinator1: Coordinator1()
-        case coordinator2: Coordinator2()
-        case coordinator3: coordinator3()
+        case .coordinator1: return DebugCoordinator()
+        case .coordinator2: return MoreCoordinator()
+        case .coordinator3: return MainCoordinator()
         }
     }
 }
