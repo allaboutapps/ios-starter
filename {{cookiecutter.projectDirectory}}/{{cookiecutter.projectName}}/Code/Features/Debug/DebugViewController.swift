@@ -119,13 +119,7 @@ class DebugViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .white
         
-        view.addSubview(pushViewControllerButton)
-        view.addSubview(popViewControllerButton)
-        view.addSubview(presentCoordinatorButton)
-        view.addSubview(dismissCoordinatorButton)
-        view.addSubview(pushCoordinatorButton)
-        view.addSubview(dismissCoordinatorButton)
-        view.addSubview(logoutButton)
+        view.add(pushViewControllerButton, popViewControllerButton, presentCoordinatorButton, dismissCoordinatorButton, pushCoordinatorButton, logoutButton)
     }
     
     private func setupConstraints() {
