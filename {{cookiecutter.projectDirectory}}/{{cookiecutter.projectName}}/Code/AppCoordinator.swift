@@ -1,6 +1,5 @@
 import UIKit
 import {{cookiecutter.projectName}}Kit
-import ReactiveSwift
 import Toolkit
 
 class AppCoordinator: Coordinator {
