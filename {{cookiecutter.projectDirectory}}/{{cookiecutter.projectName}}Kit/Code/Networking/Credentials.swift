@@ -1,6 +1,5 @@
 import Foundation
 import KeychainAccess
-import ReactiveSwift
 import Fetch
 
 public class CredentialsController {
@@ -38,7 +37,7 @@ public class CredentialsController {
                 cachedCredentials = nil
                 _ = try? keychain.remove(credentialStorageKey)
             }
-            currentCredentialsChangedSignalObserver.input.send(value: ())
+            //currentCredentialsChangedSignalObserver.input.send(value: ())
         }
     }
     

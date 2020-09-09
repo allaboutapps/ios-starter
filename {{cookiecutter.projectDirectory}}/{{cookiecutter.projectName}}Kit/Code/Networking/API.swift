@@ -20,23 +20,23 @@ public class API {
             return Resource(
                 method: .post,
                 path: "/api/v1/auth/login",
-                body: [
+                body: .encodable([
                     "grantType": "password",
                     "scope": "user",
                     "username": username,
                     "password": password
-                ])
+                ]))
         }
         
         public static func tokenRefresh(_ refreshToken: String) -> Resource<Credentials> {
             return Resource(
                 method: .post,
                 path: "/api/v1/auth/refresh",
-                body: [
+                body: .encodable([
                     "grantType": "refreshToken",
                     "scope": "user",
                     "refreshToken": refreshToken
-                ])
+                ]))
         }
     }
     

@@ -18,10 +18,10 @@ attributes:
 packages:
   AlamofireImage:
     url: https://github.com/Alamofire/AlamofireImage
-    majorVersion: "4.0.0-beta.5"
+    majorVersion: "4.0"
   Fetch:
     url: https://github.com/allaboutapps/Fetch
-    majorVersion: "1.1"
+    majorVersion: "2.2"
   SimpleButton:
     url: https://github.com/allaboutapps/SimpleButton
     majorVersion: "5.0"
@@ -68,12 +68,6 @@ targets:
       - {{cookiecutter.projectName}}
     dependencies:
       - target: {{cookiecutter.projectName}}Kit
-      - package: DataSource
-      - package: Fetch
-      - package: KeychainAccess
-      - package: SimpleButton
-      - package: StatefulViewController
-      - package: AlamofireImage
     postCompileScripts:
       - script: |
           if which swiftlint >/dev/null; then
@@ -126,9 +120,7 @@ targets:
     sources: 
       - {{cookiecutter.projectName}}Kit
     dependencies:
-      - package: Fetch
       - package: KeychainAccess
-      - package: ReactiveSwift
       - package: DataSource
       - package: Fetch
       - package: SimpleButton
