@@ -1,8 +1,9 @@
 import UIKit
+import Toolbox
 
 class MainCoordinator: NavigationCoordinator {
     
-    func start() {
+    override func start() {
         let viewModel = {{cookiecutter.projectName}}ViewModel(title: "Main")
         let viewController = create{{cookiecutter.projectName}}ViewController(viewModel: viewModel)
         
@@ -17,7 +18,7 @@ class MainCoordinator: NavigationCoordinator {
     }
     
     private func create{{cookiecutter.projectName}}ViewController(viewModel: {{cookiecutter.projectName}}ViewModel) -> {{cookiecutter.projectName}}ViewController {
-        let viewController = {{cookiecutter.projectName}}ViewController.createWith(storyboard: .main, viewModel: viewModel)
+        let viewController = {{cookiecutter.projectName}}ViewController.createWith(viewModel: viewModel)
         
         viewController.onNext = { [unowned self] in
             self.showNext(title: viewModel.title)

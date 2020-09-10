@@ -1,10 +1,9 @@
+import Combine
+import Fetch
 import Foundation
 import KeychainAccess
-import ReactiveSwift
-import Fetch
 
 public class CredentialsController {
-    
     private init() {}
     public static let shared = CredentialsController()
     
@@ -12,13 +11,10 @@ public class CredentialsController {
     private let credentialStorageKey = Config.Keychain.credentialStorageKey
     private var cachedCredentials: Credentials?
     
-    private var currentCredentialsChangedSignalObserver = Signal<(), Never>.pipe()
-    public var currentCredentialsChangedSignal: Signal<(), Never> {
-        return currentCredentialsChangedSignalObserver.output
-    }
-    
     private let jsonDecoder = JSONDecoder()
     private let jsonEncoder = JSONEncoder()
+    
+    @Published public var currentCredentialsChanged: Bool = false
     
     public var currentCredentials: Credentials? {
         get {
@@ -38,7 +34,7 @@ public class CredentialsController {
                 cachedCredentials = nil
                 _ = try? keychain.remove(credentialStorageKey)
             }
-            currentCredentialsChangedSignalObserver.input.send(value: ())
+            currentCredentialsChanged = true
         }
     }
     
@@ -51,7 +47,6 @@ public class CredentialsController {
             UserDefaults.standard.set(Date(), forKey: "installationDate")
         }
     }
-    
 }
 
 public struct Credentials: Codable {

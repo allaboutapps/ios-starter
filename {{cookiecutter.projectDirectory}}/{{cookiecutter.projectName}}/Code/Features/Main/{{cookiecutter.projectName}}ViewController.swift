@@ -1,50 +1,117 @@
 import UIKit
+import Toolbox
 
 class {{cookiecutter.projectName}}ViewController: UIViewController {
 
-    var onMore: (() -> Void)?
-    var onNext: (() -> Void)?
-    var onDebug: (() -> Void)?
-    var onTabBar: (() -> Void)?
+    // MARK: Private Properties
+
+    private lazy var nextButton = UIButton().with {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("Next", for: .normal)
+        $0.setTitleColor(.systemBlue, for: .normal)
+        $0.addTarget(self, action: #selector(handleNextButton), for: .touchUpInside)
+    }
     
-    var viewModel: {{cookiecutter.projectName}}ViewModel!
+    private lazy var debugCoordinatorButton = UIButton().with {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("Debug Coordinator", for: .normal)
+        $0.setTitleColor(.systemBlue, for: .normal)
+        $0.addTarget(self, action: #selector(handleDebugCoordinatorButton), for: .touchUpInside)
+    }
+    
+    private lazy var tabBarCoordinatorButton = UIButton().with {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.setTitle("TabBar Coordinator", for: .normal)
+        $0.setTitleColor(.systemBlue, for: .normal)
+        $0.addTarget(self, action: #selector(handleTabBarCoordinatorButton), for: .touchUpInside)
+    }
+
+    private var viewModel: {{cookiecutter.projectName}}ViewModel!
+
+    // MARK: Public Properties
+
+    public var onMore: VoidClosure?
+    public var onNext: VoidClosure?
+    public var onDebug: VoidClosure?
+    public var onTabBar: VoidClosure?
     
     // MARK: Setup
     
-    static func createWith(storyboard: Storyboard, viewModel: {{cookiecutter.projectName}}ViewModel) -> Self {
-        let vc = UIStoryboard(storyboard).instantiateViewController(self)
-        vc.viewModel = viewModel
-        return vc
+    static func createWith(viewModel: {{cookiecutter.projectName}}ViewModel) -> {{cookiecutter.projectName}}ViewController {
+        let viewController = {{cookiecutter.projectName}}ViewController()
+        viewController.viewModel = viewModel
+        return viewController
     }
     
-    // MARK: UIViewController
+    // MARK: Override
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.title = viewModel.title
+        setupUI()
+        setupConstraints()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.setupNavigationBar()
+    }
+
+    // MARK: Init
+
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: Actions
     
-    @IBAction func showMore(_ sender: Any) {
+   @objc private func handleMoreButton() {
         self.onMore?()
     }
     
-    @IBAction func next(_ sender: Any) {
+    @objc private func handleNextButton() {
         self.onNext?()
     }
     
-    @IBAction func debug(_ sender: Any) {
+    @objc private func handleDebugCoordinatorButton() {
         self.onDebug?()
     }
     
-    @IBAction func tabBar(_ sender: Any) {
+    @objc private func handleTabBarCoordinatorButton() {
         self.onTabBar?()
     }
 
     deinit {
         print("deinit view controller: \(self)")
     }
+
+     // MARK: Layout
     
+    private func setupNavigationBar() {
+        let moreButton = UIBarButtonItem(title: "More", style: .plain, target: self, action: #selector(self.handleMoreButton))
+        navigationItem.rightBarButtonItem = moreButton
+    }
+    
+    private func setupUI() {
+        self.title = self.viewModel.title
+        view.backgroundColor = .white
+        
+        view.add(nextButton, debugCoordinatorButton, tabBarCoordinatorButton)
+    }
+    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            nextButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            nextButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: Style.Padding.triple * 4),
+            
+            debugCoordinatorButton.centerXAnchor.constraint(equalTo: nextButton.centerXAnchor),
+            debugCoordinatorButton.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: Style.Padding.triple),
+            
+            tabBarCoordinatorButton.centerXAnchor.constraint(equalTo: nextButton.centerXAnchor),
+            tabBarCoordinatorButton.topAnchor.constraint(equalTo: debugCoordinatorButton.bottomAnchor, constant: Style.Padding.triple)
+        ])
+    }
 }

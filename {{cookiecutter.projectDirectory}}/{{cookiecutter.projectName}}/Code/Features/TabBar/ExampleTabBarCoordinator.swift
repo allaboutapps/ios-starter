@@ -1,21 +1,37 @@
-import Foundation
+import UIKit
+import Toolbox
 
 class {{cookiecutter.projectName}}TabBarCoordinator: TabBarCoordinator {
-    
-    let coordinator1 = DebugCoordinator()
-    let coordinator2 = DebugCoordinator()
-    let coordinator3 = DebugCoordinator()
-    
-    func start() {
-        coordinator1.start()
-        coordinator2.start()
-        coordinator3.start()
-        
-        addChild(coordinator1)
-        addChild(coordinator2)
-        addChild(coordinator3)
-        
-        tabBarController.viewControllers = [coordinator1.rootViewController, coordinator2.rootViewController, coordinator3.rootViewController]
+
+    enum Tab: Int, CaseIterable {
+        case coordinator1 = 0
+        case coordinator2
+        case coordinator3
+    }
+
+    private let coordinators: [Coordinator] 
+
+    override init(tabBarController: UITabBarController = UITabBarController()) {
+        coordinators = Tab.allCases.map { $0.coordinator }
+        super.init(tabBarController: tabBarController)
     }
     
+    override func start() {
+        coordinators.forEach { $0.start() }
+        tabBarController.viewControllers = coordinators.map { $0.rootViewController }
+    }
+
+    func setTab(_ tab: Tab) { 
+        tabBarController.selectedIndex = tab.rawValue
+    }
+}
+
+private extension {{cookiecutter.projectName}}TabBarCoordinator.Tab {
+    var coordinator: Coordinator {
+        switch self {
+        case .coordinator1: return DebugCoordinator()
+        case .coordinator2: return MoreCoordinator()
+        case .coordinator3: return MainCoordinator()
+        }
+    }
 }

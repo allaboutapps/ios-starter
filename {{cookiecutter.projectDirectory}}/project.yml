@@ -34,9 +34,9 @@ packages:
   KeychainAccess:
     url: https://github.com/kishikawakatsumi/KeychainAccess
     majorVersion: "3.2"
-  ReactiveSwift:
-    url: https://github.com/ReactiveCocoa/ReactiveSwift
-    majorVersion: "6.1"
+  Toolbox:
+    url: https://github.com/allaboutapps/Toolbox
+    majorVersion: "1.0.0"
 targets:
   {{cookiecutter.projectName}}:
     type: application
@@ -68,6 +68,7 @@ targets:
       - {{cookiecutter.projectName}}
     dependencies:
       - target: {{cookiecutter.projectName}}Kit
+      - package: Toolbox
     postCompileScripts:
       - script: |
           if which swiftlint >/dev/null; then
@@ -121,7 +122,6 @@ targets:
       - {{cookiecutter.projectName}}Kit
     dependencies:
       - package: KeychainAccess
-      - package: ReactiveSwift
       - package: DataSource
       - package: Fetch
       - package: SimpleButton
