@@ -1,5 +1,5 @@
 import UIKit
-import Toolkit
+import Toolbox
 
 class {{cookiecutter.projectName}}ViewController: UIViewController {
 
@@ -65,7 +65,6 @@ class {{cookiecutter.projectName}}ViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
     
     // MARK: Actions
     

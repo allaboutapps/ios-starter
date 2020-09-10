@@ -1,5 +1,5 @@
 import UIKit
-import Toolkit
+import Toolbox
 
 class {{cookiecutter.projectName}}TabBarCoordinator: TabBarCoordinator {
 
@@ -12,13 +12,13 @@ class {{cookiecutter.projectName}}TabBarCoordinator: TabBarCoordinator {
     private let coordinators: [Coordinator] 
 
     override init(tabBarController: UITabBarController = UITabBarController()) {
-        cooridnators = Tab.allCases.map { $0.coordinator }
-        super.init(tabBarController: tabBarController) 
+        coordinators = Tab.allCases.map { $0.coordinator }
+        super.init(tabBarController: tabBarController)
     }
     
     override func start() {
         coordinators.forEach { $0.start() }
-        tabBarController.viewControllers = coordinators.map { $0.rootViewController }
+        tabBarController.viewControllers = coordinators.map { $0.rootViewController }
     }
 
     func setTab(_ tab: Tab) { 

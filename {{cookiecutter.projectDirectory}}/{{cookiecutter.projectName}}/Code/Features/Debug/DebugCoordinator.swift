@@ -1,6 +1,6 @@
 import UIKit
 import {{cookiecutter.projectName}}Kit
-import Toolkit
+import Toolbox
 
 class DebugCoordinator: NavigationCoordinator {
     
@@ -55,10 +55,6 @@ class DebugCoordinator: NavigationCoordinator {
         
         viewController.onDismiss = { [unowned self] in
             self.onDismiss?()
-        }
-        
-        viewController.onDebug = { [unowned self] in
-            self.printRootDebugStructure()
         }
         
         viewController.onLogout = {

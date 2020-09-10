@@ -1,6 +1,6 @@
 import UIKit
 import {{cookiecutter.projectName}}Kit
-import Toolkit
+import Toolbox
 
 class MoreCoordinator: NavigationCoordinator {
     

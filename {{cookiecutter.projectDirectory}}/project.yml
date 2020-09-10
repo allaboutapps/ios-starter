@@ -34,9 +34,9 @@ packages:
   KeychainAccess:
     url: https://github.com/kishikawakatsumi/KeychainAccess
     majorVersion: "3.2"
-  ToolBox:
-    url: https://github.com/allboutapps/Toolbox
-    majorVersion: "1.0"
+  Toolbox:
+    url: https://github.com/allaboutapps/Toolbox
+    majorVersion: "1.0.0"
 targets:
   {{cookiecutter.projectName}}:
     type: application
@@ -68,6 +68,7 @@ targets:
       - {{cookiecutter.projectName}}
     dependencies:
       - target: {{cookiecutter.projectName}}Kit
+      - package: Toolbox
     postCompileScripts:
       - script: |
           if which swiftlint >/dev/null; then
@@ -126,7 +127,6 @@ targets:
       - package: SimpleButton
       - package: StatefulViewController
       - package: AlamofireImage
-      - package: Toolbox
 schemes:
   {{cookiecutter.projectName}} dev:
     build:

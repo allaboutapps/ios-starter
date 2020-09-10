@@ -1,20 +1,22 @@
-import UIKit
 import {{cookiecutter.projectName}}Kit
-import Toolkit
+import Combine
+import Toolbox
+import UIKit
 
 class AppCoordinator: Coordinator {
+    private var cancellable = Set<AnyCancellable>()
     
     static let shared = AppCoordinator()
     
     var window: UIWindow!
     let mainCoordinator = MainCoordinator()
     
-    override func start(window: UIWindow) {
+    func start(window: UIWindow) {
         self.window = window
         
         mainCoordinator.start()
         addChild(mainCoordinator)
-       
+        
         window.rootViewController = mainCoordinator.rootViewController
         window.makeKeyAndVisible()
         
@@ -22,10 +24,13 @@ class AppCoordinator: Coordinator {
         
         checkCredentials(animated: false)
         
-        CredentialsController.shared.currentCredentialsChangedSignal.ignoreError().observeValues { [weak self] in
-            self?.checkCredentials()
-        }
-        
+        CredentialsController.shared.$currentCredentialsChanged
+            .sink { [weak self] isChanged in
+                if isChanged {
+                    self?.checkCredentials()
+                }
+            }
+            .store(in: &cancellable)
     }
     
     func checkCredentials(animated: Bool = true) {
@@ -52,9 +57,8 @@ class AppCoordinator: Coordinator {
         }
         
         coordinator.start()
-
+        
         addChild(coordinator)
         window.topViewController()?.present(coordinator.rootViewController, animated: animated, completion: nil)
     }
-    
 }

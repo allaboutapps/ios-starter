@@ -1,5 +1,5 @@
 import UIKit
-import Toolkit
+import Toolbox
 
 class AuthCoordinator: NavigationCoordinator {
     
