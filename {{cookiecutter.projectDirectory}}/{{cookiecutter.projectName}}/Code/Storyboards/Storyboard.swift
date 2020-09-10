@@ -4,10 +4,6 @@ import UIKit
 
 enum Storyboard: String {
     case launchScreen = "LaunchScreen"
-    case auth = "Auth"
-    case main = "Main"
-    case more = "More"
-    case debug = "Debug"
     /// ... your storyboard names
 }
 

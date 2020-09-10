@@ -1,11 +1,12 @@
 import UIKit
 import {{cookiecutter.projectName}}Kit
+import Toolbox
 
 class DebugCoordinator: NavigationCoordinator {
     
     var onDismiss: (() -> Void)?
     
-    func start() {
+    override func start() {
         push()
     }
     
@@ -54,10 +55,6 @@ class DebugCoordinator: NavigationCoordinator {
         
         viewController.onDismiss = { [unowned self] in
             self.onDismiss?()
-        }
-        
-        viewController.onDebug = { [unowned self] in
-            self.printRootDebugStructure()
         }
         
         viewController.onLogout = {
