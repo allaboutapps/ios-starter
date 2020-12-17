@@ -99,7 +99,7 @@ class {{cookiecutter.projectName}}ViewController: UIViewController {
         self.title = self.viewModel.title
         view.backgroundColor = .white
         
-        view.add(nextButton, debugCoordinatorButton, tabBarCoordinatorButton)
+        view.addSubviews(nextButton, debugCoordinatorButton, tabBarCoordinatorButton)
     }
     
     private func setupConstraints() {
