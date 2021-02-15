@@ -98,8 +98,7 @@ workflows:
         - scheme: "$BITRISE_SCHEME_LIVE"
     - deploy-to-itunesconnect-application-loader:
         inputs:
-        - password: "$AAA_APPLE_PW"
-        - itunescon_user: "$AAA_APPLE_ID"
+        - app_password: "$AAA_APP_SPECIFIC_PW"
     - remote-script-runner:
         inputs:
         - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
