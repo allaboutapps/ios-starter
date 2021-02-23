@@ -3,7 +3,11 @@ import Toolbox
 
 class AuthCoordinator: NavigationCoordinator {
     
-    public var onLogin: VoidClosure?
+    // MARK: Interface
+    
+    var onLogin: (() -> Void)?
+    
+    // MARK: Start
     
     override func start() {
         let viewController = LoginViewController.create()
