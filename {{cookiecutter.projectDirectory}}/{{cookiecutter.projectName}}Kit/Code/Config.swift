@@ -3,6 +3,7 @@ import Fetch
 
 /// Global set of configuration values for this application.
 public struct Config {
+    
     static let keyPrefix = "at.allaboutapps"
 
     // MARK: API
@@ -36,7 +37,6 @@ public struct Config {
     // MARK: Cache
     
     public struct Cache {
-        
         static let defaultExpiration: Expiration = .seconds(5 * 60.0)
     }
 

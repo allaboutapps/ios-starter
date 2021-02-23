@@ -33,7 +33,7 @@ packages:
     majorVersion: "8.0"
   KeychainAccess:
     url: https://github.com/kishikawakatsumi/KeychainAccess
-    majorVersion: "3.2"
+    majorVersion: "4.2"
   Toolbox:
     url: https://github.com/allaboutapps/Toolbox
     majorVersion: "1.0.0"

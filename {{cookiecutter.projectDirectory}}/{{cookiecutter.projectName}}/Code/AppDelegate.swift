@@ -18,25 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         AppCoordinator.shared.start(window: window!)
         
-        testRequest()
-        
         return true
-    }
-    
-    func testRequest() {
-        API.Examples.get()
-            .requestModel()
-            .sink(receiveCompletion: { completion in
-                switch completion {
-                case .failure(let error):
-                    print(error.localizedDescription)
-                case .finished:
-                    break
-                }
-            }, receiveValue: { response in
-                print(response)
-            })
-            .store(in: &cancellable)
     }
     
     func applicationWillResignActive(_: UIApplication) {}

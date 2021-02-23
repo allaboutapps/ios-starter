@@ -52,8 +52,8 @@ class AppCoordinator: Coordinator {
     private func presentLogin(animated: Bool) {
         let coordinator = AuthCoordinator()
         
-        coordinator.onLogin = { [unowned self] in
-            self.reset(animated: true)
+        coordinator.onLogin = { [weak self] in
+            self?.reset(animated: true)
         }
         
         coordinator.start()
