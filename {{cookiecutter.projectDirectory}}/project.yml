@@ -56,6 +56,7 @@ targets:
         CFBundleDisplayName: {{cookiecutter.projectName}}$(SERVER_ENVIRONMENT_SUFFIX)
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         UILaunchStoryboardName: LaunchScreen
