@@ -30,8 +30,11 @@ public struct Environment: Equatable {
             fatalError("Info.plist does not contain the key _ServerEnvironment. Add this key with value $(SERVER_ENVIRONMENT)")
         }
         
+        let split = configurationString.components(separatedBy: "-")
+        
         guard
-            let buildConfig = BuildConfig(rawValue: configurationString.lowercased()),
+            split.count == 2,
+            let buildConfig = BuildConfig(rawValue: split[0].lowercased()),
             let serverEnvironment = ServerEnvironment(rawValue: serverEnvironmentString.lowercased()) else {
             fatalError("Invalid build configuration")
         }
