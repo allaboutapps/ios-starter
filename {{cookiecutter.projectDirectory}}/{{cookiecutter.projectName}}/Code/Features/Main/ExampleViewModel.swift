@@ -1,6 +1,6 @@
 import Foundation
 
-class {{cookiecutter.projectName}}ViewModel {
+class ExampleViewModel {
     
     let title: String
     

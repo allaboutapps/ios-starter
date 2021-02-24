@@ -1,7 +1,7 @@
 import UIKit
 import Toolbox
 
-class {{cookiecutter.projectName}}ViewController: UIViewController {
+class ExampleViewController: UIViewController {
     
     // MARK: Interface
     
@@ -9,8 +9,8 @@ class {{cookiecutter.projectName}}ViewController: UIViewController {
     var onLogout: (() -> Void)!
     var onPopover: (() -> Void)?
     
-    static func create(with viewModel: {{cookiecutter.projectName}}ViewModel) -> {{cookiecutter.projectName}}ViewController {
-        let viewController = {{cookiecutter.projectName}}ViewController()
+    static func create(with viewModel: ExampleViewModel) -> ExampleViewController {
+        let viewController = ExampleViewController()
         viewController.viewModel = viewModel
         return viewController
     }
@@ -26,7 +26,7 @@ class {{cookiecutter.projectName}}ViewController: UIViewController {
 
     // MARK: Private
     
-    private var viewModel: {{cookiecutter.projectName}}ViewModel!
+    private var viewModel: ExampleViewModel!
     
     // MARK: Lifecycle
     
