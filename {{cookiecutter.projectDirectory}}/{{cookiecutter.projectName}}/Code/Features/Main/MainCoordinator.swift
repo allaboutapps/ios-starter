@@ -28,7 +28,7 @@ class MainCoordinator: NavigationCoordinator {
         }
         
         viewController.onPopover = { [weak self] in
-            self?.presentPopover()
+            self?.presentExampleScreen()
         }
         
         return viewController
@@ -45,7 +45,7 @@ class MainCoordinator: NavigationCoordinator {
     
     // MARK: Present
     
-    private func presentPopover() {
+    private func presentExampleScreen() {
         let viewController = UIHostingController(rootView: ExampleScreen())
         
         viewController.rootView.onDismiss = { [weak self] in

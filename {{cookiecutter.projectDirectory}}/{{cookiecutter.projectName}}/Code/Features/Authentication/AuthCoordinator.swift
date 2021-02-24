@@ -6,6 +6,14 @@ class AuthCoordinator: NavigationCoordinator {
     // MARK: Interface
     
     var onLogin: (() -> Void)?
+
+    // MARK: - Init
+    
+    override init(navigationController: UINavigationController = UINavigationController()) {
+        super.init(navigationController: navigationController)
+        
+        navigationController.isModalInPresentation = true
+    }
     
     // MARK: Start
     
