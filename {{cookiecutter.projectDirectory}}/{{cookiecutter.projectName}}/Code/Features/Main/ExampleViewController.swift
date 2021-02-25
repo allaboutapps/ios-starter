@@ -1,5 +1,6 @@
 import UIKit
 import Toolbox
+import Logbook
 
 class ExampleViewController: UIViewController {
     
@@ -78,6 +79,6 @@ class ExampleViewController: UIViewController {
     // MARK: - Deinit
     
     deinit {
-        print("deinit view controller: \(self)")
+        Logbook.debug("deinit view controller: \(self)")
     }
 }

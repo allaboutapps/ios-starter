@@ -1,6 +1,7 @@
 import UIKit
 import {{cookiecutter.projectName}}Kit
 import Toolbox
+import Logbook
 
 class LoginViewController: UIViewController {
     
@@ -61,6 +62,6 @@ class LoginViewController: UIViewController {
     // MARK: - Deinit
     
     deinit {
-        print("deinit view controller: \(self)")
+        Logbook.debug("deinit view controller: \(self)")
     }
 }

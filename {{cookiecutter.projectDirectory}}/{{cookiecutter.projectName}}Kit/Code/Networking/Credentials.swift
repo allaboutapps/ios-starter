@@ -2,6 +2,7 @@ import Combine
 import Fetch
 import Foundation
 import KeychainAccess
+import Logbook
 
 public class CredentialsController {
     private init() {}
@@ -40,9 +41,9 @@ public class CredentialsController {
     
     public func resetOnNewInstallations() {
         if let installationDate = UserDefaults.standard.value(forKey: "installationDate") as? Date {
-            print("existing installation, app installed: \(installationDate)")
+            Logbook.debug("existing installation, app installed: \(installationDate)")
         } else {
-            print("new installation, resetting credentials in keychain")
+            Logbook.debug("new installation, resetting credentials in keychain")
             currentCredentials = nil
             UserDefaults.standard.set(Date(), forKey: "installationDate")
         }

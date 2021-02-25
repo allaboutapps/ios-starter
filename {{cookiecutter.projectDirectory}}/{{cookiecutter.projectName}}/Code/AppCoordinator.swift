@@ -34,7 +34,8 @@ class AppCoordinator: Coordinator {
     }
     
     func checkCredentials(animated: Bool = true) {
-        if CredentialsController.shared.currentCredentials == nil { // not logged in
+        if CredentialsController.shared.currentCredentials == nil {
+            // not logged in
             presentLogin(animated: animated)
         }
     }

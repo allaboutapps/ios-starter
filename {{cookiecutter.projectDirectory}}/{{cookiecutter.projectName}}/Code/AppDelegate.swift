@@ -2,14 +2,17 @@ import {{cookiecutter.projectName}}Kit
 import Combine
 import Fetch
 import UIKit
+import Logbook
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    private var cancellable = Set<AnyCancellable>()
     
     var window: UIWindow?
     
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        setupLogging()
+        Logbook.info(Environment.current.appInfo)
+
         Appearance.setup()
         API.setup()
         

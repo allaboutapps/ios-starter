@@ -49,6 +49,9 @@ packages:
   Toolbox:
     url: https://github.com/allaboutapps/Toolbox
     majorVersion: "1.0.0"
+  Logbook:
+    url: https://github.com/allaboutapps/Logbook
+    majorVersion: "1.1.0"
 targets:
   {{cookiecutter.projectName}}:
     type: application
@@ -144,6 +147,7 @@ targets:
       - package: SimpleButton
       - package: StatefulViewController
       - package: AlamofireImage
+      - package: Logbook
 schemes:
   {{cookiecutter.projectName}} Dev:
     build:
