@@ -1,7 +1,6 @@
 # iOS Starter 📱
 
-Xcode 11 with Swift Package Manager dependencies.
-For Xcode 10 and Carthage, check out the `xcode10` branch.
+Xcode 12 with Swift Package Manager dependencies.
 
 `cookiecutter gh:allaboutapps/ios-starter`
 
