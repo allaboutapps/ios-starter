@@ -27,7 +27,7 @@ public enum Formatters {
             return formatter
         }()
 
-        public static let defaultDateFormatter: DateFormatter = {
+        public static let dateMedium: DateFormatter = {
             let formatter = DateFormatter()
             formatter.locale = Locale.autoupdatingCurrent
             formatter.dateStyle = .medium

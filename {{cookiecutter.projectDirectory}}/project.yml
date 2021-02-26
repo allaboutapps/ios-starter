@@ -48,7 +48,7 @@ packages:
     majorVersion: "4.2"
   Toolbox:
     url: https://github.com/allaboutapps/Toolbox
-    majorVersion: "1.0.0"
+    majorVersion: "1.0.6"
   Logbook:
     url: https://github.com/allaboutapps/Logbook
     majorVersion: "1.1.0"

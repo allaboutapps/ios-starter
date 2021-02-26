@@ -1,6 +1,5 @@
 import UIKit
 import Toolbox
-import Logbook
 
 class ExampleViewController: UIViewController {
     
@@ -65,20 +64,20 @@ class ExampleViewController: UIViewController {
     // MARK: Actions
 
     @objc private func handleNextButton() {
-        self.onNext()
+        onNext()
     }
     
     @objc private func handleLogoutButton() {
-        self.onLogout()
+        onLogout()
     }
     
     @objc private func handlePopoverButton() {
-        self.onPopover?()
+        onPopover?()
     }
     
-    // MARK: - Deinit
+    // MARK: Deinit
     
     deinit {
-        Logbook.debug("deinit view controller: \(self)")
+        log.debug("deinit view controller: \(self)")
     }
 }

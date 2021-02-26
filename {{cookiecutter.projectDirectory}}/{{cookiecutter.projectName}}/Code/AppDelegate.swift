@@ -2,7 +2,6 @@ import {{cookiecutter.projectName}}Kit
 import Combine
 import Fetch
 import UIKit
-import Logbook
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -10,8 +9,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        setupLogging()
-        Logbook.info(Environment.current.appInfo)
+        setupLogging(for: Environment.current)
+        log.info(Environment.current.appInfo)
 
         Appearance.setup()
         API.setup()
