@@ -1,76 +1,57 @@
 import UIKit
 import Toolbox
+import {{cookiecutter.projectName}}Kit
+import SwiftUI
 
 class MainCoordinator: NavigationCoordinator {
     
+    // MARK: Start
+    
     override func start() {
-        let viewModel = {{cookiecutter.projectName}}ViewModel(title: "Main")
-        let viewController = create{{cookiecutter.projectName}}ViewController(viewModel: viewModel)
+        let viewModel = ExampleViewModel(title: "Main")
+        let viewController = createExampleViewController(viewModel: viewModel)
         
         push(viewController, animated: true)
     }
     
-    private func showNext(title: String) {
-        let viewModel = {{cookiecutter.projectName}}ViewModel(title: title + ".Push")
-        let viewController = create{{cookiecutter.projectName}}ViewController(viewModel: viewModel)
-        
-        push(viewController, animated: true)
-    }
+    // MARK: Create
     
-    private func create{{cookiecutter.projectName}}ViewController(viewModel: {{cookiecutter.projectName}}ViewModel) -> {{cookiecutter.projectName}}ViewController {
-        let viewController = {{cookiecutter.projectName}}ViewController.createWith(viewModel: viewModel)
+    private func createExampleViewController(viewModel: ExampleViewModel) -> ExampleViewController {
+        let viewController = ExampleViewController.create(with: viewModel)
         
-        viewController.onNext = { [unowned self] in
-            self.showNext(title: viewModel.title)
+        viewController.onNext = { [weak self] in
+            self?.showNext(title: viewModel.title)
         }
         
-        viewController.onMore = { [unowned self] in
-            self.showMoreModal()
+        viewController.onLogout = {
+            CredentialsController.shared.currentCredentials = nil
         }
         
-        viewController.onDebug = { [unowned self] in
-            self.showDebug()
-        }
-        
-        viewController.onTabBar = { [unowned self] in
-            self.showTabBar()
+        viewController.onPopover = { [weak self] in
+            self?.presentExampleScreen()
         }
         
         return viewController
     }
     
-    private func showMore() {
-        let coordinator = MoreCoordinator(navigationController: navigationController)
-        coordinator.start()
+    // MARK: Show
+    
+    private func showNext(title: String) {
+        let viewModel = ExampleViewModel(title: title + ".Push")
+        let viewController = createExampleViewController(viewModel: viewModel)
         
-        push(coordinator, animated: true)
+        push(viewController, animated: true)
     }
     
-    private func showDebug() {
-        let coordinator = DebugCoordinator()
-        coordinator.onDismiss = { [unowned self] in
-            self.dismissChildCoordinator(animated: true)
-        }
-        coordinator.start()
-        present(coordinator, animated: true)
-    }
+    // MARK: Present
     
-    private func showMoreModal() {
-        let coordinator = MoreCoordinator()
+    private func presentExampleScreen() {
+        let viewController = UIHostingController(rootView: ExampleScreen())
         
-        coordinator.onDone = { [unowned self] in
-            self.dismissChildCoordinator(animated: true)
+        viewController.rootView.onDismiss = { [weak self] in
+            self?.dismiss(viewController, animated: true)
         }
         
-        coordinator.start()
-        
-        present(coordinator, animated: true)
+        present(viewController, animated: true)
     }
-    
-    private func showTabBar() {
-        let tabBarCoordinator = {{cookiecutter.projectName}}TabBarCoordinator()
-        tabBarCoordinator.start()
-        present(tabBarCoordinator, animated: true)
-    }
-    
 }

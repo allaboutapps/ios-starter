@@ -12,7 +12,7 @@ public struct Environment: Equatable {
     /// The build config of the Environment
     public let buildConfig: BuildConfig
     
-    /// Represents environemnt refering to the used backend
+    /// Represents environment referring to the used backend
     public enum ServerEnvironment: String {
         case live, dev, staging
     }
@@ -20,7 +20,7 @@ public struct Environment: Equatable {
     /// The sever environment
     public let serverEnvironment: ServerEnvironment
 
-    /// Returns the current enviroment the app is currently running.
+    /// Returns the current environment the app is currently running.
     public static var current: Environment = {
         guard let configurationString = Bundle.main.infoDictionary!["_Configuration"] as? String else {
             fatalError("Info.plist does not contain the key _Configuration. Add this key with value $(CONFIGURATION)")
@@ -30,8 +30,11 @@ public struct Environment: Equatable {
             fatalError("Info.plist does not contain the key _ServerEnvironment. Add this key with value $(SERVER_ENVIRONMENT)")
         }
         
+        let split = configurationString.components(separatedBy: "-")
+        
         guard
-            let buildConfig = BuildConfig(rawValue: configurationString.lowercased()),
+            split.count == 2,
+            let buildConfig = BuildConfig(rawValue: split[0].lowercased()),
             let serverEnvironment = ServerEnvironment(rawValue: serverEnvironmentString.lowercased()) else {
             fatalError("Invalid build configuration")
         }
@@ -57,9 +60,7 @@ public struct Environment: Equatable {
 }
 
 extension Environment: CustomStringConvertible {
-    
     public var description: String {
         return "\(serverEnvironment.rawValue)-\(buildConfig.rawValue)"
     }
-    
 }

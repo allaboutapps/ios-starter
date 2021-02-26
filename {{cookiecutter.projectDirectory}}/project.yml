@@ -1,17 +1,29 @@
 name: {{cookiecutter.projectName}}
 options:
-  xcodeVersion: 11.0
+  xcodeVersion: 12.0
 configs:
-  Debug: debug
-  Release: release
+  Debug-Dev: debug
+  Debug-Staging: debug
+  Debug-Live: debug
+  Release-Dev: release
+  Release-Staging: release
+  Release-Live: release
 settings:
   base:
     DEVELOPMENT_TEAM: {{cookiecutter.teamId}}
     SWIFT_VERSION: "5.1"
   configs:
-    Debug:
+    Debug-Dev:
       SWIFT_COMPILATION_MODE: "incremental"
-    Release:
+    Debug-Staging:
+      SWIFT_COMPILATION_MODE: "incremental"
+    Debug-Live:
+      SWIFT_COMPILATION_MODE: "incremental"
+    Release-Dev:
+      SWIFT_COMPILATION_MODE: "wholemodule"
+    Release-Staging:
+      SWIFT_COMPILATION_MODE: "wholemodule"
+    Release-Live:
       SWIFT_COMPILATION_MODE: "wholemodule"
 attributes:
   ORGANIZATIONNAME: {{cookiecutter.teamName}}
@@ -33,18 +45,25 @@ packages:
     majorVersion: "8.0"
   KeychainAccess:
     url: https://github.com/kishikawakatsumi/KeychainAccess
-    majorVersion: "3.2"
+    majorVersion: "4.2"
   Toolbox:
     url: https://github.com/allaboutapps/Toolbox
-    majorVersion: "1.0.0"
+    majorVersion: "1.0.6"
+  Logbook:
+    url: https://github.com/allaboutapps/Logbook
+    majorVersion: "1.1.0"
 targets:
   {{cookiecutter.projectName}}:
     type: application
     platform: iOS
     deploymentTarget: "{{cookiecutter.deploymentTarget}}"
     configFiles:
-      Debug: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Configuration.xcconfig
-      Release: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Configuration.xcconfig
+      Debug-Dev: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Dev.xcconfig
+      Debug-Staging: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Staging.xcconfig
+      Debug-Live: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Live.xcconfig
+      Release-Dev: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Dev.xcconfig
+      Release-Staging: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Staging.xcconfig
+      Release-Live: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Live.xcconfig
     settings:
       base:
         PRODUCT_NAME: {{cookiecutter.projectName}}
@@ -53,9 +72,10 @@ targets:
     info:
       path: {{cookiecutter.projectName}}/SupportingFiles/Info.plist
       properties:
-        CFBundleDisplayName: {{cookiecutter.projectName}}$(SERVER_ENVIRONMENT_SUFFIX)
+        CFBundleDisplayName: {{cookiecutter.projectName}}$(APP_NAME_SUFFIX)
         UISupportedInterfaceOrientations:
           - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
           - UIInterfaceOrientationLandscapeLeft
           - UIInterfaceOrientationLandscapeRight
         UILaunchStoryboardName: LaunchScreen
@@ -127,55 +147,44 @@ targets:
       - package: SimpleButton
       - package: StatefulViewController
       - package: AlamofireImage
+      - package: Logbook
 schemes:
-  {{cookiecutter.projectName}} dev:
+  {{cookiecutter.projectName}} Dev:
     build:
-      preActions:
-        - script: |
-            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Dev.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Configuration.xcconfig 
-          settingsTarget: {{cookiecutter.projectName}}
       targets:
         {{cookiecutter.projectName}}: all
         {{cookiecutter.projectName}}Kit: all
     run:
-      config: Debug
+      config: Debug-Dev
     profile:
-      config: Release
+      config: Release-Dev
     analyze:
-      config: Release
+      config: Release-Dev
     archive:
-      config: Release
-  {{cookiecutter.projectName}} staging:
+      config: Release-Dev
+  {{cookiecutter.projectName}} Staging:
     build:
-      preActions:
-        - script: |
-            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Staging.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Configuration.xcconfig 
-          settingsTarget: {{cookiecutter.projectName}}
       targets:
         {{cookiecutter.projectName}}: all
         {{cookiecutter.projectName}}Kit: all
     run:
-      config: Debug
+      config: Debug-Staging
     profile:
-      config: Release
+      config: Release-Staging
     analyze:
-      config: Release
+      config: Release-Staging
     archive:
-      config: Release
-  {{cookiecutter.projectName}} live:
+      config: Release-Staging
+  {{cookiecutter.projectName}} Live:
     build:
-      preActions:
-        - script: |
-            cp -f ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Live.xcconfig ${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/Configurations/Configuration.xcconfig 
-          settingsTarget: {{cookiecutter.projectName}}
       targets:
         {{cookiecutter.projectName}}: all
         {{cookiecutter.projectName}}Kit: all
     run:
-      config: Debug
+      config: Debug-Live
     profile:
-      config: Release
+      config: Release-Live
     analyze:
-      config: Release
+      config: Release-Live
     archive:
-      config: Release
+      config: Release-Live

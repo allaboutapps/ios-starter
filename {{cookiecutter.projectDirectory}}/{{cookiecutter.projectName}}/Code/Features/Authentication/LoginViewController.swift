@@ -4,7 +4,16 @@ import Toolbox
 
 class LoginViewController: UIViewController {
     
-    // MARK: Private Properties
+    // MARK: Interface
+    
+    var onLogin: (() -> Void)!
+    
+    static func create() -> LoginViewController {
+        let viewController = LoginViewController()
+        return viewController
+    }
+    
+    // MARK: Views
     
     private lazy var loginButton = UIButton().with {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -12,53 +21,25 @@ class LoginViewController: UIViewController {
         $0.addTarget(self, action: #selector(handleLoginButtonTapped), for: .touchUpInside)
         $0.setTitleColor(.systemBlue, for: .normal)
     }
+
+    // MARK: Private
     
-    // MARK: Public Properties
+    // viewModel, computed properties etc.
     
-    public var onLogin: VoidClosure?
-    
-    // MARK: Setup
-    
-    static func create() -> LoginViewController {
-        let viewController = LoginViewController()
-        return viewController
-    }
-    
-    // MARK: Override
+    // MARK: Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
-        setupUI()
+        
+        setupViews()
         setupConstraints()
     }
-
-    // MARK: Init
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
+    // MARK: Setup
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    // MARK: Actions
-
-    @objc private func handleLoginButtonTapped() {
-        CredentialsController.shared.currentCredentials = Credentials(accessToken: "testToken", refreshToken: nil, expiresIn: nil)
-        self.onLogin?()
-    }
-    
-    deinit {
-        print("deinit view controller: \(self)")
-    }
-    
-    // MARK: Layout
-    
-    private func setupUI() {
+    private func setupViews() {
         view.backgroundColor = .white
-        self.title = "Login"
+        title = "Login"
         
         view.addSubview(loginButton)
     }
@@ -68,5 +49,18 @@ class LoginViewController: UIViewController {
             loginButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+    }
+    
+    // MARK: Actions
+
+    @objc private func handleLoginButtonTapped() {
+        CredentialsController.shared.currentCredentials = Credentials(accessToken: "testToken", refreshToken: nil, expiresIn: nil)
+        onLogin()
+    }
+    
+    // MARK: Deinit
+    
+    deinit {
+        log.debug("deinit view controller: \(self)")
     }
 }

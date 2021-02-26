@@ -11,11 +11,11 @@ public class API {
             eventMonitors: [APILogger(verbose: Config.API.verboseLogging)],
             interceptor: AuthHandler(),
             cache: MemoryCache(defaultExpiration: Config.Cache.defaultExpiration),
-            shouldStub: Config.API.stubRequests))
+            shouldStub: Config.API.stubRequests)
+        )
     }
     
     public struct Auth {
-        
         public static func login(username: String, password: String) -> Resource<Credentials> {
             return Resource(
                 method: .post,
@@ -25,7 +25,8 @@ public class API {
                     "scope": "user",
                     "username": username,
                     "password": password
-                ]))
+                ])
+            )
         }
         
         public static func tokenRefresh(_ refreshToken: String) -> Resource<Credentials> {
@@ -36,16 +37,7 @@ public class API {
                     "grantType": "refreshToken",
                     "scope": "user",
                     "refreshToken": refreshToken
-                ]))
-        }
-    }
-    
-    public struct Examples {
-        
-        public static func get() -> Resource<Example> {
-            return Resource(
-                path: "api/v1/example",
-                stub: StubResponse(statusCode: 200, fileName: "example.json", delay: 1.0, bundle: Bundle(for: API.self))
+                ])
             )
         }
     }

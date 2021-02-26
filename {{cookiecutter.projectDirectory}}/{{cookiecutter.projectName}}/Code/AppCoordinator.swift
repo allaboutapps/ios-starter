@@ -34,7 +34,8 @@ class AppCoordinator: Coordinator {
     }
     
     func checkCredentials(animated: Bool = true) {
-        if CredentialsController.shared.currentCredentials == nil { // not logged in
+        if CredentialsController.shared.currentCredentials == nil {
+            // not logged in
             presentLogin(animated: animated)
         }
     }
@@ -52,8 +53,8 @@ class AppCoordinator: Coordinator {
     private func presentLogin(animated: Bool) {
         let coordinator = AuthCoordinator()
         
-        coordinator.onLogin = { [unowned self] in
-            self.reset(animated: true)
+        coordinator.onLogin = { [weak self] in
+            self?.reset(animated: true)
         }
         
         coordinator.start()

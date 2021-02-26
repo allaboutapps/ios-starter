@@ -11,11 +11,11 @@ public struct Decoders {
         let container = try decoder.singleValueContainer()
         let raw = try container.decode(String.self)
 
-        if let value = Formatters.isoDateFormatter.date(from: raw) {
+        if let value = Formatters.Date.isoDate.date(from: raw) {
             return value
         }
 
-        if let value = Formatters.apiRenderedFormatter.date(from: raw) {
+        if let value = Formatters.Date.apiRendered.date(from: raw) {
             return value
         } else {
             throw DecodingError.dataCorruptedError(in: container, debugDescription: "Couldn't decode Date from \(raw).")
