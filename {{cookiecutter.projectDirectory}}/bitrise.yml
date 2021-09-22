@@ -101,6 +101,10 @@ workflows:
     - _teardown
   _kickstart:
     steps:
+    - brew-install:
+        inputs:
+        - cache_enabled: 'yes'
+        - packages: coreutils openssl openvpn
     - remote-script-runner:
         title: aaa kickstart
         inputs:
