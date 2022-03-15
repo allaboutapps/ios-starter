@@ -1,6 +1,6 @@
 name: {{cookiecutter.projectName}}
 options:
-  xcodeVersion: 12.5
+  xcodeVersion: 13.3
 configs:
   Debug-Dev: debug
   Debug-Staging: debug
@@ -91,6 +91,8 @@ targets:
       - package: Toolbox
     postCompileScripts:
       - script: |
+          export PATH="$PATH:/opt/homebrew/bin"
+
           if which swiftlint >/dev/null; then
             swiftlint
           else
@@ -98,6 +100,8 @@ targets:
           fi
         name: SwiftLint
       - script: |
+          export PATH="$PATH:/opt/homebrew/bin"
+
           if which /usr/libexec/PlistBuddy >/dev/null; then
             version="$MARKETING_VERSION"
             build="$CURRENT_PROJECT_VERSION"
@@ -106,8 +110,8 @@ targets:
           echo "warning: PlistBuddy not found"
           fi
   
-          if which /usr/local/bin/license-plist >/dev/null; then
-            /usr/local/bin/license-plist --output-path $PRODUCT_NAME/SupportingFiles/Settings.bundle --config-path $PRODUCT_NAME/SupportingFiles/license_plist.yml --package-path $PROJECT_FILE_PATH/project.xcworkspace/xcshareddata/swiftpm/Package.swift --suppress-opening-directory
+          if which license-plist >/dev/null; then
+            license-plist --output-path $PRODUCT_NAME/SupportingFiles/Settings.bundle --config-path $PRODUCT_NAME/SupportingFiles/license_plist.yml --package-path $PROJECT_FILE_PATH/project.xcworkspace/xcshareddata/swiftpm/Package.swift --suppress-opening-directory
           else
             echo "warning: license-plist not installed, download from https://github.com/mono0926/LicensePlist"
           fi
