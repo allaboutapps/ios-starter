@@ -1,12 +1,13 @@
 {
-  "projectName": "Example",
-  "projectDirectory": "{{cookiecutter.projectName|lower|replace(' ', '-')}}-ios",
-  "teamId": "M8F9QH57A6",
-  "teamName": "aaa - all about apps Gmbh",
-  "bundleIdentifier": "at.allaboutapps.{{cookiecutter.projectName|lower|replace(' ', '-')}}",
-  "deploymentTarget": "13.0",
-  "texterifyProjectId": "NONE",
-  "texterifyExportConfigurationId": "NONE",
-  "defaultLanguageCode": "en",
-  "runXcodeGen": "y"
+    "projectName": "Example",
+    "projectDirectory": "{{cookiecutter.projectName|lower|replace(' ', '-')}}-ios",
+    "teamId": "M8F9QH57A6",
+    "teamName": "aaa - all about apps Gmbh",
+    "bundleIdentifier": "at.allaboutapps.{{cookiecutter.projectName|lower|replace(' ', '-')}}",
+    "deploymentTarget": "15.0",
+    "texterifyProjectId": "NONE",
+    "texterifyExportConfigurationId": "NONE",
+    "defaultLanguageCode": "en",
+    "runXcodeGen": "y",
+    "_copy_without_render": ["*.stencil"]
 }

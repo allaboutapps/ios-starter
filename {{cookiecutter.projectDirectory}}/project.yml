@@ -1,194 +1,168 @@
-name: {{cookiecutter.projectName}}
+name: {{ cookiecutter.projectName }}
 options:
-  xcodeVersion: 13.3
+    xcodeVersion: 13.3
+    groupOrdering:
+        - order: [{{ cookiecutter.projectName }}, Modules]
+    localPackagesGroup: Modules
 configs:
-  Debug-Dev: debug
-  Debug-Staging: debug
-  Debug-Live: debug
-  Release-Dev: release
-  Release-Staging: release
-  Release-Live: release
+    Debug-Dev: debug
+    Debug-Staging: debug
+    Debug-Live: debug
+    Release-Dev: release
+    Release-Staging: release
+    Release-Live: release
 settings:
-  base:
-    DEVELOPMENT_TEAM: {{cookiecutter.teamId}}
-    SWIFT_VERSION: "5.4"
-  configs:
-    Debug-Dev:
-      SWIFT_COMPILATION_MODE: "incremental"
-    Debug-Staging:
-      SWIFT_COMPILATION_MODE: "incremental"
-    Debug-Live:
-      SWIFT_COMPILATION_MODE: "incremental"
-    Release-Dev:
-      SWIFT_COMPILATION_MODE: "wholemodule"
-    Release-Staging:
-      SWIFT_COMPILATION_MODE: "wholemodule"
-    Release-Live:
-      SWIFT_COMPILATION_MODE: "wholemodule"
+    base:
+        DEVELOPMENT_TEAM: {{cookiecutter.teamId}}
+        SWIFT_VERSION: "5.5"
+        CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
+    configs:
+        Debug-Dev:
+            SWIFT_COMPILATION_MODE: "incremental"
+        Debug-Staging:
+            SWIFT_COMPILATION_MODE: "incremental"
+        Debug-Live:
+            SWIFT_COMPILATION_MODE: "incremental"
+        Release-Dev:
+            SWIFT_COMPILATION_MODE: "wholemodule"
+        Release-Staging:
+            SWIFT_COMPILATION_MODE: "wholemodule"
+        Release-Live:
+            SWIFT_COMPILATION_MODE: "wholemodule"
 attributes:
-  ORGANIZATIONNAME: {{cookiecutter.teamName}}
+    ORGANIZATIONNAME: {{cookiecutter.teamName}}
 packages:
-  AlamofireImage:
-    url: https://github.com/Alamofire/AlamofireImage
-    majorVersion: "4.2.0"
-  Fetch:
-    url: https://github.com/allaboutapps/Fetch
-    majorVersion: "2.3.1"
-  SimpleButton:
-    url: https://github.com/allaboutapps/SimpleButton
-    majorVersion: "5.1.1"
-  StatefulViewController:
-    url: https://github.com/allaboutapps/StatefulViewController
-    majorVersion: "5.2.0"
-  DataSource:
-    url: https://github.com/allaboutapps/DataSource
-    majorVersion: "8.1.1"
-  KeychainAccess:
-    url: https://github.com/kishikawakatsumi/KeychainAccess
-    majorVersion: "4.2.2"
-  Toolbox:
-    url: https://github.com/allaboutapps/Toolbox
-    majorVersion: "1.0.7"
-  Logbook:
-    url: https://github.com/allaboutapps/Logbook
-    majorVersion: "1.1.0"
+    Features:
+        path: Modules/Features
+    Core:
+        path: Modules/Core
 targets:
-  {{cookiecutter.projectName}}:
-    type: application
-    platform: iOS
-    deploymentTarget: "{{cookiecutter.deploymentTarget}}"
-    configFiles:
-      Debug-Dev: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Dev.xcconfig
-      Debug-Staging: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Staging.xcconfig
-      Debug-Live: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Live.xcconfig
-      Release-Dev: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Dev.xcconfig
-      Release-Staging: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Staging.xcconfig
-      Release-Live: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Live.xcconfig
-    settings:
-      base:
-        PRODUCT_NAME: {{cookiecutter.projectName}}
-        MARKETING_VERSION: 1.0
-        CURRENT_PROJECT_VERSION: 1
-    info:
-      path: {{cookiecutter.projectName}}/SupportingFiles/Info.plist
-      properties:
-        CFBundleDisplayName: {{cookiecutter.projectName}}$(APP_NAME_SUFFIX)
-        UISupportedInterfaceOrientations:
-          - UIInterfaceOrientationPortrait
-          - UIInterfaceOrientationPortraitUpsideDown
-          - UIInterfaceOrientationLandscapeLeft
-          - UIInterfaceOrientationLandscapeRight
-        UILaunchStoryboardName: LaunchScreen
-        UIRequiredDeviceCapabilities: [armv7]
-        ITSAppUsesNonExemptEncryption: NO
-        LSRequiresIPhoneOS: YES
-        _Configuration: $(CONFIGURATION)
-        _ServerEnvironment: $(SERVER_ENVIRONMENT)
-    sources: 
-      - {{cookiecutter.projectName}}
-    dependencies:
-      - target: {{cookiecutter.projectName}}Kit
-      - package: Toolbox
-    postCompileScripts:
-      - script: |
-          export PATH="$PATH:/opt/homebrew/bin"
+    {{cookiecutter.projectName}}:
+        type: application
+        platform: iOS
+        deploymentTarget: "14.0"
+        configFiles:
+            Debug-Dev: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Dev.xcconfig
+            Debug-Staging: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Staging.xcconfig
+            Debug-Live: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Live.xcconfig
+            Release-Dev: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Dev.xcconfig
+            Release-Staging: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Staging.xcconfig
+            Release-Live: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Live.xcconfig
+        settings:
+            base:
+                PRODUCT_NAME: {{cookiecutter.projectName}}
+                MARKETING_VERSION: 1.0
+                CURRENT_PROJECT_VERSION: 1
+                TARGETED_DEVICE_FAMILY: "1"
+        info:
+            path: {{cookiecutter.projectName}}/SupportingFiles/Info.plist
+            properties:
+                CFBundleDisplayName: {{cookiecutter.projectName}}$(APP_NAME_SUFFIX)
+                CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+                UISupportedInterfaceOrientations:
+                    - UIInterfaceOrientationPortrait
+                UILaunchStoryboardName: LaunchScreen
+                UIRequiredDeviceCapabilities: [armv7]
+                ITSAppUsesNonExemptEncryption: NO
+                LSRequiresIPhoneOS: YES
+                _Configuration: $(CONFIGURATION)
+                _ServerEnvironment: $(SERVER_ENVIRONMENT)
+        sources:
+            - {{cookiecutter.projectName}}
+        dependencies:
+            - package: Features
+              product: MainFeature
+            - package: Features
+              product: AuthFeature
+            - package: Features
+              product: ExampleFeature
+            - package: Core
+              product: Assets
+            - package: Core
+              product: Models
+            - package: Core
+              product: Networking
+            - package: Core
+              product: Utilities
+            - package: Core
+              product: CommonUI
+        postCompileScripts:
+            - script: |
+                  export PATH="$PATH:/opt/homebrew/bin"
 
-          if which swiftlint >/dev/null; then
-            swiftlint
-          else
-            echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
-          fi
-        name: SwiftLint
-      - script: |
-          export PATH="$PATH:/opt/homebrew/bin"
+                  if which swiftlint >/dev/null; then
+                    swiftlint
+                  else
+                    echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
+                  fi
+              name: SwiftLint
+            - script: |
+                  export PATH="$PATH:/opt/homebrew/bin"
 
-          if which /usr/libexec/PlistBuddy >/dev/null; then
-            version="$MARKETING_VERSION"
-            build="$CURRENT_PROJECT_VERSION"
-            /usr/libexec/PlistBuddy "$SRCROOT/$PRODUCT_NAME/SupportingFiles/Settings.bundle/Root.plist" -c "set PreferenceSpecifiers:2:DefaultValue $version ($build)"
-          else
-          echo "warning: PlistBuddy not found"
-          fi
-  
-          if which license-plist >/dev/null; then
-            license-plist --output-path $PRODUCT_NAME/SupportingFiles/Settings.bundle --config-path $PRODUCT_NAME/SupportingFiles/license_plist.yml --package-path $PROJECT_FILE_PATH/project.xcworkspace/xcshareddata/swiftpm/Package.swift --suppress-opening-directory
-          else
-            echo "warning: license-plist not installed, download from https://github.com/mono0926/LicensePlist"
-          fi
-        name: Generate Licenses
-      - script: |
-          #case "${SERVER_ENVIRONMENT}" in
-          #
-          #"dev" )
-          #cp -r "${PROJECT_DIR}/GoogleService-Info-Dev.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
-          #
-          #"staging" )
-          #cp -r "${PROJECT_DIR}/GoogleService-Info-Staging.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
-          #
-          #"live" )
-          #cp -r "${PROJECT_DIR}/GoogleService-Info-Live.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
-          #
-          #*)
-          #;;
-          #esac
-        name: Copy GoogleService-Info
-  {{cookiecutter.projectName}}Kit:
-    type: framework
-    platform: iOS
-    deploymentTarget: "{{cookiecutter.deploymentTarget}}"
-    settings:
-      PRODUCT_BUNDLE_IDENTIFIER: {{cookiecutter.bundleIdentifier}}Kit
-    info:
-      path: {{cookiecutter.projectName}}Kit/SupportingFiles/Info.plist
-      properties:
-        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
-    sources: 
-      - {{cookiecutter.projectName}}Kit
-    dependencies:
-      - package: KeychainAccess
-      - package: DataSource
-      - package: Fetch
-      - package: SimpleButton
-      - package: StatefulViewController
-      - package: AlamofireImage
-      - package: Logbook
+                  if which /usr/libexec/PlistBuddy >/dev/null; then
+                    version="$MARKETING_VERSION"
+                    build="$CURRENT_PROJECT_VERSION"
+                    /usr/libexec/PlistBuddy "$SRCROOT/$PRODUCT_NAME/SupportingFiles/Settings.bundle/Root.plist" -c "set PreferenceSpecifiers:2:DefaultValue $version ($build)"
+                  else
+                  echo "warning: PlistBuddy not found"
+                  fi
+
+                  if which license-plist >/dev/null; then
+                    license-plist --output-path $PRODUCT_NAME/SupportingFiles/Settings.bundle --config-path $PRODUCT_NAME/SupportingFiles/license_plist.yml --package-path $PROJECT_FILE_PATH/project.xcworkspace/xcshareddata/swiftpm/Package.swift --suppress-opening-directory
+                  else
+                    echo "warning: license-plist not installed, download from https://github.com/mono0926/LicensePlist"
+                  fi
+              name: Generate Licenses
+            - script: |
+                  #case "${SERVER_ENVIRONMENT}" in
+                  #
+                  #"dev" )
+                  #cp -r "${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/GoogleService-Info-Dev.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
+                  #
+                  #"staging" )
+                  #cp -r "${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/GoogleService-Info-Staging.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
+                  #
+                  #"live" )
+                  #cp -r "${PROJECT_DIR}/{{cookiecutter.projectName}}/SupportingFiles/GoogleService-Info-Live.plist" "${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist" ;;
+                  #
+                  #*)
+                  #;;
+                  #esac
+              name: Copy GoogleService-Info
 schemes:
-  {{cookiecutter.projectName}} Dev:
-    build:
-      targets:
-        {{cookiecutter.projectName}}: all
-        {{cookiecutter.projectName}}Kit: all
-    run:
-      config: Debug-Dev
-    profile:
-      config: Release-Dev
-    analyze:
-      config: Release-Dev
-    archive:
-      config: Release-Dev
-  {{cookiecutter.projectName}} Staging:
-    build:
-      targets:
-        {{cookiecutter.projectName}}: all
-        {{cookiecutter.projectName}}Kit: all
-    run:
-      config: Debug-Staging
-    profile:
-      config: Release-Staging
-    analyze:
-      config: Release-Staging
-    archive:
-      config: Release-Staging
-  {{cookiecutter.projectName}} Live:
-    build:
-      targets:
-        {{cookiecutter.projectName}}: all
-        {{cookiecutter.projectName}}Kit: all
-    run:
-      config: Debug-Live
-    profile:
-      config: Release-Live
-    analyze:
-      config: Release-Live
-    archive:
-      config: Release-Live
+    {{cookiecutter.projectName}} Dev:
+        build:
+            targets:
+                {{cookiecutter.projectName}}: all
+        run:
+            config: Debug-Dev
+        profile:
+            config: Release-Dev
+        analyze:
+            config: Release-Dev
+        archive:
+            config: Release-Dev
+    {{cookiecutter.projectName}} Staging:
+        build:
+            targets:
+                {{cookiecutter.projectName}}: all
+        run:
+            config: Debug-Staging
+        profile:
+            config: Release-Staging
+        analyze:
+            config: Release-Staging
+        archive:
+            config: Release-Staging
+    {{cookiecutter.projectName}} Live:
+        build:
+            targets:
+                {{cookiecutter.projectName}}: all
+        run:
+            config: Debug-Live
+        profile:
+            config: Release-Live
+        analyze:
+            config: Release-Live
+        archive:
+            config: Release-Live

@@ -1,5 +1,7 @@
-import {{cookiecutter.projectName}}Kit
+import AuthFeature
 import Combine
+import MainFeature
+import Networking
 import Toolbox
 import UIKit
 
@@ -45,7 +47,7 @@ class AppCoordinator: Coordinator {
             .filter { $0 !== mainCoordinator }
             .forEach { removeChild($0) }
         
-        mainCoordinator.popToRoot(animated: animated)
+        mainCoordinator.reset(animated: animated)
         
         printRootDebugStructure()
     }
