@@ -11,7 +11,7 @@ public struct Appearance {
 
 // MARK: - Padding
 
-extension Style {
+public extension Style {
     struct Padding {
         /// 4
         static let half: CGFloat = 4.0
@@ -26,7 +26,7 @@ extension Style {
 
 // MARK: - CornerRadius
 
-extension Style {
+public extension Style {
     struct CornerRadius {
         /// 3
         static let small: CGFloat = 3.0
