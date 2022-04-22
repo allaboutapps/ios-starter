@@ -10,8 +10,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        setupLogging(for: Environment.current)
-        log.info(Environment.current.appInfo)
+        setupLogging(for: AppEnvironment.current)
+        log.info(AppEnvironment.current.appInfo)
 
         Appearance.setup()
         API.setup()
@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - Logging
 
 extension AppDelegate {
-    func setupLogging(for environment: Environment) {
+    func setupLogging(for environment: AppEnvironment) {
         let dateformatter = DateFormatter()
         dateformatter.dateStyle = .none
         dateformatter.timeStyle = .medium

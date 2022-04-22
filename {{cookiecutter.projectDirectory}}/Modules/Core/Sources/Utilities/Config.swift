@@ -9,7 +9,7 @@ public struct Config {
 
     public struct API {
         public static var baseURL: URL {
-            switch Environment.current.serverEnvironment {
+            switch AppEnvironment.current.serverEnvironment {
             case .dev:
                 return URL(string: "https://example-dev.allaboutapps.at/api/v1")!
             case .staging:
@@ -23,7 +23,7 @@ public struct Config {
         public static var timeout: TimeInterval = 120.0
 
         public static var verboseLogging: Bool {
-            switch Environment.current.buildConfig {
+            switch AppEnvironment.current.buildConfig {
             case .debug:
                 return true
             case .release:

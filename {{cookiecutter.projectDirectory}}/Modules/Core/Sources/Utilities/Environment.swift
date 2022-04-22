@@ -2,7 +2,7 @@ import Foundation
 
 /// Defines the environment the app is currently running.
 /// The environment is determined by the target's Configuration name
-public struct Environment: Equatable {
+public struct AppEnvironment: Equatable {
     
     /// Represents base build configurations
     public enum BuildConfig: String {
@@ -21,7 +21,7 @@ public struct Environment: Equatable {
     public let serverEnvironment: ServerEnvironment
 
     /// Returns the current environment the app is currently running.
-    public static var current: Environment = {
+    public static var current: AppEnvironment = {
         guard let configurationString = Bundle.main.infoDictionary!["_Configuration"] as? String else {
             fatalError("Info.plist does not contain the key _Configuration. Add this key with value $(CONFIGURATION)")
         }
@@ -39,7 +39,7 @@ public struct Environment: Equatable {
             fatalError("Invalid build configuration")
         }
         
-        return Environment(buildConfig: buildConfig, serverEnvironment: serverEnvironment)
+        return AppEnvironment(buildConfig: buildConfig, serverEnvironment: serverEnvironment)
     }()
 
     /// Returns the current App version, build number and environment
@@ -59,7 +59,7 @@ public struct Environment: Equatable {
     }
 }
 
-extension Environment: CustomStringConvertible {
+extension AppEnvironment: CustomStringConvertible {
     public var description: String {
         return "\(serverEnvironment.rawValue)-\(buildConfig.rawValue)"
     }
