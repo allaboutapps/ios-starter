@@ -40,7 +40,7 @@ targets:
     {{cookiecutter.projectName}}:
         type: application
         platform: iOS
-        deploymentTarget: "14.0"
+        deploymentTarget: {{cookiecutter.deploymentTarget}}
         configFiles:
             Debug-Dev: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Dev.xcconfig
             Debug-Staging: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Staging.xcconfig
@@ -50,7 +50,7 @@ targets:
             Release-Live: {{cookiecutter.projectName}}/SupportingFiles/Configurations/Live.xcconfig
         settings:
             base:
-                PRODUCT_NAME: {{cookiecutter.projectName}}
+                PRODUCT_NAME: {{cookiecutter.projectName}}$(APP_NAME_SUFFIX)
                 MARKETING_VERSION: 1.0
                 CURRENT_PROJECT_VERSION: 1
                 TARGETED_DEVICE_FAMILY: "1"
