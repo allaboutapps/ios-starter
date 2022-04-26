@@ -3,102 +3,16 @@ format_version: '4'
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: ios
 trigger_map:
-- push_branch: master
-  workflow: master
+- push_branch: development
+  workflow: dev
+- push_branch: main
+  workflow: main
 - push_branch: testflight
   workflow: testflight
 - pull_request_source_branch: "*"
-  workflow: master
-  pull_request_target_branch: master
+  workflow: main
+  pull_request_target_branch: main
 workflows:
-  master:
-    steps:
-    - ios-auto-provision:
-        inputs:
-        - team_id: "$AAA_DEV_TEAM_ID"
-        - scheme: "$BITRISE_SCHEME_STAGING"
-        - generate_profiles: 'yes'
-        title: Staging - iOS Auto Provision
-    - xcode-archive:
-        inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - export_method: development
-        - is_clean_build: 'yes'
-        - scheme: "$BITRISE_SCHEME_STAGING"
-        title: Staging - Xcode Archive & Export
-    - ios-auto-provision:
-        inputs:
-        - team_id: "$AAA_DEV_TEAM_ID"
-        - scheme: "$BITRISE_SCHEME_LIVE"
-        - generate_profiles: 'yes'
-        title: Live - iOS Auto Provision
-    - xcode-archive:
-        inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - export_method: development
-        - is_clean_build: 'yes'
-        - scheme: "$BITRISE_SCHEME_LIVE"
-        title: Live - Xcode Archive & Export
-    - deploy-to-bitrise-io:
-        title: Deploy to Bitrise.io
-    - remote-script-runner:
-        inputs:
-        - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
-        title: Push Version Tag
-    before_run:
-    - _kickstart
-    after_run:
-    - _teardown
-  testflight:
-    steps:
-    - ios-auto-provision:
-        inputs:
-        - team_id: "$AAA_DEV_TEAM_ID"
-        - generate_profiles: 'yes'
-        - scheme: "$BITRISE_SCHEME_LIVE"
-        - distribution_type: app-store
-    - xcode-archive:
-        inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - export_method: app-store
-        - is_clean_build: 'yes'
-        - scheme: "$BITRISE_SCHEME_LIVE"
-    - deploy-to-itunesconnect-application-loader:
-        inputs:
-        - app_password: "$AAA_APP_SPECIFIC_PW"
-    - remote-script-runner:
-        inputs:
-        - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
-        title: Push Version Tag
-    before_run:
-    - _kickstart
-    after_run:
-    - _teardown
-  dev:
-    steps:
-    - ios-auto-provision:
-        inputs:
-        - team_id: "$AAA_DEV_TEAM_ID"
-        - scheme: "$BITRISE_SCHEME_DEV"
-        - generate_profiles: 'yes'
-        title: Dev - iOS Auto Provision
-    - xcode-archive:
-        inputs:
-        - project_path: "$BITRISE_PROJECT_PATH"
-        - export_method: development
-        - is_clean_build: 'yes'
-        - scheme: "$BITRISE_SCHEME_DEV"
-        title: Dev - Xcode Archive & Export
-    - deploy-to-bitrise-io:
-        title: Deploy to Bitrise.io
-    - remote-script-runner:
-        inputs:
-        - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
-        title: Push Version Tag
-    before_run:
-    - _kickstart
-    after_run:
-    - _teardown
   _kickstart:
     steps:
     - brew-install:
@@ -127,10 +41,20 @@ workflows:
         - cache_enabled: 'yes'
         - packages: swiftlint
         title: 'Brew install: SwiftLint'
+    - brew-install:
+        title: 'Brew install: XcodeGen'
+        inputs:
+        - upgrade: 'no'
+        - cache_enabled: 'yes'
+        - packages: xcodegen
     - cache-push: {}
     - remote-script-runner:
         inputs:
-        - script_url: 'https://public.allaboutapps.at/bitrise/ios-last-commit-date.sh'
+        - script_url: https://public.allaboutapps.at/bitrise/ios-last-commit-date.sh
+    - script:
+        title: Generate Xcode Project
+        inputs:
+        - content: xcodegen
     - set-xcode-build-number:
         inputs:
         - build_version_offset: ''
@@ -143,6 +67,86 @@ workflows:
         - script_url: https://public.allaboutapps.at/bitrise/teardown.sh
         title: aaa teardown
         is_always_run: true
+  dev:
+    steps:
+    - xcode-archive:
+        inputs:
+        - project_path: "$BITRISE_PROJECT_PATH"
+        - export_method: development
+        - is_clean_build: 'yes'
+        - automatic_code_signing: api-key
+        - register_test_devices: 'yes'
+        - artifact_name: {{cookiecutter.projectName}}-Dev
+        - scheme: "$BITRISE_SCHEME_DEV"
+        title: Dev - Xcode Archive & Export
+    - deploy-to-bitrise-io:
+        title: Deploy to Bitrise.io
+    - remote-script-runner:
+        inputs:
+        - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
+        title: Push Version Tag
+    before_run:
+    - _kickstart
+    after_run:
+    - _teardown
+  main:
+    steps:
+    - xcode-archive:
+        inputs:
+        - project_path: "$BITRISE_PROJECT_PATH"
+        - export_method: development
+        - is_clean_build: 'yes'
+        - automatic_code_signing: api-key
+        - register_test_devices: 'yes'
+        - artifact_name: {{cookiecutter.projectName}}-Staging
+        - scheme: "$BITRISE_SCHEME_STAGING"
+        title: Staging - Xcode Archive & Export
+    - xcode-archive:
+        inputs:
+        - project_path: "$BITRISE_PROJECT_PATH"
+        - export_method: development
+        - is_clean_build: 'yes'
+        - automatic_code_signing: api-key
+        - register_test_devices: 'yes'
+        - artifact_name: {{cookiecutter.projectName}}-Live
+        - scheme: "$BITRISE_SCHEME_LIVE"
+        title: Live - Xcode Archive & Export
+    - deploy-to-bitrise-io:
+        title: Deploy to Bitrise.io
+    - remote-script-runner:
+        inputs:
+        - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
+        title: Push Version Tag
+    before_run:
+    - _kickstart
+    after_run:
+    - _teardown
+  testflight:
+    steps:
+    - xcode-archive:
+        inputs:
+        - project_path: "$BITRISE_PROJECT_PATH"
+        - export_method: app-store
+        - is_clean_build: 'yes'
+        - automatic_code_signing: api-key
+        - register_test_devices: 'yes'
+        - distribution_method: app-store
+        - scheme: "$BITRISE_SCHEME_LIVE"
+    - deploy-to-itunesconnect-application-loader:
+        inputs:
+        - connection: api_key
+        - app_password: "$AAA_APP_SPECIFIC_PW"
+    - remote-script-runner:
+        inputs:
+        - script_url: https://public.allaboutapps.at/bitrise/ios-push-tag.sh
+        title: Push Version Tag
+    before_run:
+    - _kickstart
+    after_run:
+    - _teardown
+meta:
+  bitrise.io:
+    stack: osx-xcode-13.3.x
 app:
   envs:
   - BITRISE_PROJECT_PATH: {{cookiecutter.projectName}}.xcodeproj

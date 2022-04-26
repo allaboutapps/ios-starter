@@ -1,14 +1,29 @@
 strings:
-  inputs: {{cookiecutter.projectName}}Kit/SupportingFiles/{{cookiecutter.defaultLanguageCode}}.lproj
-  filter: .+\.strings$
-  outputs:
-    - templateName: structured-swift4
-      output: {{cookiecutter.projectName}}Kit/Code/Strings.swift
-      params:
-        enumName: Strings
-        publicAccess: true
+    inputs: Modules/Core/Sources/Assets/Resources/de.lproj
+    filter: .+\.strings$
+    outputs:
+        - templateName: structured-swift4
+          output: Modules/Core/Sources/Assets/Strings.swift
+          params:
+              enumName: Strings
+              publicAccess: true
 xcassets:
- inputs: {{cookiecutter.projectName}}/Assets/Assets.xcassets
- outputs:
-  templateName: swift4
-  output: {{cookiecutter.projectName}}/Code/Assets.swift
+    # icons
+    - inputs:
+          - Modules/Core/Sources/Assets/Resources/Images.xcassets
+      outputs:
+          - templateName: swift4
+            output: Modules/Core/Sources/Assets/Images.swift
+            params:
+                enumName: Images
+                publicAccess: true
+    # colors
+    - inputs:
+          - Modules/Core/Sources/Assets/Resources/Colors.xcassets
+      outputs:
+          #- templateName: swift5
+          - templatePath: templates/assets.stencil
+            output: Modules/Core/Sources/Assets/Colors.swift
+            params:
+                enumName: Colors
+                publicAccess: true

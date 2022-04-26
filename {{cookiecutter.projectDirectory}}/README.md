@@ -1,23 +1,50 @@
-# {{cookiecutter.projectName}}
+# Frauenthal
 
 ---
 
-⚡️ Swift: x.x 📱 iOS {{cookiecutter.deploymentTarget}} 🌎 [API Docs](http://linktoswaggerdocs)
+⚡️ Swift: 5.5 📱 iOS 14.0 🌎 
 
 ---
 
-Project description in 1-5 sentences.
+## Generate Xcode Project
 
-[Screenshots]
+Run the following command:
 
-## Structure
+```
+xcodegen
+```
 
+## Download Strings
+
+Run the following command:
+
+```
+./buildStrings
+```
+
+## Update API Models
+
+Run the following command:
+
+```
 TODO
+```
+
+## Update SwiftGen Files
+
+Run the follwing command:
+
+```
+swiftgen
+```
 
 ## Documentation
 
-Where do I find API docs, wireframes, etc.?
+- [Figma](https://www.figma.com/file/c8VJVrl4Or7XxEn1a3Htgn/17-03-2022-FBP-B2B-Client%26Developer-File?node-id=328%3A14072)
+- [Confluence Intern](https://allaboutapps-at.atlassian.net/wiki/spaces/FRAUEN/overview)
+- [Confluence Extern](https://frauenthal.atlassian.net/wiki/spaces/FBPF/overview?homepageId=229378)
+- [Swagger](http://linktoswaggerdocs)
 
 ## Bitrise
 
-Is Bitrise CI setup?
+[Bitrise](https://app.bitrise.io/app/9eeb081680b9727d#/builds)
