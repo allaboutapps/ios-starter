@@ -15,7 +15,7 @@ public class CredentialsController {
     private let jsonDecoder = JSONDecoder()
     private let jsonEncoder = JSONEncoder()
     
-    @Published public var currentCredentialsChanged: Bool = false
+    public var currentCredentialsDidChange = PassthroughSubject<Credentials?, Never>()
     
     public var currentCredentials: Credentials? {
         get {
@@ -35,7 +35,7 @@ public class CredentialsController {
                 cachedCredentials = nil
                 _ = try? keychain.remove(credentialStorageKey)
             }
-            currentCredentialsChanged = true
+            currentCredentialsDidChange.send(newValue)
         }
     }
     

@@ -22,21 +22,16 @@ class AppCoordinator: Coordinator {
         
         printRootDebugStructure()
         
-        checkCredentials(animated: false)
-        
-        CredentialsController.shared.$currentCredentialsChanged
-            .sink { [weak self] isChanged in
-                if isChanged {
-                    self?.checkCredentials()
+        CredentialsController.shared.currentCredentialsDidChange
+            .sink { [weak self] credentials in
+                if credentials == nil {
+                    self?.presentLogin(animated: true)
                 }
             }
             .store(in: &cancellable)
-    }
-    
-    func checkCredentials(animated: Bool = true) {
+
         if CredentialsController.shared.currentCredentials == nil {
-            // not logged in
-            presentLogin(animated: animated)
+            presentLogin(animated: false)
         }
     }
     
