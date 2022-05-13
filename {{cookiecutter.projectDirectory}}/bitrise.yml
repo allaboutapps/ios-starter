@@ -51,10 +51,6 @@ workflows:
     - remote-script-runner:
         inputs:
         - script_url: https://public.allaboutapps.at/bitrise/ios-last-commit-date.sh
-    - script:
-        title: Generate Xcode Project
-        inputs:
-        - content: xcodegen
     - set-xcode-build-number:
         inputs:
         - build_version_offset: ''
