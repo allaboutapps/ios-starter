@@ -1,6 +1,6 @@
 name: {{ cookiecutter.projectName }}
 options:
-    xcodeVersion: 13.3
+    xcodeVersion: 13.4
     groupOrdering:
         - order: [{{ cookiecutter.projectName }}, Modules]
     localPackagesGroup: Modules
@@ -14,7 +14,6 @@ configs:
 settings:
     base:
         DEVELOPMENT_TEAM: {{cookiecutter.teamId}}
-        SWIFT_VERSION: "5.5"
         CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
     configs:
         Debug-Dev:

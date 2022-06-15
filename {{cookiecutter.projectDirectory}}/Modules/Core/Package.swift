@@ -17,7 +17,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/allaboutapps/Fetch.git", from: "3.0.0"),
         .package(url: "https://github.com/allaboutapps/Logbook.git", from: "1.1.0"),
-        .package(url: "https://github.com/allaboutapps/Toolbox.git", from: "2.0.0"),
+        .package(url: "https://github.com/allaboutapps/Toolbox.git", from: "3.0.0"),
         .package(url: "https://github.com/kishikawakatsumi/KeychainAccess.git", from: "4.2.2"),
         .package(url: "https://github.com/Alamofire/AlamofireImage.git", from: "4.2.0"),
     ],
