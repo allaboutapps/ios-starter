@@ -1,8 +1,8 @@
 strings:
     inputs: Modules/Core/Sources/Assets/Resources/de.lproj
-    filter: .+\.strings$
+    filter: .+\.strings$|.stringsdict$
     outputs:
-        - templateName: structured-swift4
+        - templateName: structured-swift5
           output: Modules/Core/Sources/Assets/Strings.swift
           params:
               enumName: Strings
@@ -12,7 +12,7 @@ xcassets:
     - inputs:
           - Modules/Core/Sources/Assets/Resources/Images.xcassets
       outputs:
-          - templateName: swift4
+          - templateName: swift5
             output: Modules/Core/Sources/Assets/Images.swift
             params:
                 enumName: Images
