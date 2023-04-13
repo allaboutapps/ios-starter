@@ -15,14 +15,6 @@ trigger_map:
 workflows:
   _kickstart:
     steps:
-    - brew-install:
-        inputs:
-        - cache_enabled: 'yes'
-        - packages: coreutils openssl openvpn
-    - remote-script-runner:
-        title: aaa kickstart
-        inputs:
-        - script_url: https://public.allaboutapps.at/bitrise/kickstart.sh
     - activate-ssh-key:
         {% raw %}run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'{% endraw %}
     - git-clone:
@@ -56,13 +48,6 @@ workflows:
         - build_version_offset: ''
         - build_version: "$AAA_LAST_COMMIT_DATE"
         - plist_path: "$AAA_INFO_PLIST_PATH"
-  _teardown:
-    steps:
-    - remote-script-runner:
-        inputs:
-        - script_url: https://public.allaboutapps.at/bitrise/teardown.sh
-        title: aaa teardown
-        is_always_run: true
   dev:
     steps:
     - xcode-archive:
@@ -83,8 +68,6 @@ workflows:
         title: Push Version Tag
     before_run:
     - _kickstart
-    after_run:
-    - _teardown
   main:
     steps:
     - xcode-archive:
@@ -115,8 +98,6 @@ workflows:
         title: Push Version Tag
     before_run:
     - _kickstart
-    after_run:
-    - _teardown
   testflight:
     steps:
     - xcode-archive:
@@ -138,11 +119,6 @@ workflows:
         title: Push Version Tag
     before_run:
     - _kickstart
-    after_run:
-    - _teardown
-meta:
-  bitrise.io:
-    stack: osx-xcode-13.3.x
 app:
   envs:
   - BITRISE_PROJECT_PATH: {{cookiecutter.projectName}}.xcodeproj
@@ -155,3 +131,4 @@ app:
   - AAA_APP_BUNDLE_ID_STAGING: {{cookiecutter.bundleIdentifier}}-staging
   - AAA_ITUNES_TEAM: {{cookiecutter.teamName}}
   - AAA_DEV_TEAM_ID: {{cookiecutter.teamId}}
+  - GIT_SSH_COMMAND: ssh -o PubkeyAcceptedAlgorithms=+ssh-rsa
