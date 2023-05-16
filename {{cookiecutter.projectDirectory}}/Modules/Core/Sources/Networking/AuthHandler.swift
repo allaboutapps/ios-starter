@@ -82,6 +82,5 @@ actor CredentialsRefreshActor {
             }
             requestsToRetry.forEach { $0(.doNotRetry) }
         }
-        isRefreshing = false
     }
 }
