@@ -4,9 +4,12 @@ import Logbook
 import Networking
 import UIKit
 import Utilities
+import ForceUpdateFeature
+import Toolbox
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+
     var window: UIWindow?
 
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -16,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Appearance.setup()
         API.setup()
         CredentialsController.shared.resetOnNewInstallations()
+
+        setupForceUpdate()
 
         return true
     }
@@ -30,6 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - Logging
 
 extension AppDelegate {
+
     func setupLogging(for environment: AppEnvironment) {
         let dateformatter = DateFormatter()
         dateformatter.dateStyle = .none
@@ -45,6 +51,20 @@ extension AppDelegate {
             log.add(sink: sink)
         case .release:
             log.add(sink: OSLogSink(level: .min(.warning)))
+        }
+    }
+}
+
+// MARK: - Force Update
+
+private extension AppDelegate {
+
+    /// Sets up the `ForceUpdateController` and calls `checkForUpdate()`, if enabled in `Config.ForceUpdate.enabled`.
+    func setupForceUpdate() {
+        guard Config.ForceUpdate.enabled else { return }
+        
+        Task {
+            try? await ForceUpdateController.shared.checkForUpdate()
         }
     }
 }

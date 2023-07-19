@@ -1,10 +1,3 @@
-//
-//  ViewState.swift
-//  
-//
-//  Created by Stefan Wieland on 31.03.22.
-//
-
 import Foundation
 
 public protocol ViewStateContent {}
@@ -18,7 +11,7 @@ public enum ViewState<Content> {
 }
 
 public extension ViewState {
-    
+
     var isIdle: Bool {
         if case .idle = self {
             return true
@@ -26,20 +19,20 @@ public extension ViewState {
             return false
         }
     }
-    
+
     var contentValue: Content? {
         guard case .content(let value, _) = self else { return nil }
         return value
     }
-    
+
     mutating func endLoadingWithError(_ error: Error) {
-        if let value = self.contentValue {
+        if let value = contentValue {
             self = .content(value, error)
         } else {
             self = .failed(error)
         }
     }
-    
+
     mutating func endLoading(_ value: Content?) {
         if let value = value {
             if let array = value as? [ViewStateContent], array.isEmpty {
@@ -51,7 +44,7 @@ public extension ViewState {
             self = .empty
         }
     }
-    
+
     mutating func startLoading() {
         guard contentValue == nil else { return }
         self = .loading

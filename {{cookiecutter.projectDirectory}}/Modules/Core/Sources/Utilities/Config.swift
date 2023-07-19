@@ -1,13 +1,13 @@
 import Foundation
 
 /// Global set of configuration values for this application.
-public struct Config {
-    
+public enum Config {
+
     public static let keyPrefix = "at.allaboutapps"
 
     // MARK: API
 
-    public struct API {
+    public enum API {
         public static var baseURL: URL {
             switch AppEnvironment.current.serverEnvironment {
             case .dev:
@@ -31,23 +31,34 @@ public struct Config {
             }
         }
     }
-    
+
     // MARK: Cache
-    
-    public struct Cache {
+
+    public enum Cache {
         public static let defaultExpiration: TimeInterval = 5 * 60.0
     }
 
     // MARK: User Defaults
 
-    public struct UserDefaultsKey {
+    public enum UserDefaultsKey {
         public static let lastUpdate = Config.keyPrefix + ".lastUpdate"
     }
 
     // MARK: Keychain
 
-    public struct Keychain {
+    public enum Keychain {
         public static let credentialStorageKey = "CredentialsStorage"
         public static let credentialsKey = "credentials"
+    }
+
+    // MARK: Force Update
+
+    public enum ForceUpdate {
+
+        /// feature flag that determines if the force update feature is enabled
+        public static let enabled: Bool = false
+
+        /// url of the statically hosted version file, used by force update feature
+        public static let publicVersionURL = URL(string: "https://public.allaboutapps.at/config/test/version.json")!
     }
 }

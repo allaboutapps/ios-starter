@@ -2,7 +2,8 @@ import Assets
 import Toolbox
 import UIKit
 
-public struct Appearance {
+public enum Appearance {
+
     public static func setup() {
         UINavigationBar.appearance().tintColor = .systemOrange
         UITabBar.appearance().tintColor = .systemOrange
@@ -12,7 +13,8 @@ public struct Appearance {
 // MARK: - Padding
 
 public extension Style {
-    struct Padding {
+
+    enum Padding {
         /// 4
         static let half: CGFloat = 4.0
         /// 8
@@ -27,7 +29,8 @@ public extension Style {
 // MARK: - CornerRadius
 
 public extension Style {
-    struct CornerRadius {
+
+    enum CornerRadius {
         /// 3
         static let small: CGFloat = 3.0
         /// 5
