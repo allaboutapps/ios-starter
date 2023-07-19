@@ -30,6 +30,7 @@ public class MainCoordinator: TabBarCoordinator {
         ]
 
         tabBarController.selectedIndex = 0
+        tabBarController.tabBar.tintColor = UIColor.brandPrimary
     }
 
     // MARK: - Coordinator Start

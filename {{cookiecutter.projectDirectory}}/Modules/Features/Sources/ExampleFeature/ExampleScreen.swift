@@ -4,16 +4,30 @@ import Networking
 import SwiftUI
 
 struct ExampleScreen: View {
-    @StateObject var viewModel: ExampleViewModel
 
-    init() {
+    // MARK: Init
+
+    enum OutAction {
+        case debug
+    }
+
+    private let sendOutAction: (OutAction) -> Void
+
+    init(outAction: @escaping (OutAction) -> Void) {
+        sendOutAction = outAction
         _viewModel = StateObject(wrappedValue: ExampleViewModel())
     }
 
-    public var body: some View {
+    // MARK: Properties
+
+    @StateObject private var viewModel: ExampleViewModel
+
+    // MARK: Body
+
+    var body: some View {
         Group {
             switch viewModel.viewState {
-            case let .content(items, _):
+            case .content(let items, _):
                 content(items: items)
             case .empty:
                 Text("No data")
@@ -35,18 +49,35 @@ struct ExampleScreen: View {
         }
     }
 
-    func content(items: [Item]) -> some View {
+    // MARK: Helpers
+
+    private func content(items: [Item]) -> some View {
         List {
-            ForEach(items, id: \.self) { item in
-                Text(item.name)
+            Section {
+                ForEach(items, id: \.self) { item in
+                    Text(item.name)
+                }
+            }
+            Section {
+                Button(
+                    action: {
+                        sendOutAction(.debug)
+                    },
+                    label: {
+                        Text("Debug")
+                    }
+                )
             }
         }
-        .foregroundColor(.success)
+        .foregroundColor(.brandPrimary)
     }
 }
 
+// MARK: - Previews
+
 struct ExampleScreen_Previews: PreviewProvider {
+
     static var previews: some View {
-        ExampleScreen()
+        ExampleScreen(outAction: { _ in })
     }
 }

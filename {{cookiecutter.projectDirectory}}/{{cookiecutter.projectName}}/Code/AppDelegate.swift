@@ -1,4 +1,5 @@
 import CommonUI
+import DebugFeature
 import ForceUpdate
 import Foundation
 import Logbook
@@ -19,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         API.setup()
         CredentialsController.shared.resetOnNewInstallations()
 
+        setupDebug()
         setupForceUpdate()
 
         return true
@@ -66,5 +68,37 @@ private extension AppDelegate {
             )
             await ForceUpdateController.shared.checkForUpdate()
         }
+    }
+}
+
+// MARK: - Debug
+
+private extension AppDelegate {
+
+    /// Sets up the `DebugController` and sets values, if enabled in `Config.Debug.enabled`.
+    func setupDebug() {
+        guard Config.Debug.enabled else { return }
+
+        let debugController = DebugController()
+
+        debugController.add(.appBundleId, to: .app, value: Bundle.main.bundleIdentifier)
+        debugController.add(.appVersion, to: .app, value: Bundle.main.appVersion)
+        debugController.add(.appBuildNumber, to: .app, value: Bundle.main.buildNumber)
+        debugController.add(.appServerEnvironment, to: .app, value: AppEnvironment.current.serverEnvironment.rawValue)
+        debugController.add(.appBuildConfig, to: .app, value: AppEnvironment.current.buildConfig.rawValue)
+        debugController.add(.appBundleId, to: .app, value: Bundle.main.bundleIdentifier)
+
+        debugController.addStatic(.userAppStart, to: .user, value: Date.now.formatted(date: .complete, time: .complete))
+        debugController.add(.userLocale, to: .user, value: Locale.current.identifier)
+
+        debugController.add(.deviceOSVersion, to: .device, value: "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)")
+        debugController.add(.deviceOSModel, to: .device, value: UIDevice.current.model)
+
+        debugController.add(.notificationsPushToken, to: .notifications, value: nil)
+        debugController.add(.notificationsPushToken, to: .notifications, value: "ABC")
+        debugController.add(.notificationsEnvironment, to: .notifications, value: AppEnvironment.current.buildConfig == .debug ? "development" : "production")
+        debugController.add(.notificationsConfigured, to: .notifications, value: UIApplication.shared.isRegisteredForRemoteNotifications ? "true" : "false")
+
+        Services.shared.register(service: debugController)
     }
 }

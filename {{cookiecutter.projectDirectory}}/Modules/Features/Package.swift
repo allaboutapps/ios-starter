@@ -1,4 +1,4 @@
-// swift-tools-version: 5.8
+// swift-tools-version: 5.9
 
 import PackageDescription
 
@@ -10,6 +10,7 @@ let package = Package(
         .library(name: "MainFeature", targets: ["MainFeature"]),
         .library(name: "AuthFeature", targets: ["AuthFeature"]),
         .library(name: "ExampleFeature", targets: ["ExampleFeature"]),
+        .library(name: "DebugFeature", targets: ["DebugFeature"]),
     ],
     dependencies: [
         .package(url: "https://github.com/allaboutapps/StatefulViewController.git", from: "5.2.0"),
@@ -52,6 +53,16 @@ let package = Package(
                 .product(name: "CommonUI", package: "Core"),
                 .product(name: "Models", package: "Core"),
                 .product(name: "Networking", package: "Core"),
+                .product(name: "Utilities", package: "Core"),
+                "DebugFeature",
+            ]
+        ),
+        .target(
+            name: "DebugFeature",
+            dependencies: [
+                .product(name: "Assets", package: "Core"),
+                .product(name: "CommonUI", package: "Core"),
+                .product(name: "Models", package: "Core"),
                 .product(name: "Utilities", package: "Core"),
             ]
         ),

@@ -56,4 +56,12 @@ public enum Config {
         /// URL of the statically hosted version file, used by ForceUpdate package.
         public static let publicVersionURL = URL(string: "https://public.allaboutapps.at/config/{{cookiecutter.projectName|lower|replace(' ', '-')}}/version.json")!
     }
+    
+    // MARK: Debug
+    
+    public enum Debug {
+        
+        /// Feature flag that determines if the debug feature is enabled.
+        public static let enabled: Bool = true
+    }
 }

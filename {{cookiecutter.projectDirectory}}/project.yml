@@ -66,6 +66,8 @@ targets:
               product: AuthFeature
             - package: Features
               product: ExampleFeature
+            - package: Features
+              product: DebugFeature
             - package: Core
               product: Assets
             - package: Core

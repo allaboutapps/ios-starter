@@ -20,7 +20,7 @@ class LoginViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.setTitle(Strings.authLoginButton, for: .normal)
         $0.addTarget(self, action: #selector(handleLoginButtonTapped), for: .touchUpInside)
-        $0.setTitleColor(.systemRed, for: .normal)
+        $0.setTitleColor(.brandPrimary, for: .normal)
     }
 
     // MARK: Private
