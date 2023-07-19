@@ -62,6 +62,8 @@ targets:
               product: AuthFeature
             - package: Features
               product: ExampleFeature
+            - package: Features
+              product: ForceUpdateFeature
             - package: Core
               product: Assets
             - package: Core
