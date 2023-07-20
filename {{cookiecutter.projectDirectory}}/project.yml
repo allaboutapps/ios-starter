@@ -2,8 +2,9 @@ name: {{ cookiecutter.projectName }}
 options:
     xcodeVersion: 14.0
     groupOrdering:
-        - order: [{{ cookiecutter.projectName }}, Modules]
+        - order: [Modules, {{ cookiecutter.projectName }}]
     localPackagesGroup: Modules
+fileGroups: [README.md]
 configs:
     Debug-Dev: debug
     Debug-Staging: debug
