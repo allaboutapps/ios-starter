@@ -19,13 +19,16 @@ public actor ForceUpdateController {
 
     // MARK: Properties
 
-    private var checkForUpdateTask: Task<Void, Error>?
+    private var checkForUpdateTask: Task<Void, Never>?
     private nonisolated let onForceUpdateNeededSubject = PassthroughSubject<URL?, Never>()
 
     // MARK: Interface
 
     /// Singleton
     public static let shared = ForceUpdateController()
+
+    /// AsyncSequence that emits a value if the force update screen should be displayed. Returns AppStore URL of the app.
+    public private(set) nonisolated lazy var onForceUpdateNeededAsyncSequence = onForceUpdateNeededSubject.values
 
     /// Combine Publisher that emits a value if the force update screen should be displayed. Returns AppStore URL of the app.
     public private(set) nonisolated lazy var onForceUpdateNeededPublisher = onForceUpdateNeededSubject.eraseToAnyPublisher()
@@ -51,29 +54,29 @@ public actor ForceUpdateController {
 
     /// Checks for updates. Thread-safe.
     /// Fetches current version from AppStore and from project version JSON.
-    public func checkForUpdate() async throws {
+    public func checkForUpdate() async {
         if let checkForUpdateTask {
-            return try await checkForUpdateTask.value
+            return await checkForUpdateTask.value
         }
 
-        let checkForUpdateTask = Task<Void, Error> { [weak self] in
+        let checkForUpdateTask = Task<Void, Never> { [weak self] in
             guard let self else { return }
-            return try await self.internalCheckForUpdate()
+            return await self.internalCheckForUpdate()
         }
 
         self.checkForUpdateTask = checkForUpdateTask
         defer { self.checkForUpdateTask = nil }
-        return try await checkForUpdateTask.value
+        return await checkForUpdateTask.value
     }
 
     // MARK: Helpers
 
-    private func internalCheckForUpdate() async throws {
+    private func internalCheckForUpdate() async {
         log.debug("checking for app update..", category: .forceUpdate)
 
         // load infos in parallel
-        async let appStoreInfoLoad = try? await fetchAppStoreInfo()
-        async let forceUpdateInfoLoad = try? await fetchForceUpdateInfo()
+        async let appStoreInfoLoad = fetchAppStoreInfo()
+        async let forceUpdateInfoLoad = fetchForceUpdateInfo()
 
         // wait for parallel loading to finish
         let (appStoreInfo, forceUpdateInfo) = await (appStoreInfoLoad, forceUpdateInfoLoad)
@@ -95,20 +98,44 @@ public actor ForceUpdateController {
         }
     }
 
-    private func fetchAppStoreInfo(bundleId providedBundleId: String? = nil) async throws -> AppStoreLookUpResult? {
-        guard let bundleId = providedBundleId ?? Bundle.main.bundleIdentifier,
-              let url = iTunesLookupURL(bundleId: bundleId)
-        else {
+    private func fetchAppStoreInfo(bundleId providedBundleId: String? = nil) async -> AppStoreLookUpResult? {
+        guard let bundleId = providedBundleId ?? Bundle.main.bundleIdentifier else {
+            assertionFailure("No bundleId found")
             return nil
         }
 
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let result = try Decoders.standardJSON.decode(AppStoreLookUp.self, from: data)
-        return result.results.first
+        guard let url = iTunesLookupURL(bundleId: bundleId) else {
+            assertionFailure("iTunes Lookup URL invalid.")
+            return nil
+        }
+
+        let responseData = try? await URLSession.shared.data(from: url)
+
+        guard let (data, _) = responseData else {
+            return nil
+        }
+
+        do {
+            let result = try Decoders.standardJSON.decode(AppStoreLookUp.self, from: data)
+            return result.results.first
+        } catch {
+            assertionFailure("Decoding iTunes Lookup response failed")
+            return nil
+        }
     }
 
-    private func fetchForceUpdateInfo() async throws -> ProjectVersion? {
-        let (data, _) = try await URLSession.shared.data(from: Config.ForceUpdate.publicVersionURL)
-        return try Decoders.standardJSON.decode(ProjectVersion.self, from: data)
+    private func fetchForceUpdateInfo() async -> ProjectVersion? {
+        let responseData = try? await URLSession.shared.data(from: Config.ForceUpdate.publicVersionURL)
+
+        guard let (data, _) = responseData else {
+            return nil
+        }
+
+        do {
+            return try Decoders.standardJSON.decode(ProjectVersion.self, from: data)
+        } catch {
+            assertionFailure("Decoding project JSON failed")
+            return nil
+        }
     }
 }

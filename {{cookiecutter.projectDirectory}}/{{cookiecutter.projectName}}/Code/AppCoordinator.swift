@@ -48,12 +48,11 @@ class AppCoordinator: Coordinator {
         }
 
         if Config.ForceUpdate.enabled {
-            ForceUpdateController.shared.onForceUpdateNeededPublisher
-                .receive(on: DispatchQueue.main)
-                .sink { [weak self] url in
-                    self?.presentForceUpdate(url: url)
+            Task {
+                for await url in ForceUpdateController.shared.onForceUpdateNeededAsyncSequence {
+                    self.presentForceUpdate(url: url)
                 }
-                .store(in: &cancellables)
+            }
         }
     }
 

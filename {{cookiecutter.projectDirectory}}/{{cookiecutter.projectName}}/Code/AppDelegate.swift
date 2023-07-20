@@ -64,7 +64,7 @@ private extension AppDelegate {
         guard Config.ForceUpdate.enabled else { return }
         
         Task {
-            try? await ForceUpdateController.shared.checkForUpdate()
+            await ForceUpdateController.shared.checkForUpdate()
         }
     }
 }
