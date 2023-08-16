@@ -9,7 +9,7 @@ public class AuthCoordinator: NavigationCoordinator {
 
     // MARK: - Init
         
-    override public init(navigationController: UINavigationController = UINavigationController()) {
+    override public init(navigationController: UINavigationController) {
         super.init(navigationController: navigationController)            
         navigationController.isModalInPresentation = true
     }

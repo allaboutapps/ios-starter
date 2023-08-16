@@ -8,10 +8,10 @@ import UIKit
 class AppCoordinator: Coordinator {
     private var cancellable = Set<AnyCancellable>()
     
-    static let shared = AppCoordinator()
+    static let shared = AppCoordinator(rootViewController: .init())
     
     var window: UIWindow!
-    let mainCoordinator = MainCoordinator()
+    let mainCoordinator = MainCoordinator(tabBarController: .init())
     
     func start(window: UIWindow) {
         self.window = window
@@ -48,7 +48,7 @@ class AppCoordinator: Coordinator {
     }
     
     private func presentLogin(animated: Bool) {
-        let coordinator = AuthCoordinator()
+        let coordinator = AuthCoordinator(navigationController: .init())
         
         coordinator.onLogin = { [weak self] in
             self?.reset(animated: true)

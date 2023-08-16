@@ -1,4 +1,4 @@
-// swift-tools-version: 5.6
+// swift-tools-version: 5.8
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Features",
     defaultLocalization: "de",
-    platforms: [.iOS(.v14)],
+    platforms: [.iOS(.v16)],
     products: [
         .library(name: "MainFeature", targets: ["MainFeature"]),
         .library(name: "AuthFeature", targets: ["AuthFeature"]),

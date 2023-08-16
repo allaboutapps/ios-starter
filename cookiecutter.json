@@ -4,7 +4,7 @@
     "teamId": "M8F9QH57A6",
     "teamName": "aaa - all about apps Gmbh",
     "bundleIdentifier": "at.allaboutapps.{{cookiecutter.projectName|lower|replace(' ', '-')}}",
-    "deploymentTarget": "15.0",
+    "deploymentTarget": "16.0",
     "texterifyProjectId": "NONE",
     "texterifyExportConfigurationId": "NONE",
     "defaultLanguageCode": "en",
