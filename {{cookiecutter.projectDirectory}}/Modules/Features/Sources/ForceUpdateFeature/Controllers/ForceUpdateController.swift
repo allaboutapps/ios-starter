@@ -52,6 +52,9 @@ public actor ForceUpdateController {
     /// Returns the current minimum project version from the project version JSON.
     public private(set) var minimumProjectVersion: SemanticVersion?
 
+    /// Returns the AppStore look up result, if available.
+    public private(set) var appStoreLookUp: AppStoreLookUpResult?
+
     /// Checks for updates. Thread-safe.
     /// Fetches current version from AppStore and from project version JSON.
     public func checkForUpdate() async {
@@ -86,11 +89,12 @@ public actor ForceUpdateController {
         let safeMinimumProjectVersion = SemanticVersion(forceUpdateInfo?.iOS.minSupportedVersion)
 
         appVersion = safeAppVersion
-        appStoreVersion = safeAppVersion
+        appStoreVersion = safeAppStoreVersion
         minimumProjectVersion = safeMinimumProjectVersion
         isUpdateAvailable = safeAppVersion < safeAppStoreVersion
         isForceUpdateNeeded = safeAppVersion < safeMinimumProjectVersion
-        lastCheck = Date()
+        lastCheck = Date.now
+        appStoreLookUp = appStoreInfo
 
         if isForceUpdateNeeded {
             let url = URL(appStoreInfo?.trackViewUrl)
@@ -116,7 +120,10 @@ public actor ForceUpdateController {
         }
 
         do {
-            let result = try Decoders.standardJSON.decode(AppStoreLookUp.self, from: data)
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+
+            let result = try decoder.decode(AppStoreLookUp.self, from: data)
             return result.results.first
         } catch {
             assertionFailure("Decoding iTunes Lookup response failed")

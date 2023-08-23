@@ -1,11 +1,12 @@
 import Foundation
 
-struct AppStoreLookUpResult: Decodable {
-    let version: String?
-    let trackViewUrl: String?
-    let trackId: Int?
+public struct AppStoreLookUpResult: Decodable {
+    public let version: String?
+    public let trackViewUrl: String?
+    public let trackId: Int?
+    public let currentVersionReleaseDate: Date?
 }
 
-struct AppStoreLookUp: Decodable {
-    let results: [AppStoreLookUpResult]
+public struct AppStoreLookUp: Decodable {
+    public let results: [AppStoreLookUpResult]
 }

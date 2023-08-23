@@ -28,9 +28,7 @@ disabled_rules:
 # paths to ignore during linting. Takes precedence over `included`.
 excluded:
     - Carthage
-    - Modules/Core/Sources/Assets/Colors.swift
-    - Modules/Core/Sources/Assets/Images.swift
-    - Modules/Core/Sources/Assets/Strings.swift
+    - Modules/Core/Sources/Assets
 
 # configurable rules can be customized from this configuration file
 line_length:

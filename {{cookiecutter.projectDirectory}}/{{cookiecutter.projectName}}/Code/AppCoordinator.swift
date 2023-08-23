@@ -11,7 +11,8 @@ class AppCoordinator: Coordinator {
 
     // MARK: Init
 
-    private init() {
+    override private init(rootViewController: UIViewController) {
+        super.init(rootViewController: rootViewController)
     }
 
     // MARK: Properties

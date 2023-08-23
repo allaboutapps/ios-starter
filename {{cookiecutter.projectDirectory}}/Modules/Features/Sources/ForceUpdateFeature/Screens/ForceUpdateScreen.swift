@@ -8,7 +8,7 @@ struct ForceUpdateScreen: View {
 
     private let appStoreURL: URL?
 
-    public init(appStoreURL: URL?) {
+    init(appStoreURL: URL?) {
         self.appStoreURL = appStoreURL
     }
 
@@ -54,7 +54,7 @@ struct ForceUpdateScreen: View {
                     Label(Strings.forceUpdateActionToAppStore, systemImage: "arrowshape.turn.up.right.fill")
                         .frame(maxWidth: .infinity)
                         .padding(8)
-                        .labelStyle(.centreAlignedLabelStyle)
+                        .labelStyle(.centerAlignedLabelStyle)
                 }
             )
             .buttonStyle(.borderedProminent)
