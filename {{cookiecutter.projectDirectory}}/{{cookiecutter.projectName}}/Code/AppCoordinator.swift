@@ -22,6 +22,7 @@ class AppCoordinator: Coordinator {
     private(set) var window: UIWindow!
     private var cancellables = Set<AnyCancellable>()
     private let mainCoordinator = MainCoordinator(tabBarController: .init())
+    private var forceUpdateWindow: ForceUpdateWindow?
 
     // MARK: Start
 
@@ -73,12 +74,9 @@ class AppCoordinator: Coordinator {
     }
 
     private func presentForceUpdate(url: URL?) {
-        guard !childCoordinators.contains(where: { $0 is ForceUpdateCoordinator }) else { return }
-
-        let coordinator = ForceUpdateCoordinator(appStoreURL: url)
-        coordinator.start()
-        addChild(coordinator)
-        window.topViewController()?.present(coordinator.rootViewController, animated: true)
+        guard forceUpdateWindow == nil else { return }
+        forceUpdateWindow = ForceUpdateWindow(appStoreURL: url)
+        forceUpdateWindow?.start()
     }
 
     // MARK: Helpers
