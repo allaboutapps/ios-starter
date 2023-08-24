@@ -20,6 +20,9 @@ public class ForceUpdateWindow {
     public func start() {
         navigationCoordinator.start()
 
+        // NOTE: if multiple scenes are supported this code may NOT work properly,
+        // as this would only add a window on top of the active `windowScene`.
+        // To fix this, a window per `windowScene` would need to be shown.
         let windowScene = UIApplication.shared
             .connectedScenes
             .filter { $0.activationState == .foregroundActive }

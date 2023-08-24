@@ -93,7 +93,7 @@ public actor ForceUpdateController {
         minimumProjectVersion = safeMinimumProjectVersion
         isUpdateAvailable = safeAppVersion < safeAppStoreVersion
         isForceUpdateNeeded = safeAppVersion < safeMinimumProjectVersion
-        lastCheck = Date.now
+        lastCheck = .now
         appStoreLookUp = appStoreInfo
 
         if isForceUpdateNeeded {
