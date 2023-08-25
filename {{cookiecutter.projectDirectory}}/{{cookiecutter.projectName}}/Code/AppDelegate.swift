@@ -59,9 +59,9 @@ extension AppDelegate {
 
 private extension AppDelegate {
 
-    /// Sets up the `ForceUpdateController` and calls `checkForUpdate()`, if enabled in `Config.ForceUpdate.enabled`.
+    /// Sets up the `ForceUpdateController` and calls `checkForUpdate()`, if not in debug mode.
     func setupForceUpdate() {
-        guard Config.ForceUpdate.enabled else { return }
+        guard AppEnvironment.current.buildConfig != .debug else { return }
         
         Task {
             await ForceUpdateController.shared.checkForUpdate()

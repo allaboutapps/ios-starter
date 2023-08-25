@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_: UIScene) {
-        guard Config.ForceUpdate.enabled else { return }
+        guard AppEnvironment.current.buildConfig != .debug else { return }
 
         Task {
             await ForceUpdateController.shared.checkForUpdate()

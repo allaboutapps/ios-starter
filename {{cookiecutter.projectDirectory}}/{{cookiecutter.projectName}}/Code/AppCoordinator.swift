@@ -49,7 +49,7 @@ class AppCoordinator: Coordinator {
             presentLogin(animated: false)
         }
 
-        if Config.ForceUpdate.enabled {
+        if AppEnvironment.current.buildConfig != .debug {
             Task {
                 for await url in ForceUpdateController.shared.onForceUpdateNeededAsyncSequence {
                     self.presentForceUpdate(url: url)

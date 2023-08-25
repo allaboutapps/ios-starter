@@ -55,17 +55,7 @@ public enum Config {
 
     public enum ForceUpdate {
 
-        /// Feature flag that determines if the force update feature is enabled.
-        public static var enabled: Bool {
-            switch AppEnvironment.current.buildConfig {
-            case .debug:
-                return false
-            case .release:
-                return true
-            }
-        }
-
         /// URL of the statically hosted version file, used by force update feature.
-        public static let publicVersionURL = URL(string: "https://public.allaboutapps.at/config/test/version.json")!
+        public static let publicVersionURL = URL(string: "https://public.allaboutapps.at/config/{{cookiecutter.projectName|lower|replace(' ', '-')}}/version.json")!
     }
 }
