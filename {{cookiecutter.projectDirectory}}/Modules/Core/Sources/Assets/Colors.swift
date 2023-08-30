@@ -22,18 +22,21 @@ public typealias AssetColorTypeAlias = ColorAsset.Color
 
 // swiftlint:disable identifier_name line_length nesting type_body_length type_name
 public enum Colors {
+  public static let brandPrimary = ColorAsset(name: "brandPrimary")
   public static let error = ColorAsset(name: "error")
   public static let success = ColorAsset(name: "success")
   public static let warning = ColorAsset(name: "warning")
 }
 
 public extension UIColor {
+	static let brandPrimary = UIColor(named: "brandPrimary", in: BundleToken.bundle, compatibleWith: nil)
 	static let error = UIColor(named: "error", in: BundleToken.bundle, compatibleWith: nil)
 	static let success = UIColor(named: "success", in: BundleToken.bundle, compatibleWith: nil)
 	static let warning = UIColor(named: "warning", in: BundleToken.bundle, compatibleWith: nil)
 }
 
 public extension SwiftUI.Color {
+	static let brandPrimary = SwiftUI.Color("brandPrimary", bundle: BundleToken.bundle)
 	static let error = SwiftUI.Color("error", bundle: BundleToken.bundle)
 	static let success = SwiftUI.Color("success", bundle: BundleToken.bundle)
 	static let warning = SwiftUI.Color("warning", bundle: BundleToken.bundle)

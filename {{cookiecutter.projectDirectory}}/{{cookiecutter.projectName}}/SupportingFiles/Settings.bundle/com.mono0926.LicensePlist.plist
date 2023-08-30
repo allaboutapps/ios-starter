@@ -14,7 +14,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/Alamofire</string>
 			<key>Title</key>
-			<string>alamofire</string>
+			<string>Alamofire</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -22,7 +22,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/AlamofireImage</string>
 			<key>Title</key>
-			<string>alamofireimage</string>
+			<string>AlamofireImage</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -30,7 +30,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/DataSource</string>
 			<key>Title</key>
-			<string>datasource</string>
+			<string>DataSource</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -38,7 +38,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/Differ</string>
 			<key>Title</key>
-			<string>differ</string>
+			<string>Differ</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -46,7 +46,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/Fetch</string>
 			<key>Title</key>
-			<string>fetch</string>
+			<string>Fetch</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -54,7 +54,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/KeychainAccess</string>
 			<key>Title</key>
-			<string>keychainaccess</string>
+			<string>KeychainAccess</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -62,7 +62,7 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/Logbook</string>
 			<key>Title</key>
-			<string>logbook</string>
+			<string>Logbook</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
@@ -70,7 +70,15 @@
 			<key>File</key>
 			<string>com.mono0926.LicensePlist/StatefulViewController</string>
 			<key>Title</key>
-			<string>statefulviewcontroller</string>
+			<string>StatefulViewController</string>
+			<key>Type</key>
+			<string>PSChildPaneSpecifier</string>
+		</dict>
+		<dict>
+			<key>File</key>
+			<string>com.mono0926.LicensePlist/Toolbox</string>
+			<key>Title</key>
+			<string>Toolbox</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>

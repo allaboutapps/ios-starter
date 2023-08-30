@@ -1,5 +1,4 @@
 // swift-tools-version: 5.8
-// The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
@@ -12,7 +11,7 @@ let package = Package(
         .library(name: "CommonUI", targets: ["CommonUI"]),
         .library(name: "Models", targets: ["Models"]),
         .library(name: "Networking", targets: ["Networking"]),
-        .library(name: "Utilities", targets: ["Utilities"])
+        .library(name: "Utilities", targets: ["Utilities"]),
     ],
     dependencies: [
         .package(url: "https://github.com/allaboutapps/Fetch.git", from: "3.0.0"),
@@ -38,12 +37,12 @@ let package = Package(
             name: "Networking",
             dependencies: ["Models", "Utilities", "Fetch", "Logbook", "Toolbox", "KeychainAccess"],
             resources: [
-                .process("Stubs")
+                .process("Stubs"),
             ]
         ),
         .target(
             name: "Utilities",
             dependencies: ["Fetch", "Logbook", "Toolbox", "KeychainAccess"]
-        )
+        ),
     ]
 )
