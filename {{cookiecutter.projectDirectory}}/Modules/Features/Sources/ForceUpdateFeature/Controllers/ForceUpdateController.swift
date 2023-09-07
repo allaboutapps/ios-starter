@@ -14,8 +14,7 @@ public actor ForceUpdateController {
 
     // MARK: Init
 
-    private init() {
-    }
+    private init() {}
 
     // MARK: Properties
 
@@ -113,7 +112,13 @@ public actor ForceUpdateController {
             return nil
         }
 
-        let responseData = try? await URLSession.shared.data(from: url)
+        let request = URLRequest(
+            url: url,
+            cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
+            timeoutInterval: Config.API.timeout
+        )
+
+        let responseData = try? await URLSession.shared.data(for: request)
 
         guard let (data, _) = responseData else {
             return nil
@@ -132,7 +137,13 @@ public actor ForceUpdateController {
     }
 
     private func fetchForceUpdateInfo() async -> ProjectVersion? {
-        let responseData = try? await URLSession.shared.data(from: Config.ForceUpdate.publicVersionURL)
+        let request = URLRequest(
+            url: Config.ForceUpdate.publicVersionURL,
+            cachePolicy: .reloadIgnoringLocalAndRemoteCacheData,
+            timeoutInterval: Config.API.timeout
+        )
+
+        let responseData = try? await URLSession.shared.data(for: request)
 
         guard let (data, _) = responseData else {
             return nil
