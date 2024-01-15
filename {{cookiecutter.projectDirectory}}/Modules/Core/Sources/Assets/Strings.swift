@@ -18,12 +18,6 @@ public enum Strings {
   public static let exampleText = Strings.tr("Localizable", "example_text", fallback: "Hello, World!")
   /// Example
   public static let exampleTitle = Strings.tr("Localizable", "example_title", fallback: "Example")
-  /// To the AppStore
-  public static let forceUpdateActionToAppStore = Strings.tr("Localizable", "force_update_action_to_app_store", fallback: "To the AppStore")
-  /// Please download the latest version of the app to be able to use the app.
-  public static let forceUpdateMessage = Strings.tr("Localizable", "force_update_message", fallback: "Please download the latest version of the app to be able to use the app.")
-  /// New update available
-  public static let forceUpdateTitle = Strings.tr("Localizable", "force_update_title", fallback: "New update available")
   /// Abbrechen
   public static let genericCancel = Strings.tr("Localizable", "generic_cancel", fallback: "Abbrechen")
   /// Nein

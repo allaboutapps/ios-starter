@@ -36,6 +36,9 @@ packages:
         path: Modules/Features
     Core:
         path: Modules/Core
+    ForceUpdate:
+        url: https://github.com/allaboutapps/force-update-ios
+        from: 1.0.0
 targets:
     {{cookiecutter.projectName}}:
         type: application
@@ -63,8 +66,6 @@ targets:
               product: AuthFeature
             - package: Features
               product: ExampleFeature
-            - package: Features
-              product: ForceUpdateFeature
             - package: Core
               product: Assets
             - package: Core
@@ -75,6 +76,8 @@ targets:
               product: Utilities
             - package: Core
               product: CommonUI
+            - package: ForceUpdate
+              product: ForceUpdate
         postCompileScripts:
             - script: |
                   export PATH="$PATH:/opt/homebrew/bin"

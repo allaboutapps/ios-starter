@@ -8,6 +8,3 @@
 "example_text" = "Hello, World!";
 "main_tab_first" = "Tab 1";
 "main_tab_second" = "Tab 2";
-"force_update_title" = "New update available";
-"force_update_message" = "Please download the latest version of the app to be able to use the app.";
-"force_update_action_to_app_store" = "To the AppStore";

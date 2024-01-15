@@ -1,10 +1,9 @@
-import ForceUpdateFeature
+import ForceUpdate
 import Toolbox
 import UIKit
 import Utilities
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
@@ -18,14 +17,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
     }
 
-    func sceneDidDisconnect(_: UIScene) {
-    }
+    func sceneDidDisconnect(_: UIScene) {}
 
-    func sceneDidBecomeActive(_: UIScene) {
-    }
+    func sceneDidBecomeActive(_: UIScene) {}
 
-    func sceneWillResignActive(_: UIScene) {
-    }
+    func sceneWillResignActive(_: UIScene) {}
 
     func sceneWillEnterForeground(_: UIScene) {
         guard AppEnvironment.current.buildConfig != .debug else { return }
@@ -35,6 +31,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
 
-    func sceneDidEnterBackground(_: UIScene) {
-    }
+    func sceneDidEnterBackground(_: UIScene) {}
 }

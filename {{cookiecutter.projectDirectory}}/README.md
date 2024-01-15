@@ -13,3 +13,5 @@ public enum ForceUpdate {
     public static let publicVersionURL = URL(string: "https://public.allaboutapps.at/config/test/version.json")!
 }
 ```
+
+[Force Update GitHub](https://github.com/allaboutapps/force-update-ios)
