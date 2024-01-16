@@ -1,15 +1,14 @@
 import CommonUI
+import ForceUpdate
 import Foundation
 import Logbook
 import Networking
+import Toolbox
 import UIKit
 import Utilities
-import ForceUpdateFeature
-import Toolbox
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     var window: UIWindow?
 
     func application(_: UIApplication, didFinishLaunchingWithOptions _: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
@@ -35,7 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - Logging
 
 extension AppDelegate {
-
     func setupLogging(for environment: AppEnvironment) {
         let dateformatter = DateFormatter()
         dateformatter.dateStyle = .none
@@ -58,12 +56,14 @@ extension AppDelegate {
 // MARK: - Force Update
 
 private extension AppDelegate {
-
     /// Sets up the `ForceUpdateController` and calls `checkForUpdate()`, if not in debug mode.
     func setupForceUpdate() {
         guard AppEnvironment.current.buildConfig != .debug else { return }
-        
+
         Task {
+            await ForceUpdateController.shared.configure(
+                publicVersionURL: Config.ForceUpdate.publicVersionURL
+            )
             await ForceUpdateController.shared.checkForUpdate()
         }
     }

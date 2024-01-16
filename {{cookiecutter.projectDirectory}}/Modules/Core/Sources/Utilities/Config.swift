@@ -2,7 +2,6 @@ import Foundation
 
 /// Global set of configuration values for this application.
 public enum Config {
-
     public static let keyPrefix = "at.allaboutapps"
 
     // MARK: API
@@ -54,8 +53,7 @@ public enum Config {
     // MARK: Force Update
 
     public enum ForceUpdate {
-
-        /// URL of the statically hosted version file, used by force update feature.
+        /// URL of the statically hosted version file, used by ForceUpdate package.
         public static let publicVersionURL = URL(string: "https://public.allaboutapps.at/config/{{cookiecutter.projectName|lower|replace(' ', '-')}}/version.json")!
     }
 }

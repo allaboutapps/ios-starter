@@ -1,6 +1,6 @@
 import AuthFeature
 import Combine
-import ForceUpdateFeature
+import ForceUpdate
 import MainFeature
 import Networking
 import Toolbox
@@ -75,8 +75,12 @@ class AppCoordinator: Coordinator {
 
     private func presentForceUpdate(url: URL?) {
         guard forceUpdateWindow == nil else { return }
-        forceUpdateWindow = ForceUpdateWindow(appStoreURL: url)
-        forceUpdateWindow?.start()
+        let appearance = ForceUpdateAppearance(
+            imageForegroundColor: .green,
+            toAppStoreButtonTintColor: .green
+        )
+        forceUpdateWindow = ForceUpdateWindow(appStoreURL: url, appearance: appearance)
+        forceUpdateWindow?.show()
     }
 
     // MARK: Helpers
