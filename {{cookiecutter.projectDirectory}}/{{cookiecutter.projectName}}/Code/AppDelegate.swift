@@ -1,5 +1,5 @@
 import CommonUI
-import DebugFeature
+import DebugView
 import ForceUpdate
 import Foundation
 import Logbook
@@ -74,31 +74,71 @@ private extension AppDelegate {
 // MARK: - Debug
 
 private extension AppDelegate {
-
     /// Sets up the `DebugController` and sets values, if enabled in `Config.Debug.enabled`.
     func setupDebug() {
         guard Config.Debug.enabled else { return }
 
         let debugController = DebugController()
 
-        debugController.add(.appBundleId, to: .app, value: Bundle.main.bundleIdentifier)
-        debugController.add(.appVersion, to: .app, value: Bundle.main.appVersion)
-        debugController.add(.appBuildNumber, to: .app, value: Bundle.main.buildNumber)
-        debugController.add(.appServerEnvironment, to: .app, value: AppEnvironment.current.serverEnvironment.rawValue)
-        debugController.add(.appBuildConfig, to: .app, value: AppEnvironment.current.buildConfig.rawValue)
-        debugController.add(.appBundleId, to: .app, value: Bundle.main.bundleIdentifier)
+        debugController.addValue(.appVersion, toSection: .app)
+        debugController.addValue(.appBuildNumber, toSection: .app)
+        debugController.addValue(.appBundleIdentifier, toSection: .app)
+        debugController.addValue(.serverEnvironment, toSection: .app)
+        debugController.addValue(.buildConfig, toSection: .app)
 
-        debugController.addStatic(.userAppStart, to: .user, value: Date.now.formatted(date: .complete, time: .complete))
-        debugController.add(.userLocale, to: .user, value: Locale.current.identifier)
+        debugController.addValue(.appStart, toSection: .user)
+        debugController.addValue(.userLocale, toSection: .user)
 
-        debugController.add(.deviceOSVersion, to: .device, value: "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)")
-        debugController.add(.deviceOSModel, to: .device, value: UIDevice.current.model)
+        debugController.addValue(.deviceOSVersion, toSection: .device)
+        debugController.addValue(.deviceOSModel, toSection: .device)
 
-        debugController.add(.notificationsPushToken, to: .notifications, value: nil)
-        debugController.add(.notificationsPushToken, to: .notifications, value: "ABC")
-        debugController.add(.notificationsEnvironment, to: .notifications, value: AppEnvironment.current.buildConfig == .debug ? "development" : "production")
-        debugController.add(.notificationsConfigured, to: .notifications, value: UIApplication.shared.isRegisteredForRemoteNotifications ? "true" : "false")
+        debugController.addValue(.pushNotificationsToken, toSection: .pushNotifications)
+        debugController.addValue(.pushNotificationsEnvironment, toSection: .pushNotifications)
+        debugController.addValue(.pushNotificationsRegistered, toSection: .pushNotifications)
+
+        debugController.addButton(
+            DebugButton(
+                id: "diceRoll",
+                label: "Copy Dice Roll",
+                action: {
+                    UIPasteboard.general.string = String(Int.random(in: 1 ... 6))
+                }
+            ),
+            toSection: .user
+        )
 
         Services.shared.register(service: debugController)
     }
+}
+
+private extension DebugValue {
+    static let pushNotificationsEnvironment = DebugValue(
+        id: "pushNotificationsEnvironment",
+        label: "Environment",
+        staticValue: AppEnvironment.current.buildConfig == .debug ? "development" : "production"
+    )
+
+    static let pushNotificationsToken = DebugValue(
+        id: "pushNotificationsToken",
+        label: "Token",
+        value: "ABC"
+    )
+
+    static let appStart = DebugValue(
+        id: "appStart",
+        label: "App Start",
+        staticValue: Date.now.formatted(date: .complete, time: .complete)
+    )
+
+    static let serverEnvironment = DebugValue(
+        id: "serverEnvironment",
+        label: "Server Environment",
+        staticValue: AppEnvironment.current.serverEnvironment.rawValue
+    )
+
+    static let buildConfig = DebugValue(
+        id: "buildConfig",
+        label: "Build Config",
+        staticValue: AppEnvironment.current.buildConfig.rawValue
+    )
 }

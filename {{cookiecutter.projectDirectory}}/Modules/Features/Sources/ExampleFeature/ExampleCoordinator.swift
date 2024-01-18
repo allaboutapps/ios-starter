@@ -1,12 +1,11 @@
 import Assets
-import DebugFeature
+import DebugView
 import Networking
 import SwiftUI
 import Toolbox
 import UIKit
 
 public class ExampleCoordinator: NavigationCoordinator {
-
     // MARK: Init
 
     public init(title: String, navigationController: UINavigationController = UINavigationController()) {
@@ -43,17 +42,26 @@ public class ExampleCoordinator: NavigationCoordinator {
     // MARK: Present
 
     private func presentDebug() {
-        let coordinator = DebugCoordinator(
-            outAction: { [weak self] action in
-                switch action {
-                case .close:
-                    self?.dismissChildCoordinator(animated: true)
-                }
-            }
+        let viewController = UIHostingController(
+            rootView: DebugScreen(
+                controller: Services.shared[DebugController.self],
+                appearance: .init(tintColor: .brandPrimary)
+            )
         )
 
-        coordinator.start()
-        present(coordinator, animated: true)
+        viewController.navigationItem.leftBarButtonItem = .init(
+            systemItem: .close,
+            primaryAction: .init(handler: { [weak viewController] _ in
+                viewController?.dismiss(animated: true)
+            })
+        )
+
+        viewController.title = "Debug"
+
+        let navController = UINavigationController(rootViewController: viewController)
+        navController.navigationBar.prefersLargeTitles = true
+
+        present(navController, animated: true)
     }
 
     // MARK: Helpers

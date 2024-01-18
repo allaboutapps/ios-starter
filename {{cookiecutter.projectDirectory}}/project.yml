@@ -39,6 +39,9 @@ packages:
     ForceUpdate:
         url: https://github.com/allaboutapps/force-update-ios
         from: 1.0.0
+    DebugView:
+        url: "https://github.com/allaboutapps/debugview-ios"
+        from: 1.0.0
 targets:
     {{cookiecutter.projectName}}:
         type: application
@@ -66,8 +69,6 @@ targets:
               product: AuthFeature
             - package: Features
               product: ExampleFeature
-            - package: Features
-              product: DebugFeature
             - package: Core
               product: Assets
             - package: Core
@@ -80,6 +81,8 @@ targets:
               product: CommonUI
             - package: ForceUpdate
               product: ForceUpdate
+            - package: DebugView
+              product: DebugView
         postCompileScripts:
             - script: |
                   export PATH="$PATH:/opt/homebrew/bin"
