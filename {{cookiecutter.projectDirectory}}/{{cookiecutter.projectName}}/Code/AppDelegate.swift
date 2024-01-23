@@ -61,12 +61,14 @@ private extension AppDelegate {
     /// Sets up the `ForceUpdateController` and calls `checkForUpdate()`, if not in debug mode.
     func setupForceUpdate() {
         guard AppEnvironment.current.buildConfig != .debug else { return }
+        let updateController = ForceUpdateController(
+            publicVersionURL: Config.ForceUpdate.publicVersionURL
+        )
+
+        Services.shared.register(service: updateController)
 
         Task {
-            await ForceUpdateController.shared.configure(
-                publicVersionURL: Config.ForceUpdate.publicVersionURL
-            )
-            await ForceUpdateController.shared.checkForUpdate()
+            await updateController.checkForUpdate()
         }
     }
 }
