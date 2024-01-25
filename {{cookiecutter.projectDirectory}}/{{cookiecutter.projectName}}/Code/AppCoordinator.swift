@@ -8,7 +8,6 @@ import UIKit
 import Utilities
 
 class AppCoordinator: Coordinator {
-
     // MARK: Init
 
     override private init(rootViewController: UIViewController) {
@@ -50,8 +49,9 @@ class AppCoordinator: Coordinator {
         }
 
         if AppEnvironment.current.buildConfig != .debug {
+            let updateController = Services.shared[ForceUpdateController.self]
             Task {
-                for await url in ForceUpdateController.shared.onForceUpdateNeededAsyncSequence {
+                for await url in updateController.onForceUpdateNeededAsyncSequence {
                     self.presentForceUpdate(url: url)
                 }
             }
