@@ -2,32 +2,32 @@
 # swiftlint rules
 #
 
-# rule identifiers to exclude from running
+opt_in_rules:
+    - unhandled_throwing_task
+    - empty_count
+    - first_where
+    - weak_delegate
+    - contains_over_filter_is_empty
+    - contains_over_filter_count
+
+
 disabled_rules:
-    - force_try
     - todo
     - trailing_whitespace
     - type_name
-    - large_tuple
-    - redundant_optional_initialization
-    - force_cast
     - superfluous_disable_command
+    - force_cast
     - identifier_name
-    - weak_delegate
     - trailing_comma
-    #- operator_whitespace
-    #- vertical_whitespace
-    #- function_parameter_count
-    #- cyclomatic_complexity
-    #- type_body_length
-    #- operator_whitespace
-    #- colon
-    #- comma
-    #- control_statement
+    - cyclomatic_complexity
+    - blanket_disable_command
+    - for_where
+    - nesting
+    - redundant_optional_initialization
+    - trailing_newline
 
 # paths to ignore during linting. Takes precedence over `included`.
 excluded:
-    - Carthage
     - Modules/Core/Sources/Assets/Colors.swift
     - Modules/Core/Sources/Assets/Images.swift
     - Modules/Core/Sources/Assets/Strings.swift
@@ -37,8 +37,17 @@ line_length:
     warning: 260
     error: 400
 type_body_length:
+    warning: 1000
+    error: 1000
+function_body_length:
     warning: 300
     error: 500
-function_body_length:
-    warning: 80
-    error: 120
+file_length:
+    warning: 1000
+    error: 1200
+    
+force_try:
+    severity: warning
+large_tuple:
+    warning: 5
+    error: 7
