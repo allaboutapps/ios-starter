@@ -25,7 +25,7 @@ workflows:
         inputs:
         - upgrade: 'no'
         - cache_enabled: 'yes'
-        - packages: mono0926/license-plist/license-plist
+        - packages: licenseplist
         title: 'Brew install: LicensePlist'
     - brew-install:
         inputs:
