@@ -1,6 +1,6 @@
 # iOS Starter 📱
 
-Xcode 14.x with Swift Package Manager dependencies.
+Xcode 15.x with Swift Package Manager dependencies.
 
 `cookiecutter gh:allaboutapps/ios-starter`
 
