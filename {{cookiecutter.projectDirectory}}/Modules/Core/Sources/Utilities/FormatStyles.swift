@@ -1,7 +1,9 @@
 import Foundation
 
+// MARK: - ISODateFormatStyle
+
 /// Parsing input: any ISO Date (e.g. 2024-04-03T09:57:12.898Z).
-/// Formatting output: 3 Apr 2024 at 12:04 PM
+/// Formatting output: 2024-04-03T09:57:12.898Z
 public struct ISODateFormatStyle: ParseableFormatStyle, ParseStrategy {
     public var parseStrategy = Date.ISO8601FormatStyle()
         .year()
@@ -28,8 +30,10 @@ public extension ParseStrategy where Self == ISODateFormatStyle {
     static var isoDate: ISODateFormatStyle { .init() }
 }
 
+// MARK: - APIDateFormatStyle
+
 /// Parsing input: any API Date (e.g. 03.04.2024 12:04).
-/// Formatting output: 3 Apr 2024 at 12:04 PM
+/// Formatting output: 03.04.2024, 12:04
 public struct APIDateFormatStyle: ParseableFormatStyle, ParseStrategy {
     public var parseStrategy = Date.FormatStyle()
         .day(.twoDigits)
@@ -55,9 +59,11 @@ public extension ParseStrategy where Self == APIDateFormatStyle {
     static var apiDate: APIDateFormatStyle { .init() }
 }
 
+// MARK: - LocalizedWeekDayFormatStyle
+
 /// Input: any Date (e.g. 3 Apr 2024 at 12:16 PM).
 /// Formatting output: Wed, 3 Apr
-public struct LocalizedWeekFormatStyle: FormatStyle {
+public struct LocalizedWeekDayFormatStyle: FormatStyle {
     public func format(_ value: Date) -> String {
         value.formatted(
             Date.FormatStyle()
@@ -69,13 +75,15 @@ public struct LocalizedWeekFormatStyle: FormatStyle {
     }
 }
 
-public extension FormatStyle where Self == LocalizedWeekFormatStyle {
-    static var localizedWeek: LocalizedWeekFormatStyle { .init() }
+public extension FormatStyle where Self == LocalizedWeekDayFormatStyle {
+    static var localizedWeekDay: LocalizedWeekDayFormatStyle { .init() }
 }
+
+// MARK: - LocalizedWeekdayWithYearFormatStyle
 
 /// Input: any Date (e.g. 3 Apr 2024 at 12:16 PM).
 /// Formatting output: Wed, 3 Apr 2024
-public struct LocalizedWeekWithYearFormatStyle: FormatStyle {
+public struct LocalizedWeekdayWithYearFormatStyle: FormatStyle {
     public func format(_ value: Date) -> String {
         value.formatted(
             Date.FormatStyle()
@@ -88,9 +96,11 @@ public struct LocalizedWeekWithYearFormatStyle: FormatStyle {
     }
 }
 
-public extension FormatStyle where Self == LocalizedWeekWithYearFormatStyle {
-    static var localizedWeekWithYear: LocalizedWeekWithYearFormatStyle { .init() }
+public extension FormatStyle where Self == LocalizedWeekdayWithYearFormatStyle {
+    static var localizedWeekdayWithYear: LocalizedWeekdayWithYearFormatStyle { .init() }
 }
+
+// MARK: - MediumDateFormatStyle
 
 /// Input: any Date (e.g. 3 Apr 2024 at 12:16 PM).
 /// Formatting output: 3 Apr 2024
@@ -103,6 +113,8 @@ public struct MediumDateFormatStyle: FormatStyle {
 public extension FormatStyle where Self == MediumDateFormatStyle {
     static var medium: MediumDateFormatStyle { .init() }
 }
+
+// MARK: - HourMinuteShortFormatStyle
 
 /// Input: any Date Range (e.g. 2 Apr 2024 at 12:21 PM - 3 Apr 2024 at 12:15 PM).
 /// Formatting output: 23 hrs, 53 min
@@ -122,6 +134,8 @@ public struct HourMinuteShortFormatStyle: FormatStyle {
 public extension FormatStyle where Self == HourMinuteShortFormatStyle {
     static var hourMinuteShort: HourMinuteShortFormatStyle { .init() }
 }
+
+// MARK: - CurrencyEuroFormatStyle
 
 /// Input: any Double (e.g. 151.498).
 /// Formatting output: € 151,50
