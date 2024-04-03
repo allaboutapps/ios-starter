@@ -1,150 +1,141 @@
 import Foundation
 
-public enum Formatters {
-    public enum Date {
-        public static let isoDate: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-            formatter.timeZone = TimeZone(secondsFromGMT: 0)
-            formatter.locale = Locale(identifier: "en_US_POSIX")
-            return formatter
-        }()
+/// Parsing input: any ISO Date (e.g. 2024-04-03T09:57:12.898Z).
+/// Formatting output: 3 Apr 2024 at 12:04 PM
+public struct ISODateFormatStyle: ParseableFormatStyle, ParseStrategy {
+    public var parseStrategy = Date.ISO8601FormatStyle()
+        .year()
+        .month()
+        .day()
+        .timeZone(separator: .omitted)
+        .time(includingFractionalSeconds: true)
+        .timeSeparator(.colon)
 
-        public static let localizedWeek: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.locale = Locale.autoupdatingCurrent
-            formatter.setLocalizedDateFormatFromTemplate("EE d MMM")
-            return formatter
-        }()
+    public func format(_ value: Date) -> String {
+        value.formatted(parseStrategy)
+    }
 
-        public static let localizedWeekWithYear: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.locale = Locale.autoupdatingCurrent
-            formatter.setLocalizedDateFormatFromTemplate("EE d MMM yyyy")
-            return formatter
-        }()
+    public func parse(_ value: String) throws -> Date {
+        try Date(value, strategy: parseStrategy)
+    }
+}
 
-        public static let dateMedium: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.locale = Locale.autoupdatingCurrent
-            formatter.dateStyle = .medium
-            return formatter
-        }()
-        
-        public static let apiRendered: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd.MM.yyyy HH:mm"
-            return formatter
-        }()
+public extension FormatStyle where Self == ISODateFormatStyle {
+    static var isoDate: ISODateFormatStyle { .init() }
+}
+
+public extension ParseStrategy where Self == ISODateFormatStyle {
+    static var isoDate: ISODateFormatStyle { .init() }
+}
+
+/// Parsing input: any API Date (e.g. 03.04.2024 12:04).
+/// Formatting output: 3 Apr 2024 at 12:04 PM
+public struct APIDateFormatStyle: ParseableFormatStyle, ParseStrategy {
+    public var parseStrategy = Date.FormatStyle()
+        .day(.twoDigits)
+        .month(.twoDigits)
+        .year(.extended(minimumLength: 4))
+        .hour(.twoDigits(amPM: .omitted))
+        .minute(.twoDigits)
+
+    public func format(_ value: Date) -> String {
+        value.formatted(parseStrategy)
     }
-    
-    public enum Duration {
-        public static let minutesShort: DateComponentsFormatter = {
-            let formatter = DateComponentsFormatter()
-            formatter.unitsStyle = .short
-            formatter.allowedUnits = [.minute]
-            formatter.zeroFormattingBehavior = .pad
-            
-            return formatter
-        }()
-        
-        public static let hourMinuteShort: DateComponentsFormatter = {
-            let formatter = DateComponentsFormatter()
-            formatter.unitsStyle = .short
-            formatter.allowedUnits = [.hour, .minute]
-            formatter.zeroFormattingBehavior = .pad
-            
-            return formatter
-        }()
+
+    public func parse(_ value: String) throws -> Date {
+        try Date(value, strategy: parseStrategy)
     }
-    
-    public enum Number {
-        public static let percent: NumberFormatter = {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .percent
-            return formatter
-        }()
-        
-        public static let percentNoFractionDigits: NumberFormatter = {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .percent
-            formatter.maximumFractionDigits = 0
-            return formatter
-        }()
-        
-        public static let integer: NumberFormatter = {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .decimal
-            formatter.maximumFractionDigits = 0
-            formatter.minimumFractionDigits = 0
-            return formatter
-        }()
+}
+
+public extension FormatStyle where Self == APIDateFormatStyle {
+    static var apiDate: APIDateFormatStyle { .init() }
+}
+
+public extension ParseStrategy where Self == APIDateFormatStyle {
+    static var apiDate: APIDateFormatStyle { .init() }
+}
+
+/// Input: any Date (e.g. 3 Apr 2024 at 12:16 PM).
+/// Formatting output: Wed, 3 Apr
+public struct LocalizedWeekFormatStyle: FormatStyle {
+    public func format(_ value: Date) -> String {
+        value.formatted(
+            Date.FormatStyle()
+                .weekday(.abbreviated)
+                .day(.defaultDigits)
+                .month(.abbreviated)
+                .locale(.autoupdatingCurrent)
+        )
     }
-    
-    public enum Currency {
-        public static let twoFractionDigits: NumberFormatter = {
-            let formatter = NumberFormatter()
-            formatter.numberStyle = .currency
-            formatter.minimumFractionDigits = 2
-            formatter.maximumFractionDigits = 2
-            formatter.locale = Locale.current
-            return formatter
-        }()
+}
+
+public extension FormatStyle where Self == LocalizedWeekFormatStyle {
+    static var localizedWeek: LocalizedWeekFormatStyle { .init() }
+}
+
+/// Input: any Date (e.g. 3 Apr 2024 at 12:16 PM).
+/// Formatting output: Wed, 3 Apr 2024
+public struct LocalizedWeekWithYearFormatStyle: FormatStyle {
+    public func format(_ value: Date) -> String {
+        value.formatted(
+            Date.FormatStyle()
+                .weekday(.abbreviated)
+                .day(.defaultDigits)
+                .month(.abbreviated)
+                .year()
+                .locale(.autoupdatingCurrent)
+        )
     }
-    
-    public enum Mass {
-        public static let short: MassFormatter = {
-            let numberFormatter = NumberFormatter()
-            numberFormatter.maximumFractionDigits = 0
-            
-            let formatter = MassFormatter()
-            formatter.numberFormatter = numberFormatter
-            formatter.unitStyle = .short
-            return formatter
-        }()
+}
+
+public extension FormatStyle where Self == LocalizedWeekWithYearFormatStyle {
+    static var localizedWeekWithYear: LocalizedWeekWithYearFormatStyle { .init() }
+}
+
+/// Input: any Date (e.g. 3 Apr 2024 at 12:16 PM).
+/// Formatting output: 3 Apr 2024
+public struct MediumDateFormatStyle: FormatStyle {
+    public func format(_ value: Date) -> String {
+        value.formatted(date: .abbreviated, time: .omitted)
     }
-    
-    public enum Measurement {
-        public static let short: MeasurementFormatter = {
-            let formatter = MeasurementFormatter()
-            formatter.unitOptions = MeasurementFormatter.UnitOptions.providedUnit
-            formatter.unitStyle = .short
-            formatter.numberFormatter = Formatters.Number.integer
-            
-            return formatter
-        }()
+}
+
+public extension FormatStyle where Self == MediumDateFormatStyle {
+    static var medium: MediumDateFormatStyle { .init() }
+}
+
+/// Input: any Date Range (e.g. 2 Apr 2024 at 12:21 PM - 3 Apr 2024 at 12:15 PM).
+/// Formatting output: 23 hrs, 53 min
+public struct HourMinuteShortFormatStyle: FormatStyle {
+    public func format(_ value: Range<Date>) -> String {
+        let style = Date.ComponentsFormatStyle(
+            style: .abbreviated,
+            locale: .autoupdatingCurrent,
+            calendar: .init(identifier: .gregorian),
+            fields: [.hour, .minute]
+        )
+
+        return value.formatted(style)
     }
-    
-    public enum Length {
-        public static let short: LengthFormatter = {
-            let numberFormatter = NumberFormatter()
-            numberFormatter.maximumFractionDigits = 2
-            numberFormatter.minimumFractionDigits = 2
-            
-            let formatter = LengthFormatter()
-            formatter.unitStyle = .short
-            formatter.numberFormatter = numberFormatter
-            
-            return formatter
-        }()
-        
-        public static let shortNoFractionDigits: LengthFormatter = {
-            let numberFormatter = NumberFormatter()
-            numberFormatter.maximumFractionDigits = 0
-            
-            let formatter = LengthFormatter()
-            formatter.unitStyle = .short
-            formatter.numberFormatter = numberFormatter
-            
-            return formatter
-        }()
+}
+
+public extension FormatStyle where Self == HourMinuteShortFormatStyle {
+    static var hourMinuteShort: HourMinuteShortFormatStyle { .init() }
+}
+
+/// Input: any Double (e.g. 151.498).
+/// Formatting output: € 151,50
+public struct CurrencyEuroFormatStyle: FormatStyle {
+    public func format(_ value: Double) -> String {
+        value.formatted(
+            .currency(code: "EUR")
+                .precision(.fractionLength(2))
+                .locale(.init(identifier: "de-AT"))
+                .rounded()
+        )
     }
-    
-    public enum PersonName {
-        public static let regular: PersonNameComponentsFormatter = {
-            let formatter = PersonNameComponentsFormatter()
-            formatter.style = .long
-            return formatter
-        }()
-    }
+}
+
+public extension FormatStyle where Self == CurrencyEuroFormatStyle {
+    static var currencyEuro: CurrencyEuroFormatStyle { .init() }
 }
