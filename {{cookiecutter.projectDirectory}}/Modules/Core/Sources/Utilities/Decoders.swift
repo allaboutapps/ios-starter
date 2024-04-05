@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Decoders {
+public enum Decoders {
     public static let standardJSON: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .custom(Decoders.decodeDate)
@@ -11,14 +11,17 @@ public struct Decoders {
         let container = try decoder.singleValueContainer()
         let raw = try container.decode(String.self)
 
-        if let value = Formatters.Date.isoDate.date(from: raw) {
+        if let value = try? Date(raw, strategy: .isoDate) {
             return value
         }
 
-        if let value = Formatters.Date.apiRendered.date(from: raw) {
+        if let value = try? Date(raw, strategy: .apiDate) {
             return value
         } else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Couldn't decode Date from \(raw).")
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Couldn't decode Date from \(raw)."
+            )
         }
     }
 }
