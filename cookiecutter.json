@@ -5,6 +5,7 @@
     "teamName": "aaa - all about apps Gmbh",
     "bundleIdentifier": "at.allaboutapps.{{cookiecutter.projectName|lower|replace(' ', '-')}}",
     "deploymentTarget": "16.0",
+    "swaggerURL": "https://petstore.swagger.io/v2/swagger.json",
     "texterifyProjectId": "NONE",
     "texterifyExportConfigurationId": "NONE",
     "defaultLanguageCode": "en",

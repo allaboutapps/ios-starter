@@ -25,6 +25,16 @@ npm install -g texterify
 
 Follow the configuration steps described in the [documentation](https://github.com/chrztoph/texterify-cli#configuration).
 
+#### OpenAPI Generator Setup
+
+Install [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator)
+
+```
+brew install openapi-generator
+```
+
+Configuration can be edited in `APIGeneration/generator-config.json`, `APIGeneration/make` and `APIGeneration/.openapi-generator-ignore`
+
 ## Steps
 
 1. Run `cookiecutter gh:allaboutapps/ios-starter`.

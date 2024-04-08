@@ -31,6 +31,7 @@ excluded:
     - Modules/Core/Sources/Assets/Colors.swift
     - Modules/Core/Sources/Assets/Images.swift
     - Modules/Core/Sources/Assets/Strings.swift
+    - Modules/Core/Sources/Models/Generated/*
 
 # configurable rules can be customized from this configuration file
 line_length:
