@@ -1,0 +1,20 @@
+#!/bin/bash
+cd $(dirname $0)
+
+# if you want to supply your swagger.yml directly,
+# comment the next two lines and create a swagger.yml 
+rm -rf swagger.yml;
+curl -o swagger.yml {{cookiecutter.swaggerURL}};
+
+rm -rf ../Modules/Core/Sources/Models/Generated;
+
+openapi-generator generate -i swagger.yml \
+ -g swift5 \
+ -o ../Modules/Core/Sources/Models/Generated \
+ -c generator-config.json \
+    --global-property models,modelDocs=false,modelTests=false \
+    --ignore-file-override=./.openapi-generator-ignore \
+    --type-mappings uuid4=UUID;
+
+mv ../Modules/Core/Sources/Models/Generated/Models/* ../Modules/Core/Sources/Models/Generated/;
+rm -rf ../Modules/Core/Sources/Models/Generated/Models;

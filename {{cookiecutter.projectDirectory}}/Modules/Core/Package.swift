@@ -19,30 +19,59 @@ let package = Package(
         .package(url: "https://github.com/allaboutapps/Toolbox.git", from: "5.0.0"),
         .package(url: "https://github.com/kishikawakatsumi/KeychainAccess.git", from: "4.2.2"),
         .package(url: "https://github.com/Alamofire/AlamofireImage.git", from: "4.2.0"),
+        .package(url: "https://github.com/Flight-School/AnyCodable.git", from: "0.6.7"),
     ],
     targets: [
         .target(
             name: "Assets",
-            dependencies: ["Logbook", "Toolbox", "KeychainAccess"]
+            dependencies: [
+                "Logbook",
+                "Toolbox",
+                "KeychainAccess",
+            ]
         ),
         .target(
             name: "CommonUI",
-            dependencies: ["Assets", "Models", "Utilities", "Logbook", "Toolbox", "AlamofireImage"]
+            dependencies: [
+                "Assets",
+                "Models",
+                "Utilities",
+                "Logbook",
+                "Toolbox",
+                "AlamofireImage",
+            ]
         ),
         .target(
             name: "Models",
-            dependencies: ["Logbook", "Toolbox", "KeychainAccess"]
+            dependencies: [
+                "Logbook",
+                "Toolbox",
+                "KeychainAccess",
+                "AnyCodable",
+            ]
         ),
         .target(
             name: "Networking",
-            dependencies: ["Models", "Utilities", "Fetch", "Logbook", "Toolbox", "KeychainAccess"],
+            dependencies: [
+                "Models",
+                "Utilities",
+                "Fetch",
+                "Logbook",
+                "Toolbox",
+                "KeychainAccess",
+            ],
             resources: [
                 .process("Stubs"),
             ]
         ),
         .target(
             name: "Utilities",
-            dependencies: ["Fetch", "Logbook", "Toolbox", "KeychainAccess"]
+            dependencies: [
+                "Fetch",
+                "Logbook",
+                "Toolbox",
+                "KeychainAccess",
+            ]
         ),
     ]
 )

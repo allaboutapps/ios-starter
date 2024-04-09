@@ -1,0 +1,9 @@
+{
+    "projectName": "{{cookiecutter.projectName}}",
+    "readonlyProperties": true,
+    "responseAs": "Combine",
+    "swiftPackagePath": "/",
+    "validateSpec": false,
+    "validatable": false,
+    "useJsonEncodable": false
+}
