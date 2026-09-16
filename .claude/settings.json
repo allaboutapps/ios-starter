@@ -1,0 +1,15 @@
+{
+  "extraKnownMarketplaces": {
+    "aaa-marketplace": {
+      "source": {
+        "source": "github",
+        "repo": "allaboutapps/claude-marketplace"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "mobile-core@aaa-marketplace": true,
+    "mobile-accessibility@aaa-marketplace": true,
+    "ios@aaa-marketplace": true
+  }
+}

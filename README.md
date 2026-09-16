@@ -1,34 +1,78 @@
 # iOS Starter 📱
 
-Xcode 15.x with Swift Package Manager dependencies.
+The shared base for aaa iOS projects. A new project forks this repository, so improvements made
+here can be pulled into running projects later.
 
-`cookiecutter gh:allaboutapps/ios-starter`
+This repository deliberately contains **no Xcode project and no app target** — only the shared
+Swift packages under [`Modules/`](Modules/README.md) plus the linting, formatting and CI setup.
+Each project brings its own app shell.
 
-## Installation
+## Modules
 
-Install [Cookiecutter](https://cookiecutter.readthedocs.io/en/latest/installation.html), [XcodeGen](https://github.com/yonaskolb/XcodeGen#installing) and [SwiftGen](https://github.com/SwiftGen/SwiftGen#installation).
+| Module                              | What it holds                                                           |
+| ----------------------------------- | ----------------------------------------------------------------------- |
+| [`Toolbox`](Modules/Toolbox)        | Foundation/UIKit helpers and the `LoadingState` reducer                  |
+| [`CommonUI`](Modules/CommonUI)      | SwiftUI components, HTML renderer, loading views, `DisplayableError`     |
+
+Add the ones you need to your project as local package dependencies — drag `Modules/CommonUI` into
+the Xcode project, or reference it from `project.yml` if you use XcodeGen.
+
+## Building and testing
+
+The packages are iOS-only, so they build through `xcodebuild` against a simulator rather than with
+`swift build`:
+
+```sh
+cd Modules/CommonUI
+xcodebuild test -scheme CommonUI -destination 'platform=iOS Simulator,name=iPhone 17 Pro'
+```
+
+CI runs the same for every module, picking an available simulator automatically.
+
+## Claude Code
+
+`.claude/` ships the conventions Claude follows in this repo and in every project forked from it.
+
+| Location | Scope | Contents |
+| --- | --- | --- |
+| `.claude/skills/` | this project | `ios-project-structure`, `ios-dependency-design`, `ios-code-generation` — how *this* module graph, dependency wiring and codegen work |
+| `ios@aaa-marketplace` | all iOS projects | `tca-feature-structure` skill, `swiftui-coder` and `xcode-build-runner` agents |
+
+`.claude/settings.json` enables the marketplace plugins, so a fresh clone needs no per-machine
+setup. The split is deliberate: anything describing *this repository's* layout lives here and is
+inherited by forks, which then adapt it as they grow modules. Anything true of iOS work in general
+lives in the marketplace, where it is versioned once and shared by every project.
+
+When a fork adds a module or changes a convention, update the skill in `.claude/skills/` in the
+same change — a stale skill is worse than no skill.
+
+## Tooling
+
+```sh
+brew install swiftlint swiftformat
+```
+
+Both run in CI and are expected to stay at zero violations:
+
+```sh
+swiftlint lint --strict
+swiftformat --lint .
+```
+
+Xcode 26 or newer. The modules target iOS 18 (`CommonUI`) and iOS 16 (`Toolbox`).
+
+## Repository layout
 
 ```
-brew install cookiecutter
-brew install xcodegen
-brew install swiftgen
+.
+├── .claude/
+│   ├── settings.json          # enables the aaa-marketplace plugins
+│   └── skills/                # project-specific conventions (structure, dependencies, codegen)
+├── .github/workflows/ci.yml   # builds + tests the modules, lints the sources
+├── .swift-version             # Swift version for SwiftFormat
+├── .swiftformat               # shared SwiftFormat rules
+├── .swiftlint.yml             # shared SwiftLint rules
+└── Modules/
+    ├── CommonUI/              # project-agnostic SwiftUI components
+    └── Toolbox/               # the former allaboutapps/Toolbox package, now vendored here
 ```
-
-#### Texterify Setup
-
-[Texterify](https://github.com/chrztoph/texterify) is an open source localization management system, which can be hosted on your own server or run locally.
-To integrate Texterify in your project, you need to install the [Texterify CLI](https://github.com/chrztoph/texterify-cli):
-
-```
-npm install -g texterify
-```
-
-Follow the configuration steps described in the [documentation](https://github.com/chrztoph/texterify-cli#configuration).
-
-## Steps
-
-1. Run `cookiecutter gh:allaboutapps/ios-starter`.
-2. You'll be asked for project name, team details and bundle identifier details. If you don't have the localization tool installed, skip the `texterify` parameters. `cookiecutter` will create all files needed from the template on `github`.
-3. `xcodegen` will run automatically and generate the `Xcode` project file.
-4. Xcode launches your new project.
-5. 🚀
