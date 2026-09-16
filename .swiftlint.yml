@@ -1,0 +1,64 @@
+# Find all the available rules by running:
+# swiftlint rules
+#
+
+opt_in_rules:
+    - unhandled_throwing_task
+    - empty_count
+    - first_where
+    - weak_delegate
+    - contains_over_filter_is_empty
+    - contains_over_filter_count
+
+disabled_rules:
+    - todo
+    - trailing_whitespace
+    - type_name
+    - superfluous_disable_command
+    - force_cast
+    - identifier_name
+    - trailing_comma
+    - cyclomatic_complexity
+    - blanket_disable_command
+    - for_where
+    - nesting
+    - implicit_optional_initialization
+    - trailing_newline
+    # Result builders (#Preview, @ViewBuilder) reject `_ = foo()` in statement position, so
+    # `let _ = prepareDependencies { … }` / `let _ = assertionFailure(…)` is the only spelling.
+    - redundant_discardable_let
+
+custom_rules:
+  sf_safe_symbol:
+    name: "Safe SFSymbol"
+    message: "Use `SFSafeSymbols` via `systemSymbol` parameters for type safety."
+    regex: "(Image\\(systemName:)|(NSImage\\(symbolName:)|(Label[^,]+?,\\s*systemImage:)|(UIApplicationShortcutIcon\\(systemImageName:)"
+    severity: warning
+
+# paths to ignore during linting. Takes precedence over `included`.
+excluded:
+    - .claude
+    - Modules/CommonUI/.build
+    - Modules/CommonUI/.swiftpm
+    - Modules/Toolbox/.build
+    - Modules/Toolbox/.swiftpm
+
+# configurable rules can be customized from this configuration file
+line_length:
+    warning: 260
+    error: 400
+type_body_length:
+    warning: 1000
+    error: 1000
+function_body_length:
+    warning: 300
+    error: 500
+file_length:
+    warning: 1000
+    error: 1200
+
+force_try:
+    severity: warning
+large_tuple:
+    warning: 5
+    error: 7

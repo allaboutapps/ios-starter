@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test ${{ matrix.module }}
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module: [CommonUI, Toolbox]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      # Runner images differ in which simulators exist, and `name=...,OS=latest` fails whenever the
+      # newest runtime does not ship that exact device. Resolving a udid avoids guessing a name.
+      - name: Pick a simulator
+        run: |
+          echo "SIMULATOR_ID=$(xcrun simctl list devices available --json | python3 -c '
+          import json, sys
+
+          best = None
+          for runtime, devices in json.load(sys.stdin)["devices"].items():
+              if "iOS" not in runtime:
+                  continue
+              version = tuple(int(part) for part in runtime.rsplit(".", 1)[-1].replace("iOS-", "").split("-") if part.isdigit())
+              for device in devices:
+                  if device.get("isAvailable") and "iPhone" in device["name"]:
+                      if best is None or version > best[0]:
+                          best = (version, device["udid"])
+
+          if best is None:
+              sys.exit("no available iPhone simulator found")
+
+          print(best[1])
+          ')" >> "$GITHUB_ENV"
+
+      - name: Test
+        working-directory: Modules/${{ matrix.module }}
+        run: xcodebuild test -scheme ${{ matrix.module }} -destination "id=$SIMULATOR_ID" -quiet
+
+  lint:
+    name: SwiftLint & SwiftFormat
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: brew install swiftlint swiftformat
+
+      # --strict so that warnings fail the build; the repo is expected to stay at zero violations.
+      - name: SwiftLint
+        run: swiftlint lint --strict
+
+      - name: SwiftFormat
+        run: swiftformat --lint .
