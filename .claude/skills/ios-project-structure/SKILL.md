@@ -8,7 +8,7 @@ description: This project's layout — the local SPM module graph under Modules/
 Stack: **SwiftUI + TCA** (swift-composable-architecture), Swift 6 language mode, local SPM packages.
 
 This skill describes *this repository*. It ships in the iOS starter and is inherited by every
-project forked from it — when the project grows a module the starter does not have, extend the
+project templated from it — when the project grows a module the starter does not have, extend the
 table below rather than inventing a parallel convention.
 
 ## Module layout
@@ -46,7 +46,7 @@ importing `Core`, one leaf feature importing another. If two features need to sh
 moves *down* into `CommonUI` or `Core`.
 
 **This repo has no Xcode project and no app target on purpose.** The starter is packages plus
-tooling; the fork creates its own project. Don't add an `.xcodeproj` here.
+tooling; the project creates its own. Don't add an `.xcodeproj` here.
 
 ## Where new code goes
 
