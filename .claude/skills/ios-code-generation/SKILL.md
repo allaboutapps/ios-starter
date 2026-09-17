@@ -25,7 +25,7 @@ All scripts are manual — they are **not** wired into the build. Run them at th
 the result in the same change.
 
 > The starter itself ships none of these scripts; they arrive with the project's own `Core` module
-> and API spec. Follow whatever the fork already does.
+> and API spec. Follow whatever the project already does.
 
 ## API client
 

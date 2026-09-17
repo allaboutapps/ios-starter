@@ -28,4 +28,4 @@ xcodebuild test -scheme CommonUI -destination 'platform=iOS Simulator,name=iPhon
 ## What does not belong here
 
 Anything project-specific — API clients, design tokens, brand assets, feature flows. Those live in
-the forked project. A module earns its place here only once at least two projects want it unchanged.
+the project itself. A module earns its place here only once at least two projects want it unchanged.
